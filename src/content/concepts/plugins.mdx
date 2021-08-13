@@ -34,7 +34,11 @@ const pluginName = 'ConsoleLogOnBuildWebpackPlugin';
 class ConsoleLogOnBuildWebpackPlugin {
   apply(compiler) {
     compiler.hooks.run.tap(pluginName, (compilation) => {
+<<<<<<< HEAD:src/content/concepts/plugins.md
       console.log('webpack 构建过程开始！');
+=======
+      console.log('The webpack build process is starting!');
+>>>>>>> 570c5cec2aa7c32e20dc9ec36c06c2791a508946:src/content/concepts/plugins.mdx
     });
   }
 }
