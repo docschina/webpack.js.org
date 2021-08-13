@@ -11,11 +11,7 @@ translators:
   - QC-L
 ---
 
-<<<<<<< HEAD
-## `experiments` {#experiments}
-=======
-## experiments
->>>>>>> 358269645e4528bf75105df2769e55b8dac8cd88
+## experiments {#experiments}
 
 `boolean: false`
 
@@ -52,12 +48,9 @@ module.exports = {
 };
 ```
 
-<<<<<<< HEAD
-### experiments.executeModule {#experimentsexecutemodule}
-=======
-### experiments.buildHttp
+### experiments.buildHttp {#experimentsbuildhttp}
 
-When enabled, webpack can build remote resources that begin with the `http(s):` protocol.
+启用该配置项时，webpack 可以构建以 `http(s):` 协议开头的远程资源。
 
 - Type:
 
@@ -90,13 +83,13 @@ When enabled, webpack can build remote resources that begin with the `http(s):` 
   ```js
   // src/index.js
   import pMap1 from 'https://cdn.skypack.dev/p-map';
-  // with `buildHttp` enabled, webpack will build pMap1 just like a regular local module
+  // `buildHttp` 启用时，webpack 会想本地模块一样构建 pMap1
   console.log(pMap1);
   ```
 
-#### experiments.buildHttp.cacheLocation
+#### experiments.buildHttp.cacheLocation {#experimentsbuildhttpcachelocation}
 
-Define the location for caching remote resources.
+定义缓存远程资源的位置。
 
 - Type
   - `string`
@@ -114,32 +107,31 @@ Define the location for caching remote resources.
   };
   ```
 
-By default webpack would use `<compiler-name.>webpack.lock.data/` for caching, but you can disable it by setting its value to `false`.
+webpack 默认使用 `<compiler-name.>webpack.lock.data/` 进行缓存，但是你可以将其设为 `false` 来禁用它。
 
-Note that you should commit files under `experiments.buildHttp.cacheLocation` into a version control system as no network requests will be made during the `production` build.
+请注意，你应该在 `experiments.buildHttp.cacheLocation` 下提交文件到版本控制系统中，因为在 `production` 构建过程中不会发出网络请求。
 
-#### experiments.buildHttp.frozen
+#### experiments.buildHttp.frozen {#experimentsbuildhttpfrozen}
 
-Freeze the remote resources and lockfile. Any modification to the lockfile or resource contents will result in an error.
+冻结远程资源并锁定文件。对锁文件（lockfile）或资源内容的任何修改都将导致错误。
 
 - Type: `boolean`
 
-#### experiments.buildHttp.lockfileLocation
+#### experiments.buildHttp.lockfileLocation {#experimentsbuildhttplockfilelocation}
 
-Define the location to store the lockfile.
+定义存储锁文件（lockfile）的位置。
 
 - Type: `string`
 
-By default webpack would generate a `<compiler-name.>webpack.lock` file>. Make sure to commit it into a version control system. During the `production` build, webpack will build those modules beginning with `http(s):` protocol from the lockfile and caches under [`experiments.buildHttp.cacheLocation`](#experimentsbuildhttpcachelocation).
+webpack 默认会创建一个 `<compiler-name.>webpack.lock`。请确保将其提交到版本控制系统中。在 `production` 构建过程中，webpack 将会构建锁文件（lockfile）中以 `http(s):` 协议开头的模块，并将其缓存在 [`experiments.buildHttp.cacheLocation`](#experimentsbuildhttpcachelocation)。
 
-#### experiments.buildHttp.upgrade
+#### experiments.buildHttp.upgrade {#experimentsbuildhttpupgrade}
 
-Detect changes to remote resources and upgrade them automatically.
+检测远程资源的更改并自动升级。
 
 - Type: `boolean`
 
-### experiments.executeModule
->>>>>>> 358269645e4528bf75105df2769e55b8dac8cd88
+### experiments.executeModule {#experimentsexecutemodule}
 
 Enable execution of modules from the module graph for plugins and loaders at build time to generate code or other assets.
 
