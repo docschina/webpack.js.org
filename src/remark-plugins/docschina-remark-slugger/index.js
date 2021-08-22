@@ -22,7 +22,7 @@ function transformer(ast) {
     var id = props.id;
 
     var rawHeader = id ? id : toString(node);
-    var match = /^.+(\s*\[#([a-z0-9\-_]+?)\]\s*)$/.exec(rawHeader);
+    var match = /^.+(\s*\$#([a-z0-9\-_]+?)\$\s*)$/.exec(rawHeader);
     id = match ? match[2] : slugs.slug(rawHeader, true);
 
     if (match) {
