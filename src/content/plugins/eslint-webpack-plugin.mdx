@@ -9,20 +9,8 @@ repo: https://github.com/webpack-contrib/eslint-webpack-plugin
 ---
 
 <div align="center">
-  <a href="https://github.com/eslint/eslint">
-    <img
-      width="200"
-      height="200"
-      src="https://cdn.worldvectorlogo.com/logos/eslint.svg"
-    />
-  </a>
-  <a href="https://github.com/webpack/webpack">
-    <img
-      width="200"
-      height="200"
-      src="https://webpack.js.org/assets/icon-square-big.svg"
-    />
-  </a>
+  <a href="https://github.com/eslint/eslint"><img width="200" height="200" src="https://cdn.worldvectorlogo.com/logos/eslint.svg"/></a>
+  <a href="https://github.com/webpack/webpack"><img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/></a>
 </div>
 
 [![npm][npm]][npm-url]
@@ -33,11 +21,13 @@ repo: https://github.com/webpack-contrib/eslint-webpack-plugin
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
+
+
 该插件使用 [`eslint`](https://eslint.org/) 来查找和修复 JavaScript 代码中的问题。
 
 ## 开始 $#getting-started$
 
-首先，需要安装 `eslint-webpack-plugin`:
+首先，需要安装 `eslint-webpack-plugin`：
 
 ```bash
 npm install eslint-webpack-plugin --save-dev
@@ -69,40 +59,40 @@ module.exports = {
 这是一组和你在 `package.json` 与 `.eslintrc` 所指定选项不同的选项。
 查阅 [eslint docs](https://eslint.org/docs/developer-guide/nodejs-api#%e2%97%86-new-eslint-options) 获取更多详情。
 
-**警告**: 在 eslint-webpack-plugin 版本 1 ，需要把选项传给已废弃的 [CLIEngine](https://eslint.org/docs/developer-guide/nodejs-api#cliengine)。
+**警告**: 在 eslint-webpack-plugin 1.x 版本中，配置项会传递给已废弃的 [CLIEngine](https://eslint.org/docs/developer-guide/nodejs-api#cliengine)。
 
 ### `context` $#context$
 
-- Type: `String`
-- Default: `compiler.context`
+- 类型：`String`
+- 默认值：`compiler.context`
 
 指定文件根目录，类型为字符串。
 
 ### `eslintPath` $#eslintpath$
 
-- Type: `String`
-- Default: `eslint`
+- 类型：`String`
+- 默认值：`eslint`
 
 用于 linting 的 `eslint` 实例的路径。如果 `eslintPath` 是类似官方 eslint 的目录，或者指定了 `formatter` 选项，那么就不需要安装 `eslint` 了。
 
 ### `extensions` $#estensions$
 
-- Type: `String|Array[String]`
-- Default: `'js'`
+- 类型：`String|Array[String]`
+- 默认值：`'js'`
 
 指定需要检查的扩展名。
 
 ### `exclude` $#exclude$
 
-- Type: `String|Array[String]`
-- Default: `'node_modules'`
+- 类型：`String|Array[String]`
+- 默认值：`'node_modules'`
 
 指定需要排除的文件及目录。必须是相对于 `options.context` 的相对路径。
 
 ### `files` $#files$
 
-- Type: `String|Array[String]`
-- Default: `null`
+- 类型：`String|Array[String]`
+- 默认值：`null`
 
 指定目录、文件或 globs ，必须是相对于 `options.context` 的相对路径。
 如果是目录则递归查找所有匹配 `options.extensions` 选项的文件。
@@ -110,8 +100,8 @@ module.exports = {
 
 ### `fix` $#fix$
 
-- Type: `Boolean`
-- Default: `false`
+- 类型：`Boolean`
+- 默认值：`false`
 
 启用 [ESLint autofix feature](https://eslint.org/docs/developer-guide/nodejs-api#%e2%97%86-eslint-outputfixes-results)。
 
@@ -119,69 +109,69 @@ module.exports = {
 
 ### `formatter` $#formatter$
 
-- Type: `String|Function`
-- Default: `'stylish'`
+- 类型：`String|Function`
+- 默认值：`'stylish'`
 
 接受一个有单一参数的函数：该参数为 eslint 消息（一个对象）的数组。函数必须返回字符串格式的 output。可以使用官方的 [eslint formatters](https://eslint.org/docs/user-guide/formatters/)。
 
 ### `lintDirtyModulesOnly` $#lintdirtymodulesonly$
 
-- Type: `Boolean`
-- Default: `false`
+- 类型：`Boolean`
+- 默认值：`false`
 
 只对内容修改了的文件进行 lint，启动时跳过 lint 。
 
 ### `threads` $#threads$
 
-- Type: `Boolean | Number`
-- Default: `false`
+- 类型：`Boolean | Number`
+- 默认值：`false`
 
 以线程池方式运行 lint 。线程池大小是自动的，除非你指定一个数值。
 
-### Errors and Warning $#errors-and-warning$
+### 错误以及警告 $#errors-and-warning$
 
 **该插件默认会根据 eslint 错误/警告的数量自动调整错误报告（error reporting）。**
 你也可以通过 `emitError` **或** `emitWarning` 强制开启错误报告行为：
 
 #### `emitError` $#emiterror$
 
-- Type: `Boolean`
-- Default: `true`
+- 类型：`Boolean`
+- 默认值：`true`
 
 发现的错误总是 emit ，设置为 `false` 禁用。
 
 #### `emitWarning` $#emitwarning$
 
-- Type: `Boolean`
-- Default: `true`
+- 类型：`Boolean`
+- 默认值：`true`
 
 发现的警告总是 emit ，设置为 `false` 禁用。
 
 #### `failOnError` $#failonerror$
 
-- Type: `Boolean`
-- Default: `true`
+- 类型：`Boolean`
+- 默认值：`true`
 
 任何错误都会导致模块构建（module build）失败，设置为 `false` 禁用。
 
 #### `failOnWarning` $#failonwarning$
 
-- Type: `Boolean`
-- Default: `false`
+- 类型：`Boolean`
+- 默认值：`false`
 
 任何警告都会导致模块构建（module build）失败，设置为 `false` 禁用。
 
 #### `quiet` $#quiet$
 
-- Type: `Boolean`
-- Default: `false`
+- 类型：`Boolean`
+- 默认值：`false`
 
 设置为 `true` 后，仅处理和报告错误，忽略警告。
 
 #### `outputReport` $#outputreport$
 
-- Type: `Boolean|Object`
-- Default: `false`
+- 类型：`Boolean|Object`
+- 默认值：`false`
 
 把错误输出到一个文件，例如在 Jenkins CI 使用 checkstyle xml 文件。
 
