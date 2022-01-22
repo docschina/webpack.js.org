@@ -542,20 +542,32 @@ module.exports = {
 
 ### stats.context $#statscontext$
 
-`string = '../src/'`
+`string`
 
+<<<<<<< HEAD
 设置上下文目录用以将文件请求信息变短。
+=======
+The stats base directory, an **absolute path** for shortening the request information.
+>>>>>>> 85a125a11d28b59d7f052aad8822d1f63a2c0ecd
 
 ```javascript
+const path = require('path');
+
 module.exports = {
   //...
   stats: {
-    context: '../src/components/',
+    context: path.resolve(__dirname, 'src/components'),
   },
 };
 ```
 
+<<<<<<< HEAD
 ### stats.colors $#statscolors$
+=======
+By default, the value of [`context`](/configuration/entry-context/#context) or the Node.js current working directory is used.
+
+### stats.colors
+>>>>>>> 85a125a11d28b59d7f052aad8822d1f63a2c0ecd
 
 `boolean = false` `object`
 
