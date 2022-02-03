@@ -681,7 +681,11 @@ module.exports = {
 
 `string = 'hex'`
 
+<<<<<<< HEAD
 在生成 hash 时使用的编码方式。支持 Node.js [`hash.digest`](https://nodejs.org/api/crypto.html#crypto_hash_digest_encoding) 的所有编码。对文件名使用 `'base64'`，可能会出现问题，因为 base64 字母表中具有 `/` 这个字符(character)。同样的，`'latin1'` 规定可以含有任何字符(character)。
+=======
+The encoding to use when generating the hash. All encodings from Node.JS' [`hash.digest`](https://nodejs.org/api/buffer.html#buffers-and-character-encodings) are supported. Using `'base64'` for filenames might be problematic since it has the character `/` in its alphabet. Likewise `'latin1'` could contain any character.
+>>>>>>> 4c1dcbcf99dab7a727a0b3848aced276f91d1027
 
 ## output.hashDigestLength $#outputhashdigestlength$
 
@@ -970,7 +974,13 @@ MyLibrary = _entry_return_;
 
 请注意，如果 `MyLibrary` 没有在你的库之前定义，那么它将会被设置在全局作用域。
 
+<<<<<<< HEAD
 ##### type: 'assign-properties' <Badge text='5.16.0+' /> $#typeassignproperties$
+=======
+##### type: 'assign-properties'
+
+<Badge text="5.16.0+" />
+>>>>>>> 4c1dcbcf99dab7a727a0b3848aced276f91d1027
 
 ```js
 module.exports = {
@@ -1151,7 +1161,7 @@ T> 在考虑 CommonJS 与 CommonJS2 之间的区别？虽然它们很相似，�
 
 ##### type: 'commonjs-static' $#type-commonjsstatic$
 
-<Badge text='5.66.0+' />
+<Badge text="5.66.0+" />
 
 ```js
 module.exports = {
@@ -1620,7 +1630,13 @@ MyLibrary = _entry_return_;
 
 注意，如果 `MyLibrary` 在作用域中未在前面代码进行定义，则你的 library 将被设置在全局作用域内。
 
+<<<<<<< HEAD
 #### libraryTarget: 'assign-properties' <Badge text='5.16.0+' /> $#libraryTarget-assign-properties$
+=======
+#### libraryTarget: 'assign-properties'
+
+<Badge text="5.16.0+" />
+>>>>>>> 4c1dcbcf99dab7a727a0b3848aced276f91d1027
 
 W> 最好使用 [output.library.type: 'assign-properties'`](#type-assign-properties)。
 
