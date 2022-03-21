@@ -268,10 +268,16 @@ function Site(props) {
                   )
                 ),
               },
+<<<<<<< HEAD
               { content: '参与贡献', url: '/contribute/' },
               { content: '投票', url: 'https://v4.webpack.docschina.org/vote/' },
               { content: '博客', url: '/blog/' },
               { content: '印记中文', url: 'https://docschina.org' },
+=======
+              { content: 'Contribute', url: '/contribute/' },
+              { content: 'Vote', url: '/vote/' },
+              { content: 'Blog', url: '/blog/' },
+>>>>>>> 2fb01c9ef5def7db73c4235a86f1591597e38e7a
             ]}
           />
         </div>
