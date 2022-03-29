@@ -42,7 +42,13 @@ translators:
 
 与 [`output.filename`](#outputfilename) 相同，不过应用于 [Asset Modules](/guides/asset-modules/)。
 
+<<<<<<< HEAD
 ## output.asyncChunks $#outputasyncchunks$
+=======
+`[name]`, `[file]`, `[query]`, `[fragment]`, `[base]`, and `[path]` are set to an empty string for the assets built from data URI replacements.
+
+## output.asyncChunks
+>>>>>>> 3b45977e0f371e085408eae65d3a3b387bf1c8e6
 
 `boolean = true`
 
@@ -657,11 +663,17 @@ T> 在某些上下文中，属性将使用 JavaScript 代码表达式代替原�
 
 ## output.globalObject $#outputglobalobject$
 
-`string = 'window'`
+`string = 'self'`
 
 当输出为 library 时，尤其是当 `libraryTarget` 为 `'umd'`时，此选项将决定使用哪个全局对象来挂载 library。为了使 UMD 构建在浏览器和 Node.js 上均可用，应将 `output.globalObject` 选项设置为 `'this'`。对于类似 web 的目标，默认为 `self`。
 
+<<<<<<< HEAD
 示例：
+=======
+The return value of your entry point will be assigned to the global object using the value of `output.library.name`. Depending on the value of the `target` option, the global object could change respectively, e.g., `self`, `global`, or `globalThis`.
+
+For example:
+>>>>>>> 3b45977e0f371e085408eae65d3a3b387bf1c8e6
 
 **webpack.config.js**
 
