@@ -1,5 +1,5 @@
 ---
-title: 创建 library
+title: 创建库
 sort: 7
 contributors:
   - pksjce
@@ -15,15 +15,16 @@ contributors:
 translators:
   - QC-L
   - jacob-lcs
+  - Yucohny
 ---
 
-除了打包应用程序，webpack 还可以用于打包 JavaScript library。以下指南适用于希望简化打包策略的 library 作者。
+除了打包应用程序，webpack 还可以打包 JavaScript 库。以下指南适用于希望简化打包策略的库作者。
 
-## 创建一个 library $#authoring-a-library$
+## 创建一个库 $#authoring-a-library$
 
-假设我们正在编写一个名为 `webpack-numbers` 的小的 library，可以将数字 1 到 5 转换为文本表示，反之亦然，例如将 2 转换为 'two'。
+假设正在编写一个名为 `webpack-numbers` 的库，用于将数字 1 到 5 转换为文本表示，反之亦然，例如将 2 转换为 'two'。
 
-基本的项目结构可能如下所示：
+基本的项目结构应该与下面类似：
 
 **project**
 
@@ -42,7 +43,7 @@ npm init -y
 npm install --save-dev webpack webpack-cli lodash
 ```
 
-我们将 `lodash` 安装为 `devDependencies` 而不是 `dependencies`，因为我们不需要将其打包到我们的库中，否则我们的库体积很容易变大。
+应该将 `lodash` 安装为 `devDependencies` 而不是 `dependencies`，因为不需要将其打包到库中，否则库体积会变得很大。
 
 **src/ref.json**
 
@@ -102,9 +103,9 @@ export function wordToNum(word) {
 }
 ```
 
-## Webpack 配置 $#webpack-configuration$
+## webpack 配置 $#webpack-configuration$
 
-我们可以从如下 webpack 基本配置开始：
+从如下 webpack 基本配置开始：
 
 **webpack.config.js**
 
@@ -120,11 +121,11 @@ module.exports = {
 };
 ```
 
-在上面的例子中，我们将通知 webpack 将 `src/index.js` 打包到 `dist/webpack-numbers.js` 中。
+通过这样的配置，我们告诉 webpack 将 `src/index.js` 打包到 `dist/webpack-numbers.js` 中。
 
-## Expose the Library $#expose-the-library$
+## 暴露库 $#expose-the-library$
 
-到目前为止，一切都应该与打包应用程序一样，这里是不同的部分 - 我们需要通过 [`output.library`](/configuration/output/#outputlibrary) 配置项暴露从入口导出的内容。
+到目前为止，一切都应该与打包应用程序一样，但是打包库有一个不同的地方——需要通过 [`output.library`](/configuration/output/#outputlibrary) 配置项暴露从入口导出的内容。
 
 **webpack.config.js**
 
@@ -141,7 +142,7 @@ module.exports = {
   };
 ```
 
-我们将入口起点公开为 `webpackNumbers`，这样用户就可以通过 script 标签使用它：
+我们将入口暴露为 `webpackNumbers`，这样用户就可以通过 script 标签使用它：
 
 ```html
 <script src="https://example.org/webpack-numbers.js"></script>
@@ -150,28 +151,28 @@ module.exports = {
 </script>
 ```
 
-然而它只能通过被 script 标签引用而发挥作用，它不能运行在 CommonJS、AMD、Node.js 等环境中。
+然而它只能通过被 script 标签引用而发挥作用，而不能运行在 CommonJS、AMD、Node.js 等环境中。
 
-作为一个库作者，我们希望它能够兼容不同的环境，也就是说，用户应该能够通过以下方式使用打包后的库：
+作为一个库作者，我们希望它能够兼容不同的环境。换言之，用户应该能够通过以下方式使用打包后的库：
 
-- **CommonJS module require**:
+- **在 CommonJS 模块中导入**：
 
   ```js
   const webpackNumbers = require('webpack-numbers');
-  // ...
+  // ……
   webpackNumbers.wordToNum('Two');
   ```
 
-- **AMD module require**:
+- **在 AMD 模块中导入**：
 
   ```js
   require(['webpackNumbers'], function (webpackNumbers) {
-    // ...
+    // ……
     webpackNumbers.wordToNum('Two');
   });
   ```
 
-- **script tag**:
+- **使用 script 标签tag**：
 
   ```html
   <!DOCTYPE html>
@@ -179,17 +180,17 @@ module.exports = {
     ...
     <script src="https://example.org/webpack-numbers.js"></script>
     <script>
-      // ...
-      // Global variable
+      // ……
+      // 全局变量
       webpackNumbers.wordToNum('Five');
-      // Property in the window object
+      // 属性处于 window 对象中
       window.webpackNumbers.wordToNum('Five');
       // ...
     </script>
   </html>
   ```
 
-我们更新 `output.library` 配置项，将其 `type` 设置为 [`'umd'`](/configuration/output/#type-umd)：
+接下来更新 `output.library` 配置项，将其 `type` 设置为 [`'umd'`](/configuration/output/#type-umd)：
 
 ```diff
  const path = require('path');
@@ -208,13 +209,13 @@ module.exports = {
  };
 ```
 
-现在 webpack 将打包一个库，其可以与 CommonJS、AMD 以及 script 标签使用。
+现在 webpack 将打包它，使得其可以通过 CommonJS、AMD 模块以及 script 标签使用。
 
-T> 请注意，`library` 设置与 `entry` 配置项绑定。对于绝大多数的库，指定一个入口就已经足够了。尽管 [multi-part 库](https://github.com/webpack/webpack/tree/master/examples/multi-part-library) 是有可能的，但通过作为单个入口点的[索引脚本](https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file)暴露部分导出会更简单。**不推荐**使用一个 `array` 作为库的 `entry`。
+T> 请注意，`library` 选项与 `entry` 配置项绑定。对于绝大多数的库，指定一个入口就已经足够了。尽管 [multi-part library](https://github.com/webpack/webpack/tree/master/examples/multi-part-library) 是有可能的，但通过作为单个入口点的 [索引脚本](https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file) 暴露部分导出会更简单。**不推荐** 使用数组作为 `entry`。
 
 ## 外部化 lodash $#externalize-lodash$
 
-现在，如果执行 `webpack`，你会发现创建了一个体积相当大的文件。如果你查看这个文件，会看到 lodash 也被打包到代码中。在这种场景中，我们更倾向于把 `lodash` 当作 `peerDependency`。也就是说，consumer(使用者) 应该已经安装过 `lodash` 。因此，你就可以放弃控制此外部 library ，而是将控制权让给使用 library 的 consumer。
+现在，如果执行 `webpack`，你会发现创建了一个体积相当大的文件。如果你查看这个文件，会看到 lodash 也被打包到代码中。在这种场景中，我们更倾向于把 `lodash` 当作 `peerDependency`。也就是说，使用者应该已经自行安装过 `lodash`。因此，我们便可以放弃控制此外部库，而是将控制权让给使用此库的开发者。
 
 这可以使用 `externals` 配置来完成：
 
@@ -244,11 +245,11 @@ T> 请注意，`library` 设置与 `entry` 配置项绑定。对于绝大多数�
   };
 ```
 
-这意味着你的 library 需要一个名为 `lodash` 的依赖，这个依赖在 consumer 环境中必须存在且可用。
+上面的配置意味着这个库需要一个名为 `lodash` 的依赖，这个依赖在开发者环境中必须存在且可用。
 
 ### 外部化的限制 $#external-limitations$
 
-对于想要实现从一个依赖中调用多个文件的那些 library：
+对于想要实现从一个依赖中调用多个文件的那些库：
 
 ```js
 import A from 'library/one';
@@ -257,7 +258,7 @@ import B from 'library/two';
 // ...
 ```
 
-无法通过在 externals 中指定整个 `library` 的方式，将它们从 bundle 中排除。而是需要逐个或者使用一个正则表达式，来排除它们。
+无法通过在 `externals` 中指定整个 `library` 的方式将它们从 bundle 中排除，而是需要逐个或者使用正则表达式排除它们。
 
 ```js
 module.exports = {
@@ -285,7 +286,7 @@ module.exports = {
 }
 ```
 
-或者，按照这个 [指南](https://github.com/dherman/defense-of-dot-js/blob/master/proposal.md#typical-usage)，将其添加为标准模块：
+或者，按照这个 [指南](https://github.com/dherman/defense-of-dot-js/blob/master/proposal.md#typical-usage) 将其添加为标准模块：
 
 ```json
 {
@@ -295,10 +296,10 @@ module.exports = {
 }
 ```
 
-这里的 key(键) `main` 是参照 [`package.json` 标准](https://docs.npmjs.com/files/package.json#main)，而 `module` 是参照 [一个](https://github.com/dherman/defense-of-dot-js/blob/master/proposal.md)[提案](https://github.com/rollup/rollup/wiki/pkg.module)，此提案允许 JavaScript 生态系统升级使用 ES2015 模块，而不会破坏向后兼容性。
+这里的 key `main` 是参照 [`package.json` 标准](https://docs.npmjs.com/files/package.json#main)，而 `module` 是参照 [这个](https://github.com/dherman/defense-of-dot-js/blob/master/proposal.md) [提案](https://github.com/rollup/rollup/wiki/pkg.module)，此提案允许 JavaScript 生态系统升级使用 ES2015 模块，而不会破坏向后兼容性。
 
-W> `module` 属性应指向一个使用 ES2015 模块语法的脚本，但不包括浏览器或 Node.js 尚不支持的其他语法特性。这使得 webpack 本身就可以解析模块语法，如果用户只用到 library 的某些部分，则允许通过 [tree shaking](https://webpack.docschina.org/guides/tree-shaking/) 打包更轻量的包。
+W> `module` 属性应指向一个使用 ES2015 模块语法的脚本，但不包括浏览器或 Node.js 尚不支持的其他语法特性。这使得 webpack 本身就可以解析模块语法，如果用户只用到库的某些部分，则允许通过 [tree shaking](https://webpack.docschina.org/guides/tree-shaking/) 打包更轻量的包。
 
-现在，你可以 [将其发布为一个 npm package](https://docs.npmjs.com/getting-started/publishing-npm-packages)，并且在 [unpkg.com](https://unpkg.com/#/) 找到它，并分发给你的用户。
+现在，你可以 [将其发布为一个 npm 包](https://docs.npmjs.com/getting-started/publishing-npm-packages)，并且在 [unpkg.com](https://unpkg.com/#/) 找到它，并分发给你的用户。
 
-T> 为了暴露和 library 关联着的样式表，你应该使用 [`MiniCssExtractPlugin`](/plugins/mini-css-extract-plugin)。然后，用户可以像使用其他样式表一样使用和加载这些样式表。
+T> 为了暴露和库关联的样式表，你应该使用 [`MiniCssExtractPlugin`](/plugins/mini-css-extract-plugin)。然后，用户可以像使用其他样式表一样使用和加载这些样式表。
