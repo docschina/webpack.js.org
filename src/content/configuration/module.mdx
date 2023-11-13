@@ -670,12 +670,12 @@ module.exports = {
           node: false, // 禁用 __dirname, __filename, module, require.extensions, require.main, 等。
           commonjsMagicComments: false, // 禁用对 CommonJS 的  magic comments 支持
           node: {}, // 在模块级别(module level)上重新配置 node 层(layer)
-          worker: ["default from web-worker", "..."] // 自定义 WebWorker 对 JavaScript 的处理，其中 "..." 为默认值。
+          worker: ['default from web-worker', '...'] // 自定义 WebWorker 对 JavaScript 的处理，其中 "..." 为默认值。
         }
       }
     ]
   }
-}
+};
 ```
 
 如果 `Rule.type` 的值为 `asset`，那么 `Rules.parser` 选项可能是一个对象或一个函数，其作用可能是将文件内容编码为 Base64，还可能是将其当做单独文件 emit 到输出目录。
