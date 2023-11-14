@@ -93,7 +93,7 @@ packageName 选项允许通过设置包名来查找所需的版本。默认情�
   - 将提供所有匹配模块
   - 将从图中这个位置的 package.json 提取 `requiredVersion`
   - 当你有嵌套的 node_modules 时，可以提供和使用多个不同的版本
-- 共享中尾部带有 `/`  的模块请求将匹配所有具有这个前缀的模块请求
+- 共享中尾部带有 `/` 的模块请求将匹配所有具有这个前缀的模块请求
 
 ## 用例 $#use-cases$
 
@@ -107,7 +107,7 @@ packageName 选项允许通过设置包名来查找所需的版本。默认情�
 
 ## 动态远程容器 $#dynamic-remote-containers$
 
-该容器接口支持 `get`  和 `init` 方法。
+该容器接口支持 `get` 和 `init` 方法。
 `init` 是一个兼容 `async` 的方法，调用时，只含有一个参数：共享作用域对象(shared scope object)。此对象在远程容器中用作共享作用域，并由 host 提供的模块填充。
 可以利用它在运行时动态地将远程容器连接到 host 容器。
 
@@ -337,7 +337,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 这种方法有效，但存在局限性或缺点。
 
-通过 `ModuleFederationPlugin`  将依赖的 `eager` 属性设置为 `true`
+通过 `ModuleFederationPlugin` 将依赖的 `eager` 属性设置为 `true`
 
 **webpack.config.js**
 

@@ -31,7 +31,6 @@ import Sidebar from '../Sidebar/Sidebar';
 import Footer from '../Footer/Footer';
 import Page from '../Page/Page';
 import PageNotFound from '../PageNotFound/PageNotFound';
-import Vote from '../Vote/Vote';
 import Badge from '../Badge/Badge.js';
 import StackBlitzPreview from '../StackBlitzPreview/StackBlitzPreview';
 import { default as LinkComponent } from '../mdxComponents/Link';
@@ -242,11 +241,6 @@ function Site(props) {
           <link rel="mask-icon" href={Logo} color="#465e69" />
           <meta name="msapplication-TileImage" content="/icon_150x150.png" />
           <meta name="msapplication-TileColor" content="#465e69" />
-          <script
-            data-ad-client="ca-pub-7556818484543627"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          ></script>
         </Helmet>
         <div className="site__header">
           <Navigation
@@ -269,7 +263,6 @@ function Site(props) {
                 ),
               },
               { content: '参与贡献', url: '/contribute/' },
-              { content: '投票', url: 'https://webpack.js.org/vote/' },
               { content: '博客', url: '/blog/' },
               { content: '印记中文', url: 'https://docschina.org' },
             ]}
@@ -293,7 +286,6 @@ function Site(props) {
               </Container>
             }
           >
-            <Route path="vote" element={<Vote />} />
             <Route path="app-shell" element={<Fragment />} />
             {pages.map((page) => {
               let path = page.path.replace('src/content/', '');
