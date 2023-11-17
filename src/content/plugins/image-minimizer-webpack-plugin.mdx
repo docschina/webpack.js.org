@@ -283,7 +283,7 @@ module.exports = {
 |               **[`minify`](#minify)**               |      `{Function \| Array<Function>}`      |            `ImageMinimizerPlugin.imageminMinify`            | Allows to override default minify function                                                        |
 |     **[`minimizerOptions`](#minimizeroptions)**     |         `{Object\|Array<Object>}`         |                      `{ plugins: [] }`                      | Options for `imagemin`                                                                            |
 |               **[`loader`](#loader)**               |                `{Boolean}`                |                           `true`                            | Automatically adding `imagemin-loader`                                                            |
-|          **[`concurrency`](#concurrency)**          |                `{Number}`                 |             `Math.max(1, os.cpus().length - 1)`             | Maximum number of concurrency optimization processes in one time                                  |
+|       **[`maxConcurrency`](#maxconcurrency)**       |                `{Number}`                 |             `Math.max(1, os.cpus().length - 1)`             | Maximum number of concurrency optimization processes in one time                                  |
 |             **[`filename`](#filename)**             |           `{string\|Function}`            |                    `'[path][name][ext]'`                    | Allows to set the filename for the generated asset. Useful for converting to a `webp`             |
 | **[`deleteOriginalAssets`](#deleteoriginalassets)** |                `{Boolean}`                |                           `false`                           | Allows to delete the original asset. Useful for converting to a `webp` and remove original assets |
 
@@ -610,7 +610,7 @@ module.exports = {
 };
 ```
 
-#### `concurrency`
+#### `maxConcurrency`
 
 Type: `Number`
 Default: `Math.max(1, os.cpus().length - 1)`
@@ -625,7 +625,7 @@ const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 module.exports = {
   plugins: [
     new ImageMinimizerPlugin({
-      concurrency: 3,
+      maxConcurrency: 3,
     }),
   ],
 };
@@ -1230,6 +1230,17 @@ The function normalizes configuration (converts plugins names and options to `Fu
 ```js
 const imagemin = require("imagemin");
 const { imageminNormalizeConfig } = require("image-minimizer-webpack-plugin");
+const imageminConfig = imageminNormalizeConfig({
+  plugins: [
+    "jpegtran",
+    [
+      "pngquant",
+      {
+        quality: [0.6, 0.8],
+      },
+    ],
+  ],
+});
 
 /*
   console.log(imageminConfig);
@@ -1244,9 +1255,6 @@ const { imageminNormalizeConfig } = require("image-minimizer-webpack-plugin");
 */
 
 (async () => {
-  const imageminConfig = await imageminNormalizeConfig({
-    plugins: ["jpegtran", ["pngquant", { quality: [0.6, 0.8] }]],
-  });
   const files = await imagemin(["images/*.{jpg,png}"], {
     destination: "build/images",
     plugins: imageminConfig.plugins,

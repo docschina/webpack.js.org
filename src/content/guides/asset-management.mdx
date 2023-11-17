@@ -18,15 +18,15 @@ translators:
   - Yucohny
 ---
 
-如果是从一开始就沿用指南的示例，现在应该有一个可以显示“Hello webpack”的小项目。接下来尝试混合一些图像之类的其他资源，看看 webpack 如何处理。
+如果你是从一开始就沿用指南的示例，现在应该有一个显示 “Hello webpack” 的小项目。接下来我们尝试混合一些图像之类的其他资源，看看 webpack 如何处理。
 
-在 webpack 出现之前，前端开发人员会使用 [grunt](https://gruntjs.com/) 和 [gulp](https://gulpjs.com/) 等工具处理资源，并将它们从 `/src` 文件夹移动到 `/dist` 或 `/build` 目录中。JavaScript 模块也遵循同样的方式。但是，像 webpack 这样的工具将 **动态打包** 所有依赖并创建所谓的 [依赖图](/concepts/dependency-graph)。这是极好的创举，因为现在每个模块都可以 **明确表述它自身的依赖**，以避免打包未使用的模块。
+在 webpack 出现之前，前端开发人员会使用 [grunt](https://gruntjs.com/) 和 [gulp](https://gulpjs.com/) 等工具来处理资源，并将它们从 `/src` 文件夹移动到 `/dist` 或 `/build` 目录中。JavaScript 模块也遵循同样的方式，但是，像 webpack 这样的工具将 **动态打包** 所有依赖（创建所谓的 [依赖图](/concepts/dependency-graph)）。这是极好的创举，因为现在每个模块都可以 **明确表述它自身的依赖**，以避免打包未使用的模块。
 
-webpack 最出色的功能之一就是除了引入 JavaScript，还可以通过 loader 或内置的 [资源模块](/guides/asset-modules/) **引入任何其他类型的文件**。换言之，以上列出的那些 JavaScript 的优点（例如显式依赖），同样可以用来构建 web 站点或 web 应用程序中的所有非 JavaScript 内容。让我们从 CSS 开始起步，或许你可能已经熟悉了下面这些设置。
+webpack 最出色的功能之一就是除了引入 JavaScript，还可以通过 loader 或内置的 [Asset Modules](/guides/asset-modules/) **引入任何其他类型的文件**。换言之，以上列出的那些 JavaScript 的优点（例如显式依赖），同样可以用来构建 web 站点或 web 应用程序中的所有非 JavaScript 内容。让我们从 CSS 开始起步，或许你可能已经熟悉了下面这些设置。
 
 ## 设置 $#setup$
 
-在开始前对项目做一个小的修改：
+在开始之前，让我们对项目做一个小的修改：
 
 **dist/index.html**
 
@@ -62,7 +62,7 @@ webpack 最出色的功能之一就是除了引入 JavaScript，还可以通过 
 
 ## 加载 CSS $#loading-css$
 
-要想在 JavaScript 模块中导入 CSS 文件，需要安装 [style-loader](/loaders/style-loader) 和 [css-loader](/loaders/css-loader)，并在 [`module` 配置](/configuration/module) 中添加这些 loader：
+要想在 JavaScript 模块中 `import` CSS 文件，需要安装 [style-loader](/loaders/style-loader) 和 [css-loader](/loaders/css-loader)，并在 [`module` 配置](/configuration/module) 中添加这些 loader：
 
 ```bash
 npm install --save-dev style-loader css-loader
@@ -96,7 +96,7 @@ module loader 可以链式调用。链中的每个 loader 都将对资源进行�
 
 T> webpack 根据正则表达式确定应该查找哪些文件，并将其提供给指定的 loader。在此示例中，所有以 `.css` 结尾的文件，都将被提供给 `style-loader` 和 `css-loader`。
 
-这些配置可以帮助在依赖于此样式的 JavaScript 文件中 `import './style.css'`。现在，在此模块执行过程中，含有 CSS 字符串的 `<style>` 标签，将被插入到 HTML 文件的 `<head>` 中。
+这使你可以在依赖于此样式的 JavaScript 文件中 `import './style.css'`。现在，在此模块执行过程中，含有 CSS 字符串的 `<style>` 标签，将被插入到 html 文件的 `<head>` 中。
 
 让我们来试试！现在在项目中添加一个新的 `style.css` 文件，并将其导入到 `index.js` 中：
 
@@ -164,13 +164,13 @@ cacheable modules 539 KiB
 webpack 5.4.0 compiled successfully in 2231 ms
 ```
 
-再次在浏览器中打开 `dist/index.html`，应该看到 `Hello webpack` 现在的样式是红色。请检查页面（不要查看页面源代码，它不会显示结果，因为 `<style>` 标签是由 JavaScript 动态创建的）并查看页面的 head 标签以观察 webpack 做了什么。可以发现，head 标签包含了原本不存在的 style 块元素，也就是在 `index.js` 中导入的 CSS 文件中的样式。
+再次在浏览器中打开 `dist/index.html`，应该看到 `Hello webpack` 现在的样式是红色。要查看 webpack 做了什么，请检查页面（不要查看页面源代码，它不会显示结果，因为 `<style>` 标签是由 JavaScript 动态创建的），并查看页面的 head 标签。它应该包含 style 块元素，也就是在 `index.js` 中导入的 CSS 文件中的样式。
 
-注意，在多数情况下也可以 [压缩 CSS](/plugins/mini-css-extract-plugin/#minimizing-for-production) 以便在生产环境中节省加载时间。最重要的是，现有的 loader 可以支持任何可以想到的 CSS 样式 —— [postcss](/loaders/postcss-loader)、[sass](/loaders/sass-loader) 和 [less](/loaders/less-loader) 等。
+注意，在多数情况下，你也可以 [压缩 CSS](/plugins/mini-css-extract-plugin/#minimizing-for-production)，以便在生产环境中节省加载时间。最重要的是，现有的 loader 可以支持任何你可以想到的 CSS 风格 —— [postcss](/loaders/postcss-loader)、[sass](/loaders/sass-loader) 和 [less](/loaders/less-loader) 等。
 
 ## 加载图像 $#loading-images$
 
-假如现在正在下载 CSS，但是像背景图片和图标这样的图像应该如何处理呢？webpack5 可以使用内置的 [资源模块](/guides/asset-modules/) 轻松地将这些内容混入系统中：
+假如，现在正在下载 CSS，但是像 background 和 icon 这样的图像应该如何处理呢？在 webpack 5 中，使用内置的 [Asset Modules](/guides/asset-modules/) 便可以轻松地将这些内容混入我们的系统中：
 
 **webpack.config.js**
 
@@ -198,9 +198,9 @@ webpack 5.4.0 compiled successfully in 2231 ms
  };
 ```
 
-现在 `import MyImage from './my-image.png'` 将会处理图像，将其添加到 `output` 目录，并且 `MyImage` 变量将包含该图像在处理后的最终的 url。如前所示，在使用 [css-loader](/loaders/css-loader) 时，处理 CSS 中的 `url('./my-image.png')` 也会发生类似过程。loader 会识别这是一个本地文件，并将 `'./my-image.png'` 路径替换为 `output` 目录中图像的最终路径。而 [html-loader](/loaders/html-loader) 也以相同方式处理 `<img src="./my-image.png" />`。
+现在，在 `import MyImage from './my-image.png'` 时，图像将被处理并添加到 `output` 目录，**并且** `MyImage` 变量将包含该图像在处理后的最终的 url。如前所示，在使用 [css-loader](/loaders/css-loader) 时，处理 CSS 中的 `url('./my-image.png')` 也会发生类似过程。loader 会识别这是一个本地文件，并将 `'./my-image.png'` 路径替换为 `output` 目录中图像的最终路径。而 [html-loader](/loaders/html-loader) 以相同方式处理 `<img src="./my-image.png" />`。
 
-试试向项目中添加一个图像，并观察它是如何工作的：
+试试向项目中添加一个图像，并观察它是如何工作的，你可以使用任何你喜欢的图像：
 
 **project**
 
@@ -279,11 +279,11 @@ cacheable modules 540 KiB (javascript) 9.88 KiB (asset)
 webpack 5.4.0 compiled successfully in 1972 ms
 ```
 
-如果一切顺利，现在应该看到图标成为了重复的背景图，并且 `Hello webpack` 文本旁边出现了 `img` 元素。检查此元素将看到实际的文件名已更改为像 `29822eaa871e8eadeaa4.png` 一样的名称。这意味着 webpack 在 `src` 文件夹中找到了我们的文件，并对其进行了处理！
+如果一切顺利，现在应该看到图标成为了重复的背景图，并且 `Hello webpack` 文本旁边出现了 `img` 元素。如果检查此元素，你将看到实际的文件名已更改为像 `29822eaa871e8eadeaa4.png` 一样的名称。这意味着 webpack 在 `src` 文件夹中找到了我们的文件，并对其进行了处理！
 
 ## 加载字体 $#loading-fonts$
 
-使用资源模块可以接收并加载任何文件，然后将其输出到构建目录。换言之，我们可以将它们用于任何类型的文件，也包括字体文件。更新 `webpack.config.js` 以处理字体文件：
+那么，像字体这样的其他资源如何处理呢？使用 Asset Modules 可以接收并加载任何文件，然后将其输出到构建目录。换言之，我们可以将它们用于任何类型的文件，也包括字体。让我们更新 `webpack.config.js` 来处理字体文件：
 
 **webpack.config.js**
 
@@ -336,7 +336,7 @@ webpack 5.4.0 compiled successfully in 1972 ms
   |- /node_modules
 ```
 
-配置好 loader 并将字体文件放在合适的位置后，可以通过 `@font-face` 声明将其混合。本地的 `url(...)` 指令会被 webpack 获取并处理，就像处理图片一样：
+配置好 loader 并将字体文件放在合适的位置后，可以通过 `@font-face` 声明将其混合。本地的 `url(...)` 指令会被 webpack 获取并处理，就像它处理图片一样：
 
 **src/style.css**
 
@@ -386,11 +386,11 @@ cacheable modules 541 KiB (javascript) 43.1 KiB (asset)
 webpack 5.4.0 compiled successfully in 2142 ms
 ```
 
-重新打开 `dist/index.html` 观察 `Hello webpack` 文本是否换上了新的字体。如果一切顺利，应该能看到已经发生了变化。
+重新打开 `dist/index.html` 看看 `Hello webpack` 文本是否换上了新的字体。如果一切顺利，你应该能看到已经发生了变化。
 
 ## 加载数据 $#loading-data$
 
-此外，可以加载的有用资源还有数据，如 JSON 文件、CSV、TSV 和 XML。与 NodeJS 类似，对 JSON 的支持实际上也是内置的，即 `import Data from './data.json'` 默认将正常运行。可以使用 [csv-loader](https://github.com/theplatapi/csv-loader) 和 [xml-loader](https://github.com/gisikw/xml-loader) 导入 CSV、TSV 与 XML。接下来试试加载这三类文件：
+此外，可以加载的有用资源还有数据，如 JSON 文件、CSV、TSV 和 XML。与 NodeJS 类似，对 JSON 的支持实际上也是内置的，即 `import Data from './data.json'` 默认将正常运行。如果要导入 CSV、TSV 和 XML，你可以使用 [csv-loader](https://github.com/theplatapi/csv-loader) 和 [xml-loader](https://github.com/gisikw/xml-loader)。让我们处理加载这三类文件：
 
 ```bash
 npm install --save-dev csv-loader xml-loader
@@ -478,7 +478,7 @@ Zoe,Bill,Reminder,Buy orange juice
 Autumn,Lindsey,Letter,I miss you
 ```
 
-现在可以导入这四种类型的数据（JSON, CSV, TSV, XML）中的任何一种了，所导入的 `Data` 变量，将包含可直接使用的已解析的 JSON：
+现在可以 `import` 这四种类型的数据（JSON, CSV, TSV, XML）中的任何一种，所导入的 `Data` 变量，将包含可直接使用的已解析 JSON：
 
 **src/index.js**
 
@@ -511,9 +511,9 @@ Autumn,Lindsey,Letter,I miss you
  document.body.appendChild(component());
 ```
 
-重新执行 `npm run build` 命令，然后打开 `dist/index.html`。在开发者工具中的控制台应该能够看到成功打印了导入的数据！
+重新执行 `npm run build` 命令，然后打开 `dist/index.html`。查看开发者工具中的控制台，应该能够看到导入的数据会被打印出来！
 
-T> 在使用 [d3](https://github.com/d3) 等工具实现某些数据可视化时，这个功能极其有用。这将帮助不用在运行时发送请求获取和解析数据，而是在构建过程中将其提前加载到模块中，以便浏览器加载模块后，可以直接访问解析过的数据。
+T> 在使用 [d3](https://github.com/d3) 等工具实现某些数据可视化时，这个功能极其有用。这将帮助你不用在运行时发送请求获取和解析数据，而是在构建过程中将其提前加载到模块中，以便浏览器加载模块后，可以直接访问解析过的数据。
 
 W> 只有在使用 JSON 模块默认导出时会没有警告。
 
@@ -527,9 +527,9 @@ import { foo } from './data.json';
 
 ### 自定义 JSON 模块解析器 $#customize-parser-of-json-modules$
 
-通过使用 [自定义解析器](/configuration/module/#ruleparserparse) 替代特定的 webpack loader，可以将任何 `toml`、`yaml` 或 `json5` 文件作为 JSON 模块导入。
+通过使用 [自定义解析器（parser）](/configuration/module/#ruleparserparse) 替代特定的 webpack loader，可以将任何 `toml`、`yaml` 或 `json5` 文件作为 JSON 模块导入。
 
-假设 `src` 文件夹下有 `data.toml`、`data.yaml` 以及 `data.json5` 文件：
+假设你在 `src` 文件夹下有 `data.toml`、`data.yaml` 以及 `data.json5` 文件：
 
 **src/data.toml**
 
@@ -572,7 +572,7 @@ Likes tater tots and beer.',
 }
 ```
 
-首先安装 `toml`，`yamljs` 和 `json5` 对应的包：
+首先安装 `toml`，`yamljs` 和 `json5` 对应的 package：
 
 ```bash
 npm install toml yamljs json5 --save-dev
@@ -654,14 +654,14 @@ npm install toml yamljs json5 --save-dev
 +import yaml from './data.yaml';
 +import json from './data.json5';
 +
-+console.log(toml.title); // 输出 `TOML Example`
-+console.log(toml.owner.name); // 输出 `Tom Preston-Werner`
++console.log(toml.title); // output `TOML Example`
++console.log(toml.owner.name); // output `Tom Preston-Werner`
 +
-+console.log(yaml.title); // 输出 `YAML Example`
-+console.log(yaml.owner.name); // 输出 `Tom Preston-Werner`
++console.log(yaml.title); // output `YAML Example`
++console.log(yaml.owner.name); // output `Tom Preston-Werner`
 +
-+console.log(json.title); // 输出 `JSON5 Example`
-+console.log(json.owner.name); // 输出 `Tom Preston-Werner`
++console.log(json.title); // output `JSON5 Example`
++console.log(json.owner.name); // output `Tom Preston-Werner`
 
  function component() {
    const element = document.createElement('div');
@@ -685,11 +685,11 @@ npm install toml yamljs json5 --save-dev
  document.body.appendChild(component());
 ```
 
-重新执行 `npm run build` 命令，然后打开 `dist/index.html` 就应该能够看到导入的数据会被打印到控制台上！
+重新执行 `npm run build` 命令，然后打开 `dist/index.html`。你应该能够看到导入的数据会被打印到控制台上！
 
 ## 全局资源 $#global-assets$
 
-上述所有内容中最出色之处在于，以这种方式加载资源，可以以更直观的方式将模块和资源组合在一起。无需依赖于含有全部资源的 `/assets` 目录，而是将资源与代码组合在一起使用。例如，类似这样的结构会非常有用：
+上述所有内容中最出色之处在于，以这种方式加载资源，你可以以更直观的方式将模块和资源组合在一起。无需依赖于含有全部资源的 `/assets` 目录，而是将资源与代码组合在一起使用。例如，类似这样的结构会非常有用：
 
 ```diff
 - |- /assets
@@ -701,13 +701,13 @@ npm install toml yamljs json5 --save-dev
 + |  |  |– img.png
 ```
 
-这种配置方式会使代码更具备可移植性，因为现有的集中放置的方式会让紧密耦合所有资源。假如想在另一个项目中使用 `/my-component`，只需将其复制或移动到 `/components` 目录下。只要你已经安装过全部 **外部依赖** ，并且 **已经在配置中定义过相同的 loader** ，那么项目应该能够良好运行。
+这种配置方式会使你的代码更具备可移植性，因为现有的集中放置的方式会让紧密耦合所有资源。假如你想在另一个项目中使用 `/my-component`，只需将其复制或移动到 `/components` 目录下。只要你已经安装过全部 **外部依赖** ，并且 **已经在配置中定义过相同的 loader** ，那么项目应该能够良好运行。
 
-但是，假如只能被局限在旧有开发方式，或者有一些在多个组件（视图、模板、模块等）之间共享的资源，仍然可以将这些资源存储在一个基本目录中，甚至配合 [alias](/configuration/resolve/#resolvealias) 可以更方便使用 `import` 导入。
+但是，假如你只能被局限在旧有开发方式，或者你有一些在多个组件（视图、模板、模块等）之间共享的资源。你仍然可以将这些资源存储在一个基本目录中，甚至配合 [alias](/configuration/resolve/#resolvealias) 可以更方便使用 `import` 导入。
 
 ## 回退处理 $#wrapping-up$
 
-在下篇指南中无需使用本指南中所有用到的资源，因此需要进行一些清理工作，以便为下篇指南 [管理输出](/guides/output-management/) 做好准备：
+在下篇指南中，我们无需使用本指南中所有用到的资源，因此我们会进行一些清理工作，以便为下篇指南 [管理输出](/guides/output-management/) 做好准备：
 
 **project**
 
@@ -807,14 +807,14 @@ npm install toml yamljs json5 --save-dev
 -import yaml from './data.yaml';
 -import json from './data.json5';
 -
--console.log(toml.title); // 输出 `TOML Example`
--console.log(toml.owner.name); // 输出 `Tom Preston-Werner`
+-console.log(toml.title); // output `TOML Example`
+-console.log(toml.owner.name); // output `Tom Preston-Werner`
 -
--console.log(yaml.title); // 输出 `YAML Example`
--console.log(yaml.owner.name); // 输出 `Tom Preston-Werner`
+-console.log(yaml.title); // output `YAML Example`
+-console.log(yaml.owner.name); // output `Tom Preston-Werner`
 -
--console.log(json.title); // 输出 `JSON5 Example`
--console.log(json.owner.name); // 输出 `Tom Preston-Werner`
+-console.log(json.title); //  `JSON5 Example`
+-console.log(json.owner.name); // output `Tom Preston-Werner`
 
  function component() {
    const element = document.createElement('div');
@@ -850,4 +850,4 @@ npm uninstall css-loader csv-loader json5 style-loader toml xml-loader yamljs
 
 ## 延伸阅读 $#further-reading$
 
-- SurviveJS 额外介绍了 [字体加载](https://survivejs.com/webpack/loading/fonts/)。
+- SurviveJS 中的 [加载字体](https://survivejs.com/webpack/loading/fonts/)。
