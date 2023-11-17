@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: PR CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -33,15 +33,3 @@ jobs:
         run: |
           sudo -i
           sudo chown -R $USER ./dist
-
-      - name: Docschina Github Action
-        id: deployStatic
-        uses: lcxfs1991/docschina-actions@master
-        with:
-          skipFiles: ${{ secrets.SKIP_FILES }}
-          secretId: ${{ secrets.SECRET_ID }}
-          secretKey: ${{ secrets.SECRET_KEY }}
-          staticSrcPath: ./dist
-          bucket: ${{ secrets.BUCKET }}
-          region: ${{ secrets.REGION }}
-          forceFiles: ${{ secrets.FORCE_FILES }}
