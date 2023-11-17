@@ -1,3 +1,5 @@
+import React from 'react';
+
 const statsScript = `
 var _hmt = _hmt || [];
 (function() {

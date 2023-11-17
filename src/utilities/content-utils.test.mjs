@@ -43,16 +43,16 @@ describe('getPageDescription', () => {
 describe('getPageTitle', () => {
   it('should return default title for non-exist page', () => {
     const title = getPageTitle(content, '/xzy');
-    expect(title).toBe('webpack 中文文档');
+    expect(title).toBe('webpack');
   });
 
   it('should return title for printable page', () => {
     const title = getPageTitle(content, '/printable/');
-    expect(title).toBe('Combined printable page | webpack 中文文档');
+    expect(title).toBe('Combined printable page | webpack');
   });
 
   it('should return title for get-started', () => {
     const title = getPageTitle(content, '/guides/getting-started/');
-    expect(title).toBe('Getting Started | webpack 中文文档');
+    expect(title).toBe('Getting Started | webpack');
   });
 });
