@@ -51,11 +51,11 @@ module.exports = {
   //...
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    // 编译时(compile time)插件
+   // 编译时(compile time)插件
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
     }),
-    // webpack-dev-server 强化插件
+   // webpack-dev-server 强化插件
     new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],

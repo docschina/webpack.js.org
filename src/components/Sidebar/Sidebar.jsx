@@ -49,7 +49,7 @@ export default function Sidebar({ className = '', pages, currentPage }) {
           >
             {versions.map((version) => (
               <option key={version} value={version}>
-                webpack {version}
+                Webpack {version}
               </option>
             ))}
           </select>
