@@ -3,6 +3,13 @@
  */
 
 import { visit } from 'unist-util-visit';
+
+const mapping = {
+  tip: '提示',
+  warning: '警告',
+  todo: 'TODO'
+}
+
 export default function customAsides(
   options = {
     mapping: {},
@@ -49,7 +56,7 @@ export default function customAsides(
             children: [
               {
                 type: 'text',
-                value: `${className}`,
+                value: `${mapping[className]}`,
               },
             ],
           },
