@@ -35,11 +35,11 @@ contributors:
   - atesgoral
   - snitin315
   - artem-malko
-  - Yucohny
 translators:
   - QC-L
   - jacob-lcs
   - dear-lizhihua
+  - Yucohny
 related:
   - title: webpack 中的 <link rel="prefetch/preload" />
     url: https://medium.com/webpack/link-rel-prefetch-preload-in-webpack-51a52358f84c
@@ -51,7 +51,7 @@ related:
 
 T> 本指南继续沿用 [起步](/guides/getting-started) 中的示例代码。请确保你已熟悉这些指南中提供的示例以及 [管理输出](/guides/output-management/) 章节。
 
-代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle、控制资源加载优先级，如果使用合理，会极大减小加载时间。
+代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后便能按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle、控制资源加载优先级，如果使用合理，会极大减小加载时间。
 
 常用的代码分离方法有三种：
 
@@ -61,7 +61,7 @@ T> 本指南继续沿用 [起步](/guides/getting-started) 中的示例代码。
 
 ## 入口起点 $#entry-points$
 
-这是迄今为止最简单直观的分离代码的方式。不过，这种方式手动配置较多，并有一些隐患。不过，我们将会介绍如何解决这些隐患。先来看看如何从 main bundle 中分离另一个模块：
+这是迄今为止最简单直观的实现代码分离的方式。不过，这种方式手动配置较多，并有一些隐患。不过，我们将会介绍如何解决这些隐患。先来看看如何从 main bundle 中分离另一个模块：
 
 **project**
 
@@ -122,7 +122,7 @@ webpack 5.4.0 compiled successfully in 245 ms
 
 正如前面所提及，这种方式存在一些隐患：
 
-- 如果入口 chunk 之间包含一些重复的模块，那么这些重复模块都会被引入到各个 bundle 中。
+- 如果入口 chunk 之间包含一些重复的模块，那么这些重复模块会被引入到各个 bundle 中。
 - 这种方法不够灵活，并且不能动态地拆分应用程序逻辑中的核心代码。
 
 以上两点中，第一点所对应的问题已经在我们上面的实例中体现出来了。除了 `./src/another-module.js`，我们也曾在 `./src/index.js` 中引入过 `lodash`，这就导致了重复引用。下一章节会介绍如何移除重复的模块。
@@ -160,7 +160,7 @@ webpack 5.4.0 compiled successfully in 245 ms
  };
 ```
 
-如果想要在一个 HTML 页面上使用多个入口，还需设置 `optimization.runtimeChunk: 'single'`，否则会遇到 [此处](https://bundlers.tooling.report/code-splitting/multi-entry/) 所述的麻烦。
+如果想要在一个 HTML 页面上使用多个入口起点，还需设置 `optimization.runtimeChunk: 'single'`，否则会遇到 [此处](https://bundlers.tooling.report/code-splitting/multi-entry/) 所述的麻烦。
 
 **webpack.config.js**
 
@@ -212,7 +212,7 @@ webpack 5.4.0 compiled successfully in 249 ms
 
 可以看到，除了 `shared.bundle.js`，`index.bundle.js` 和 `another.bundle.js` 之外，还生成了一个 `runtime.bundle.js` 文件。
 
-尽管 webpack 允许每个页面使用多入口，但在可能的情况下，应该避免使用多入口，而使用具有多个导入的单入口：`entry: { page: ['./analytics', './app'] }`。这样可以获得更好的优化效果，并在使用异步脚本标签时保证执行顺序一致。
+尽管 webpack 允许每个页面使用多个入口起点，但在可能的情况下，应该避免使用多个入口起点，而使用具有多个导入的单个入口起点：`entry: { page: ['./analytics', './app'] }`。这样可以获得更好的优化效果，并在使用异步脚本标签时保证执行顺序一致。
 
 ### SplitChunksPlugin $#splitchunksplugin$
 
@@ -241,7 +241,7 @@ webpack 5.4.0 compiled successfully in 249 ms
   };
 ```
 
-使用 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimization-splitchunks) 配置选项后构建，将会发现 `index.bundle.js` 和 `another.bundle.js` 中已经移除了重复的依赖模块。需要注意的是，插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了 bundle 大小。执行 `npm run build` 查看效果：
+使用 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimization-splitchunks) 配置选项后构建，将会发现 `index.bundle.js` 和 `another.bundle.js` 已经移除了重复的依赖模块。从插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了 bundle 大小。执行 `npm run build` 查看效果：
 
 ```bash
 ...
@@ -265,9 +265,9 @@ webpack 5.4.0 compiled successfully in 241 ms
 
 ## 动态导入 $#dynamic-imports$
 
-webpack 提供了两个类似的技术实现动态拆分代码。第一种，也是推荐选择的方式，是使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods/#import-1) 实现动态导入。第二种则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods/#requireensure)。让我们先尝试使用第一种。
+webpack 提供了两个类似的技术实现动态代码分离。第一种，也是推荐选择的方式，是使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods/#import-1) 实现动态导入。第二种则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods/#requireensure)。让我们先尝试使用第一种。
 
-W> 调用 `import()` 会在内部使用 [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。因此如果在旧版本浏览器中（例如，IE 11）使用 `import()`，需要使用一个 polyfill 库（例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill)）来 shim `Promise`。
+W> 调用 `import()` 会在内部使用 [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。因此如果在旧版本浏览器中（如 IE 11）使用 `import()`，需要使用一个 polyfill 库（例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill)）shim `Promise`。
 
 在我们开始之前，先从上述示例的配置中移除多余的 [`entry`](/concepts/entry-points/) 和 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimization-splitchunks)，因为接下来的演示中并不需要它们：
 
@@ -341,7 +341,7 @@ webpack-demo
 +});
 ```
 
-需要 `default` 的原因是自 webpack 4 之后，在导入 CommonJS 模块时，将不再解析为 `module.exports` 的值，而是创建一个人工命名空间对象来表示此 CommonJS 模块。更多有关背后原因的信息，请阅读 [webpack 4: import() and CommonJs](https://medium.com/webpack/webpack-4-import-and-commonjs-d619d626b655)。
+需要 `default` 的原因是自 webpack 4 之后，在导入 CommonJS 模块时，将不再解析为 `module.exports` 的值，而是创建一个人工命名空间对象来表示此 CommonJS 模块。参阅 [webpack 4: import() and CommonJs](https://medium.com/webpack/webpack-4-import-and-commonjs-d619d626b655) 以了解更多有关信息。
 
 试试构建最新的代码，看看 `lodash` 是否会分离到一个单独的 bundle：
 
@@ -389,14 +389,14 @@ T> 在稍后示例中，当需要根据计算后的变量导入特定模块时�
 
 ## 预获取/预加载模块 $#prefetchingpreloading-modules$
 
-Webpack v4.6.0+ 增加了对预获取（prefetch）和预加载（preload）的支持。
+Webpack v4.6.0+ 增加了对预获取和预加载的支持。
 
-在声明 `import` 时，使用下面这些内置指令，可以让 webpack 输出“resource hint”，来告知浏览器：
+声明 `import` 时使用下列内置指令可以让 webpack 输出“Resource Hint”告知浏览器：
 
-- **prefetch**（预获取）：将来某些导航下可能需要的资源
-- **preload**（预加载）：当前导航下可能需要资源
+- **预获取（prefetch）**：将来某些导航下可能需要的资源
+- **预加载（preload）**：当前导航下可能需要资源
 
-下面这个预获取的简单示例中，有一个 `HomePage` 组件，其内部渲染一个 `LoginButton` 组件，然后在点击后按需加载 `LoginModal` 组件。
+试想一下下面的场景：现在有一个 `HomePage` 组件，该组件内部渲染了一个 `LoginButton` 组件，点击后按钮后可以按需加载 `LoginModal` 组件。
 
 **LoginButton.js**
 
@@ -405,15 +405,15 @@ Webpack v4.6.0+ 增加了对预获取（prefetch）和预加载（preload）的�
 import(/* webpackPrefetch: true */ './path/to/LoginModal.js');
 ```
 
-这会生成 `<link rel="prefetch" href="login-modal-chunk.js">` 并追加到页面头部，指示浏览器在闲置时间预取 `login-modal-chunk.js` 文件。
+上面的代码在构建时会生成 `<link rel="prefetch" href="login-modal-chunk.js">` 并追加到页面头部，指示浏览器在闲置时间预获取 `login-modal-chunk.js` 文件。
 
 T> 只要父 chunk 完成加载，webpack 就会添加预获取提示。
 
 与预获取指令相比，预加载指令有许多不同之处：
 
-- 预加载 chunk 会在父 chunk 加载时，以并行方式开始加载。预获取 chunk 会在父 chunk 加载结束后开始加载。
-- 预加载 chunk 具有中等优先级，并立即下载。预获取 chunk 在浏览器闲置时下载。
-- 预加载 chunk 会在父 chunk 中立即请求，用于当下时刻。预获取 chunk 会用于未来的某个时刻。
+- 预加载 chunk 会在父 chunk 加载时以并行方式开始加载；而预获取 chunk 会在父 chunk 加载结束后开始加载。
+- 预加载 chunk 具有中等优先级，并会立即下载；而预获取 chunk 则在浏览器闲置时下载。
+- 预加载 chunk 会在父 chunk 中立即请求，用于当下时刻；而预获取 chunk 则用于未来的某个时刻。
 - 浏览器支持程度不同。
 
 下面这个简单的预加载示例中，有一个 `Component`，依赖于一个较大的库，所以应该将其分离到一个独立的 chunk 中。
@@ -427,22 +427,22 @@ T> 只要父 chunk 完成加载，webpack 就会添加预获取提示。
 import(/* webpackPreload: true */ 'ChartingLibrary');
 ```
 
-在页面中使用 `ChartComponent` 时，在请求 `ChartComponent.js` 的同时，还会通过 `<link rel="preload">` 请求 `charting-library-chunk`。假定 page-chunk 体积比 `charting-library-chunk` 更小，也更快地被加载完成，页面此时就会显示 `LoadingIndicator` ，等到 `charting-library-chunk` 请求完成，`LoadingIndicator` 组件才消失。这将会使得加载时间能够更短一点，因为只进行单次往返，而不是两次往返，尤其是在高延迟环境下。
+在页面中使用 `ChartComponent` 时会在请求 `ChartComponent.js` 的同时通过 `<link rel="preload">` 请求 `charting-library-chunk`。假定 page-chunk 体积比 `charting-library-chunk` 更小，也更快地被加载完成，那么当 `charting-library-chunk` 加载完成后，页面会首先显示 `LoadingIndicator`；当 `charting-library-chunk` 请求完成后，`LoadingIndicator` 组件才会消失。这将会使得加载时间能够更短一点，因为只进行单次往返，而不是两次往返，尤其是在高延迟环境下。
 
 T> 不正确地使用 `webpackPreload` 会有损性能，请谨慎使用。
 
-有时你需要自己控制预加载。例如，任何动态导入的预加载都可以通过异步脚本完成。这在流式服务器端渲染的情况下很有用。
+有时需要自己控制预加载。例如，任何动态导入的预加载都可以通过异步脚本完成。这在流式服务器端渲染的情况下很有用。
 
 ```js
 const lazyComp = () =>
   import('DynamicComponent').catch((error) => {
     // 在发生错误时做一些处理
-    // 例如，我们可以在网络错误的情况下重试请求
+    // 例如可以在网络错误的情况下重试请求
   });
 ```
 如果在 webpack 开始加载该脚本之前脚本加载失败（如果该脚本不在页面上，webpack 只是创建一个 script 标签来加载其代码），则该 catch 处理程序将不会启动，直到 [chunkLoadTimeout](/configuration/output/#outputchunkloadtimeout) 未通过。此行为可能是意料之外的。但这是可以解释的 —— webpack 不能抛出任何错误，因为 webpack 不知道那个脚本失败了。webpack 将在错误发生后立即将 onerror 处理脚本添加到 script 中。
 
-为了避免上述问题，你可以添加自己的 onerror 处理脚本，将会在错误发生时移除该 script。
+可以通过添加自己的 onerror 处理脚本避免上述问题，这能够帮助在错误发生时移除该脚本
 
 ```html
 <script
@@ -452,9 +452,9 @@ const lazyComp = () =>
 ></script>
 ```
 
-在这种情况下，错误的 script 将被删除。webpack 将创建自己的 script，并且任何错误都将被处理而没有任何超时。
+这种情况下错误脚本将被删除，而 webpack 将创建自己的脚本，并且任何错误都将被处理而没有任何超时。
 
-## bundle 分析 $#bundle-analysis$
+## 分析 bundle $#bundle-analysis$
 
 一旦开始分离代码，一件很有帮助的事情是，分析输出结果来检查模块在何处结束。[官方分析工具](https://github.com/webpack/analyse) 是一个不错的开始。还有一些其他社区支持的可选项：
 
@@ -466,4 +466,4 @@ const lazyComp = () =>
 
 ## 下一步 $#next-steps$
 
-接下来，查看 [懒加载](/guides/lazy-loading/) 来学习如何在真实的应用程序中使用 `import()` 的具体示例，以及查看 [缓存](/guides/caching/) 来学习如何有效地分离代码。
+接下来，参阅 [懒加载](/guides/lazy-loading/) 了解如何在真实的应用程序中使用 `import()`，以及参阅 [缓存](/guides/caching/) 了解如何有效地分离代码。
