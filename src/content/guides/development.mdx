@@ -17,20 +17,20 @@ contributors:
   - maxloh
   - snitin315
   - f3ndot
-  - Yucohny
 translators:
   - QC-L
   - jacob-lcs
   - dear-lizhihua
+  - Yucohny
 ---
 
 T> 本指南继续沿用 [管理输出](/guides/output-management) 指南中的代码示例。
 
-如果你一直跟随之前的指南，应该对一些 webpack 基础知识有着很扎实的理解。在我们继续之前，先来看看如何设置一个开发环境，使我们的开发体验变得更轻松一些。
+如果已经阅读过之前的指南章节，那么应该对 webpack 的基础知识有了扎实的理解。在我们继续之前，先来看看如何设置开发环境，使我们的开发体验变得更轻松一些。
 
 W> 本指南中的工具 **仅用于开发环境**，请 **不要** 在生产环境中使用它们！
 
-在开始前，我们先将 [`mode` 设置为 `'development'`](/configuration/mode/#mode-development)，并将 `title` 设置为 `'Development'`。
+首先将 [`mode` 设置为 `'development'`](/configuration/mode/#mode-development)，并将 `title` 修改  为 `'Development'`。
 
 **webpack.config.js**
 
@@ -60,13 +60,13 @@ W> 本指南中的工具 **仅用于开发环境**，请 **不要** 在生产环
 
 ## 使用 source map $#using-source-maps$
 
-当 webpack 打包源代码时，可能会很难追踪到 error（错误）和 warning（警告）在源代码中的原始位置。例如，如果将三个源文件（`a.js`，`b.js` 和 `c.js`）打包到一个 bundle（`bundle.js`）中，而其中一个源文件包含错误，那么堆栈跟踪就会直接指向到 `bundle.js`。但是你可能需要准确地知道错误来自于哪个源文件，所以这种提示这通常不会提供太多帮助。
+当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（`a.js`，`b.js` 和 `c.js`）打包到一个 bundle（`bundle.js`）中，而其中一个源文件包含错误，那么堆栈跟踪就会直接指向到 `bundle.js`，却无法准确地道错误来自于哪个源文件，所以这种提示通常无法提供太多帮助。
 
-为了更容易地追踪 error 和 warning，JavaScript 提供了 [source map](http://blog.teamtreehouse.com/introduction-source-maps) 功能，可以将编译后的代码映射回原始源代码。source map 会直接告诉你错误来源于哪一个源代码。
+为了更容易地追踪错误与警告在源代码中的原始位置，JavaScript 提供了 [source map](http://blog.teamtreehouse.com/introduction-source-maps) 功能，可以帮助将编译后的代码映射回原始源代码。source map 会直接告诉开发者错误来源于哪一个源代码。
 
 source map 有许多 [可用选项](/configuration/devtool)，请务必仔细阅读它们，以便根据需要进行配置。
 
-在本指南中，我们将使用 `inline-source-map` 选项，这有助于解释说明示例意图（此配置仅用于示例，不要用于生产环境）：
+本指南将使用有助于解释说明示例意图的 `inline-source-map` 选项（不要在生产环境中使用它）：
 
 **webpack.config.js**
 
@@ -100,8 +100,8 @@ source map 有许多 [可用选项](/configuration/devtool)，请务必仔细阅
 
 ```diff
  export default function printMe() {
--  console.log('I get called from print.js!');
-+  cosnole.log('I get called from print.js!');
+-  console.log('我被 print.js 调用了！');
++  cosnole.log('我被 print.js 调用了！');
  }
 ```
 
@@ -128,17 +128,17 @@ Uncaught ReferenceError: cosnole is not defined
    at HTMLButtonElement.printMe (print.js:2)
 ```
 
-可以看到，此错误包含有发生错误的文件（`print.js`）和行号（2）的引用。这将帮助我们确切知道所要解决问题的位置。
+可以看到，此错误包含有发生错误的文件（`print.js`）和行号（2）的引用。这将帮助确切知道所要解决问题的位置。
 
 ## 选择一个开发工具 $#choosing-a-development-tool$
 
-W> 某些文本编辑器具有“safe write（安全写入）”功能，可能会干扰下面一些工具。阅读 [调整文本编辑器](#adjusting-your-text-editor) 以解决这些问题。
+W> 某些文本编辑器具有安全写入（safe write）功能，可能会干扰下面介绍的一些工具。参阅 [调整文本编辑器](#adjusting-your-text-editor) 以解决这些问题。
 
-在每次编译代码时，手动运行 `npm run build` 会显得很麻烦。
+每次编译代码都需要手动运行 `npm run build` 会显得很麻烦。
 
-webpack 提供几种可选方式，帮助你在代码发生变化后自动编译代码：
+webpack 提供了几种可选方式帮助在代码发生变化后自动编译代码：
 
-1.  webpack 的 [Watch Mode（观察模式）](/configuration/watch/#watch)
+1.  webpack 的 [观察模式](/configuration/watch/#watch)
 2.  [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
 3.  [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware)
 
@@ -146,7 +146,7 @@ webpack 提供几种可选方式，帮助你在代码发生变化后自动编译
 
 ### 使用观察模式 $#using-watch-mode$
 
-你可以指示 webpack “观察”依赖图中所有文件的更改。如果其中一个文件被更新，代码将被重新编译，所以不必再去手动运行整个构建。
+可以指示 webpack “观察”依赖图中所有文件的更改。如果其中一个文件被更新，代码将被自动重新编译，所以不必再去手动运行整个构建。
 
 像下面这样添加一个用于启动 webpack 观察模式的 npm scripts：
 
@@ -177,27 +177,27 @@ webpack 提供几种可选方式，帮助你在代码发生变化后自动编译
  }
 ```
 
-现在，你可以在命令行中运行 `npm run watch`，然后就会看到 webpack 是如何编译代码的。
-然而，你会发现它并没有退出命令行，这是因为该脚本当前还在观察你的文件。
+在命令行中运行 `npm run watch`，然后就会看到 webpack 是如何编译代码的。
+编译完成后会发现它并没有退出命令行，这是因为该脚本当前还在观察你的文件。
 
-现在，在 webpack 仍在观察文件的同时，移除我们之前加入的错误：
+现在，在 webpack 仍在观察文件的同时，移除之前故意加入的错误：
 
 **src/print.js**
 
 ```diff
  export default function printMe() {
--  cosnole.log('I get called from print.js!');
-+  console.log('I get called from print.js!');
+-  cosnole.log('我被 print.js 调用了！');
++  console.log('我被 print.js 调用了！');
  }
 ```
 
-现在，保存文件并检查 terminal（终端）窗口，应该可以看到 webpack 自动地重新编译修改后的模块！
+现在，保存文件并检查窗口，应该可以看到 webpack 已经自动地重新编译修改后的模块！
 
-唯一的缺点是，为了看到修改后的实际效果，需要手动刷新浏览器。如果能够自动刷新浏览器就更好了！接下来我们会尝试通过 `webpack-dev-server` 实现此功能。
+观察模式唯一的缺点是需要手动刷新浏览器才能看到修改后的实际效果。实现 `webpack-dev-server` 将能够自动刷新浏览器！
 
 ### 使用 webpack-dev-server $#using-webpack-dev-server$
 
-`webpack-dev-server` 提供了一个基本的 web server，并具有实时重新加载的功能。设置如下：
+`webpack-dev-server` 提供了一个能够实时重新加载的基本的 web server。安装依赖如下：
 
 ```bash
 npm install --save-dev webpack-dev-server
@@ -237,13 +237,13 @@ npm install --save-dev webpack-dev-server
  };
 ```
 
-以上配置告知 `webpack-dev-server`，将 `dist` 目录下的文件 serve 到 `localhost:8080` 下（译注：serve 意即将资源作为 server 的可访问文件）。
+以上配置告知 `webpack-dev-server` 将 `dist` 目录下的文件作为可访问资源部署在 `localhost:8080`。。
 
-T> 由于在这个示例中单个 HTML 页面有多个入口，所以添加了 `optimization.runtimeChunk: 'single'` 配置，否则可能会遇到 [这个问题](https://bundlers.tooling.report/code-splitting/multi-entry/)。查看 [代码分割](/guides/code-splitting/) 章节了解更多细节。
+T> 由于在这个示例中单个 HTML 页面有多个入口，所以添加了 `optimization.runtimeChunk: 'single'` 配置，否则可能会遇到 [这个问题](https://bundlers.tooling.report/code-splitting/multi-entry/)。参阅 [代码分离](/guides/code-splitting/) 章节了解更多细节。
 
-T> `webpack-dev-server` 会从 [`output.path`](/configuration/output/#outputpath) 中定义的目录中的 bundle 文件提供服务，即文件可以通过 `http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]` 进行访问。
+T> `webpack-dev-server` 会将在 [`output.path`](/configuration/output/#outputpath) 中定义的目录中的 bundle 文件作为可访问资源部署在 server 中，即文件可以通过 `http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]` 进行访问。
 
-W> `webpack-dev-server` 在编译之后不会写入到任何输出文件，而是将 bundle 文件保留在内存中，然后将它们 serve 到 server 中，就好像它们是挂载在 server 根路径上的真实文件一样。如果你的页面希望在其他不同路径中找到 bundle 文件，可以通过 dev server 配置中的 [`devMiddleware.publicPath`](/configuration/dev-server/#devserverdevmiddleware) 选项进行修改。
+W> `webpack-dev-server` 在编译之后不会写入任何输出文件，而是将 bundle 文件保留在内存中，然后将它们作为可访问资源部署在 server 中，就像是挂载在 server 根路径上的真实文件一样。如果页面希望在不同路径中找到 bundle 文件，可以修改 dev server 配置中的 [`devMiddleware.publicPath`](/configuration/dev-server/#devserverdevmiddleware) 选项。
 
 添加一个可以直接运行 dev server 的 script：
 
@@ -276,15 +276,15 @@ W> `webpack-dev-server` 在编译之后不会写入到任何输出文件，而�
  }
 ```
 
-现在，在命令行中运行 `npm start`，会看到浏览器自动加载页面。如果你更改任何源文件并保存它们，web server 将在编译代码后自动重新加载。试试看！
+现在，在命令行中运行 `npm start`，会看到浏览器自动加载页面。更改任何源文件并保存它们，web server 将在编译代码后自动重新加载。试试看！
 
-`webpack-dev-server` 具有许多可配置的选项。关于其他更多配置，请查看 [配置文档](/configuration/dev-server)。
+`webpack-dev-server` 具有许多可配置的选项。参阅 [配置文档](/configuration/dev-server) 以了解更多配置选项。
 
-T> 现在，server 正在运行，你可能需要尝试 [模块热替换（hot module replacement）](/guides/hot-module-replacement)！
+T> 现在 server 正在运行，也许你想试试 [热模块替换](/guides/hot-module-replacement)！
 
 ### 使用 webpack-dev-middleware $#using-webpack-dev-middleware$
 
-`webpack-dev-middleware` 是一个封装器（wrapper），它可以把 webpack 处理过的文件发送到 server。`webpack-dev-server` 在内部使用了它，然而它也可以作为一个单独的 package 使用，以便根据需求进行更多自定义设置。下面是一个 `webpack-dev-middleware` 配合 express server 的示例。
+`webpack-dev-middleware` 是一个包装器，它可以把 webpack 处理过的文件发送到 server。这是 `webpack-dev-server` 内部的原理，但是它也可以作为一个单独的包使用，以便根据需求进行更多自定义设置。下面是一个 `webpack-dev-middleware` 配合 `express` server 的示例。
 
 首先，安装 `express` 和 `webpack-dev-middleware`：
 
@@ -292,7 +292,7 @@ T> 现在，server 正在运行，你可能需要尝试 [模块热替换（hot m
 npm install --save-dev express webpack-dev-middleware
 ```
 
-现在，我们需要调整 webpack 配置文件，以确保 middleware（中间件）功能能够正确启用：
+现在调整 webpack 配置文件，以确保能够正确启用中间件：
 
 **webpack.config.js**
 
@@ -324,7 +324,7 @@ npm install --save-dev express webpack-dev-middleware
  };
 ```
 
-我们将会在 server 脚本使用 `publicPath`，以确保文件资源能够正确地 serve 在 `http://localhost:3000` 下，稍后我们会指定端口号。接下来是设置自定义 `express` server：
+在 server 脚本使用 `publicPath`，以确保文件资源能够作为可访问资源正确部署在 `http://localhost:3000` 下，稍后我们会指定端口号。接下来是设置自定义 `express` server：
 
 **project**
 
@@ -366,7 +366,7 @@ app.listen(3000, function () {
 });
 ```
 
-现在，添加一个 npm script，以使更方便地运行 server：
+现在添加 npm script 以便更方便地运行 server：
 
 **package.json**
 
@@ -400,7 +400,7 @@ app.listen(3000, function () {
  }
 ```
 
-现在，在终端执行 `npm run server`，将会有类似如下信息输出：
+在终端执行 `npm run server`，将会有类似如下信息输出：
 
 ```bash
 Example app listening on port 3000!
@@ -422,20 +422,20 @@ Example app listening on port 3000!
 <i> [webpack-dev-middleware] Compiled successfully.
 ```
 
-现在，打开浏览器，访问 `http://localhost:3000`，应该看到 webpack 应用程序已经运行！
+打开浏览器，访问 `http://localhost:3000`，应该看到 webpack 应用程序已经运行！
 
-T> 如果想要了解更多关于模块热替换的运行机制，我们推荐你参阅 [模块热替换](/guides/hot-module-replacement/) 指南。
+T> 参阅 [热模块替换](/guides/hot-module-replacement/) 指南了解更多关于热模块替换的运行机制。
 
 ## 调整文本编辑器 $#adjusting-your-text-editor$
 
-使用自动编译代码时，可能会在保存文件时遇到一些问题。某些编辑器具有“safe write（安全写入）”功能，会影响重新编译。
+使用自动编译代码时，可能会在保存文件时遇到一些问题。某些编辑器具有安全写入功能，会影响重新编译。
 
-在一些常见的编辑器中禁用此功能，查看以下列表：
+查看以下列表以在常见编辑器中禁用此功能：
 
-- **Sublime Text 3**：在“用户首选项（user preferences）”中添加 `atomic_save: 'false'`。
-- **JetBrains IDE（如 WebStorm）**：在 `Preferences > Appearance & Behavior > System Settings` 中取消选中“使用安全写入（Use safe write）”。
+- **Sublime Text 3**：在用户偏好中添加 `atomic_save: 'false'`。
+- **JetBrains IDE（如 WebStorm）**：在 `Preferences > Appearance & Behavior > System Settings` 中取消选中使用安全写入。
 - **Vim**：在设置中增加 `:set backupcopy=yes`。
 
 ## 总结 $#conclusion$
 
-现在，你已经学会了如何自动编译代码，并运行一个简单的开发环境 server。查看下一个指南，学习 [代码分割（Code Splitting）](/guides/code-splitting/)。
+现在已经学会了如何自动编译代码，并运行一个简单的开发环境 server。查看下一个指南学习 [代码分离](/guides/code-splitting/) 吧！
