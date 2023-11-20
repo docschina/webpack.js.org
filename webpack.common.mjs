@@ -29,9 +29,9 @@ const mdPlugins = [
     aside,
     {
       mapping: {
-        'T>': 'tip',
-        'W>': 'warning',
-        '?>': 'todo',
+        'T>': '提示',
+        'W>': '警告',
+        '?>': 'TODO',
       },
     },
   ],
