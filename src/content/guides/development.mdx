@@ -60,7 +60,7 @@ W> 本指南中的工具 **仅用于开发环境**，请 **不要** 在生产环
 
 ## 使用 source map $#using-source-maps$
 
-当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（`a.js`，`b.js` 和 `c.js`）打包到一个 bundle（`bundle.js`）中，而其中一个源文件包含错误，那么堆栈跟踪就会直接指向到 `bundle.js`，却无法准确地道错误来自于哪个源文件，所以这种提示通常无法提供太多帮助。
+当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（`a.js`，`b.js` 和 `c.js`）打包到一个 bundle（`bundle.js`）中，而其中一个源文件包含错误，那么堆栈跟踪就会直接指向到 `bundle.js`，却无法准确知道错误来自于哪个源文件，所以这种提示通常无法提供太多帮助。
 
 为了更容易地追踪错误与警告在源代码中的原始位置，JavaScript 提供了 [source map](http://blog.teamtreehouse.com/introduction-source-maps) 功能，可以帮助将编译后的代码映射回原始源代码。source map 会直接告诉开发者错误来源于哪一个源代码。
 
