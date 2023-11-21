@@ -121,7 +121,7 @@ export default function Page(props) {
 
         {loadRelated && (
           <div className="print:hidden">
-            <h2>Further Reading</h2>
+            <h2>延伸阅读</h2>
             <ul>
               {related.map((link, index) => (
                 <li key={index}>
