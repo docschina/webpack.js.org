@@ -43,7 +43,7 @@
     "test": "npm run lint",
     "lint": "run-s lint:*",
     "lint:js": "npm run lint-js .",
-    "lint-js": "eslint --cache --cache-location .cache/.eslintcache",
+    "lint-js": "eslint --cache --cache-location .cache/.eslintcache src --ignore-pattern src/content",
     "lint:markdown": "npm run lint-markdown '**/*.{md,mdx}'",
     "lint-markdown": "markdownlint --config ./.markdownlint.json",
     "lint:prose": "vale --config='.vale.ini' src/content",
