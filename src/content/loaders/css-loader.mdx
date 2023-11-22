@@ -79,7 +79,7 @@ module.exports = {
 |           **[`url`](#url)**           |            `{Boolean\|Function}`             |       `true`       | 启用/禁用 `url()`/`image-set()` 函数处理                                                                                                                                                                             |
 |        **[`import`](#import)**        |            `{Boolean\|Function}`             |       `true`       | 启用/禁用 `@import` 规则进行处理                                                                                                                                                                                     |
 |       **[`modules`](#modules)**       |         `{Boolean\|String\|Object}`          |   `{auto: true}`   | 启用/禁用 CSS 模块及其配置                                                                                                                                                                                           |
-|     **[`sourceMap`](#sourcemap)**     |                 `{Boolean}`                  | `compiler.devtool` | 启用/禁用生成 SourceMap                                                                                                                                                                                              |
+|     **[`sourceMap`](#sourceMap)**     |                 `{Boolean}`                  | `compiler.devtool` | 启用/禁用生成 SourceMap                                                                                                                                                                                              |
 | **[`importLoaders`](#importloaders)** |                  `{Number}`                  |        `0`         | 启用/禁用或者设置在 css-loader 前应用的 loader 数量                                                                                                                                                                  |
 |      **[`esModule`](#esmodule)**      |                 `{Boolean}`                  |       `true`       | 使用 ES 模块语法                                                                                                                                                                                                     |
 |    **[`exportType`](#exporttype)**    | `{'array' \| 'string' \| 'css-style-sheet'}` |      `array`       | 允许导出样式为模块数组、字符串或者 [可构造样式](https://developers.google.com/web/updates/2019/02/constructable-stylesheets)（即 [`CSSStyleSheet`](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet)） |
@@ -1488,7 +1488,7 @@ module.exports = {
 };
 ```
 
-### 使用 `/* webpackIgnore: true */` 注释禁用 url 解析
+### 使用 `/* webpackIgnore: true */` 注释禁用 url 解析 $#disable-url-resolving-using-the--webpackignore-true--comment$
 
 有了 `/* webpackIgnore: true */` 注释，可以禁用对规则和单个声明的源处理。
 

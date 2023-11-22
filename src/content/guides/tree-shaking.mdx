@@ -170,7 +170,7 @@ T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着
 }
 ```
 
-最后，还可以在 [`module.rules` 配置选项](/configuration/module/#module-rules) 中设置 `"sideEffects"`。
+最后，还可以在 [`module.rules` 配置选项](/configuration/module/#modulerules) 中设置 `"sideEffects"`。
 
 ## 解释 tree shaking 和 `sideEffects` $#clarifying-tree-shaking-and-sideeffects$
 
@@ -363,7 +363,7 @@ T> 在使用 tree shaking 时必须有 [ModuleConcatenationPlugin](/plugins/modu
 - 使用 ES2015 模块语法（即 `import` 和 `export`）。
 - 确保没有编译器将您的 ES2015 模块语法转换为 CommonJS 的（顺带一提，这是现在常用的 @babel/preset-env 的默认行为，详细信息请参阅[文档](https://babeljs.io/docs/en/babel-preset-env#modules)）。
 - 在项目的 `package.json` 文件中，添加 `"sideEffects"` 属性。
-- 使用 `mode` 为 `"production"` 的配置项以启用[更多优化项](/concepts/mode/#usage)，包括压缩代码与 tree shaking。
+- 使用 `mode` 为 `"production"` 的配置项以启用[更多优化项](/concepts/#mode)，包括压缩代码与 tree shaking。
 
 你可以将应用程序想象成一棵树。绿色表示实际用到的 source code(源码) 和 library(库)，是树上活的树叶。灰色表示未引用代码，是秋天树上枯萎的树叶。为了除去死去的树叶，你必须摇动这棵树，使它们落下。
 

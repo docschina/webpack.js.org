@@ -82,7 +82,7 @@ Node.js 通过设置 `package.json` 中的属性来显式设置文件模块类�
 
 除了模块格式外，将模块标记为 ESM 还会影响解析逻辑，操作逻辑和模块中的可用符号。
 
-导入模块在 ESM 中更为严格，导入相对路径的模块必须包含文件名和文件扩展名（例如 `*.js` 或者 `*.mjs`），除非你设置了 [`fullySpecified=false`](/configuration/module/#resolvefullyspecified)。
+导入模块在 ESM 中更为严格，导入相对路径的模块必须包含文件名和文件扩展名（例如 `*.js` 或者 `*.mjs`），除非你设置了 [`fullySpecified=false`](/configuration/module/#resolve-fully-specified)。
 
 T> 依旧支持导入包，例如 `import "lodash"` .
 
@@ -90,4 +90,4 @@ non-ESM 仅能导入 `default` 导出的模块，不支持命名导出的模块�
 
 CommonJs 语法不可用: `require`, `module`, `exports`, `__filename`, `__dirname`.
 
-T> HMR 使用 [`import.meta.webpackHot`](/api/module-variables/#importmetawebpackhot) 代替 [`module.hot`](/api/module-variables/#modulehot-webpack-specific)。
+T> HMR 使用 [`import.meta.webpackHot`](/api/module-variables/#importmetawebpackHot) 代替 [`module.hot`](/api/module-variables/#modulehot-webpack-specific)。

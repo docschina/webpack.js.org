@@ -113,7 +113,7 @@ import mainImage from './images/main.png';
 img.src = mainImage; // '/dist/151cfcfa1bd74779aadb.png'
 ```
 
-所有 `.png` 文件都将被发送到输出目录，并且其路径将被注入到 bundle 中，除此之外，你可以为它们自定义 [`outputPath`](/configuration/module/#rulegeneratoroutputpath) 和 [`publicPath`](/configuration/module/#rulegeneratorpublicpath) 属性。
+所有 `.png` 文件都将被发送到输出目录，并且其路径将被注入到 bundle 中，除此之外，你可以为它们自定义 [`outputPath`](/configuration/module/#rulegeneratoroutputpath) 和 [`publicPath`](/configuration/module/#rulegeneratorpublichpath) 属性。
 
 ### 自定义输出文件名 $#custom-output-filename$
 
@@ -314,7 +314,7 @@ Hello world
 
 所有 `.txt` 文件将原样注入到 bundle 中。
 
-## URL 资源
+## URL 资源 $#url-assets$
 
 当使用 `new URL('./path/to/asset', import.meta.url)`，webpack 也会创建资源模块。
 
@@ -343,7 +343,7 @@ new URL(
 );
 ```
 
-自 webpack 5.38.0 起，[Data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 也支持在 `new URL()` 中使用了：
+自 webpack 5.38.0 起，[Data URLs](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) 也支持在 `new URL()` 中使用了：
 
 **src/index.js**
 

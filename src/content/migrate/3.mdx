@@ -196,7 +196,7 @@ T> 注意：webpack 从 1 到 2 的变化，比从 2 到 3 要少很多，所以
 
 ## UglifyJsPlugin sourceMap $#uglifyjsplugin-sourcemap$
 
- `UglifyJsPlugin` 的 `sourceMap` 选项现在默认为 `false` 而不是 `true`。这意味着如果你在压缩代码时启用了 `source map`，或者想要让 `uglifyjs` 的警告能够对应到正确的代码行，你需要将 `UglifyJsPlugin` 的 `sourceMap` 设为 `true` 。
+`UglifyJsPlugin` 的 `sourceMap` 选项现在默认为 `false` 而不是 `true`。这意味着如果你在压缩代码时启用了 `source map`，或者想要让 `uglifyjs` 的警告能够对应到正确的代码行，你需要将 `UglifyJsPlugin` 的 `sourceMap` 设为 `true` 。
 
 ```diff
   devtool: "source-map",
@@ -208,7 +208,6 @@ T> 注意：webpack 从 1 到 2 的变化，比从 2 到 3 要少很多，所以
 ```
 
 ## UglifyJsPlugin warnings $#uglifyjsplugin-warnings$
-
 
 ```diff
   devtool: "source-map",
@@ -254,8 +253,8 @@ loaders 的压缩模式将在 webpack 3 或后续版本中取消。
 
 ## 默认加载 OccurrenceOrderPlugin $#occurrenceorderplugin-is-now-on-by-default$
 
- `OccurrenceOrderPlugin` 现在默认启用，并已重命名(在webpack 1 中为 `OccurenceOrderPlugin`) 。
- 因此，请确保从你的配置中删除该插件：
+`OccurrenceOrderPlugin` 现在默认启用，并已重命名(在 webpack 1 中为 `OccurenceOrderPlugin`) 。
+因此，请确保从你的配置中删除该插件：
 
 ```diff
   plugins: [
@@ -364,7 +363,7 @@ module.exports = {
     ],
   },
   // 在 webpack 2 中无效
-  ts: { transpileOnly: false }
+  ts: { transpileOnly: false },
 };
 ```
 
@@ -446,7 +445,7 @@ require.ensure([], function (require) {
 });
 ```
 
-ES2015 模块加载规范定义了 [`import()`](/api/module-methods/#import-1) 方法，可以在运行时 (runtime) 动态地加载 ES2015 模块。webpack 将 `import()` 作为分割点 (split-point) 并将所要请求的模块 (requested module) 放置到一个单独的 chunk 中。`import()` 接收模块名作为参数，并返回一个 Promise 。
+ES2015 模块加载规范定义了 [`import()`](/api/module-methods/#import) 方法，可以在运行时 (runtime) 动态地加载 ES2015 模块。webpack 将 `import()` 作为分割点 (split-point) 并将所要请求的模块 (requested module) 放置到一个单独的 chunk 中。`import()` 接收模块名作为参数，并返回一个 Promise 。
 
 ```js
 function onClick() {
@@ -551,9 +550,9 @@ module.exports = {
         resource: /filename/, // 匹配 "/path/filename.js"
         resourceQuery: /^\?querystring$/, // 匹配 "?querystring"
         issuer: /filename/, // 如果请求 "/path/filename.js" 则匹配 "/path/something.js"
-      }
-    ]
-  }
+      },
+    ],
+  },
 };
 ```
 

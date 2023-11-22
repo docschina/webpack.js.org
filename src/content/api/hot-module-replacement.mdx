@@ -19,13 +19,13 @@ translators:
   - jacob-lcs
 ---
 
-如果已经通过 [`HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin) 启用了 [Hot Module Replacement](/concepts/hot-module-replacement), 则它的接口将被暴露在 [`module.hot`](/api/module-variables/#modulehot-webpack-specific) 以及 [`import.meta.webpackHot`](/api/module-variables/#importmetawebpackhot) 属性下。请注意，只有 `import.meta.webpackHot` 可以在 [strict ESM](/guides/ecma-script-modules/#flagging-modules-as-esm) 中使用。
+如果已经通过 [`HotModuleReplacementPlugin`](/plugins/hot-module-replacement-plugin) 启用了 [Hot Module Replacement](/concepts/hot-module-replacement), 则它的接口将被暴露在 [`module.hot`](/api/module-variables/#modulehot-webpack-specific) 以及 [`import.meta.webpackHot`](/api/module-variables/#importmetawebpackHot) 属性下。请注意，只有 `import.meta.webpackHot` 可以在 [strict ESM](/guides/ecma-script-modules/#flagging-modules-as-esm) 中使用。
 
 通常，用户先要检查这个接口是否可访问, 再使用它。你可以这样使用 `accept` 操作一个更新的模块：
 
 ```js
 if (module.hot) {
-  module.hot.accept('./library.js', function() {
+  module.hot.accept('./library.js', function () {
     // 对更新过的 library 模块做些事情...
   });
 }
@@ -71,7 +71,7 @@ import.meta.webpackHot.accept(
 
 - `err`: 当使用 ESM 依赖项时，回调函数在第二个参数中或在依赖项执行期间抛出的错误。
 - `moduleId`: 当前模块 id。
-- `dependencyId`: (第一个)被更改依赖项的模块id。
+- `dependencyId`: (第一个)被更改依赖项的模块 id。
 
 ### accept (self) $#accept-self$
 
@@ -99,7 +99,7 @@ import.meta.webpackHot.accept(
 - `err`: 计算新版本时的错误。
 - `moduleId`: 当前模块 id。
 - `module`: 当前模块实例。
-  - `module.hot`: 允许访问出错模块实例的 HMR API。一个常见的场景是再次自我接收（accept）。添加一个dispose处理程序来传递数据也是有意义的。注意，错误的模块可能已经部分执行，所以请确保不要进入不一致的状态。你可以使用 `module.hot.data` 存储部分状态。
+  - `module.hot`: 允许访问出错模块实例的 HMR API。一个常见的场景是再次自我接收（accept）。添加一个 dispose 处理程序来传递数据也是有意义的。注意，错误的模块可能已经部分执行，所以请确保不要进入不一致的状态。你可以使用 `module.hot.data` 存储部分状态。
   - `module.exports`: 可以被重载，但是要小心，因为属性名在生产模式下可能会被破坏。
 
 ### decline $#decline$
@@ -137,8 +137,8 @@ import.meta.webpackHot.decline();
 
 添加一个处理函数，在当前模块代码被替换时执行。此函数应该用于移除你声明或创建的任何持久资源。如果要将状态传入到更新过的模块，请添加给定 `data` 参数。更新后，此对象在更新之后可通过 `module.hot.data` 调用。
 
-``` js
-module.hot.dispose(data => {
+```js
+module.hot.dispose((data) => {
   // 清理并将 data 传递到更新后的模块...
 });
 
@@ -242,24 +242,23 @@ import.meta.webpackHot.removeDisposeHandler(callback);
 
 获取当前模块热替换进程的状态。
 
-``` js
+```js
 module.hot.status(); // 返回以下字符串之一...
 
 // 或者
 import.meta.webpackHot.status();
 ```
 
-| Status      | Description                                                                            |
-| ----------- | -------------------------------------------------------------------------------------- |
-| idle        | 该进程正在等待调用 `check`（见下文） |
-| check       | 该进程正在检查以更新 |
-| prepare     | 该进程正在准备更新（例如，下载已更新的模块） |
-| ready       | 此更新已准备并可用 |
-| dispose     | 该进程正在调用将被替换模块的 `dispose` 处理函数 |
+| Status      | Description                                                               |
+| ----------- | ------------------------------------------------------------------------- |
+| idle        | 该进程正在等待调用 `check`（见下文）                                      |
+| check       | 该进程正在检查以更新                                                      |
+| prepare     | 该进程正在准备更新（例如，下载已更新的模块）                              |
+| ready       | 此更新已准备并可用                                                        |
+| dispose     | 该进程正在调用将被替换模块的 `dispose` 处理函数                           |
 | apply       | 该进程正在调用 `accept` 处理函数，并重新执行自我接受(self-accepted)的模块 |
-| abort       | 更新已中止，但系统仍处于之前的状态 |
-| fail        | 更新已抛出异常，系统状态已被破坏 |
-
+| abort       | 更新已中止，但系统仍处于之前的状态                                        |
+| fail        | 更新已抛出异常，系统状态已被破坏                                          |
 
 ### check $#check$
 
@@ -350,7 +349,7 @@ import.meta.webpackHot
 
 注册一个函数来监听 `status` 的变化。
 
-``` js
+```js
 module.hot.addStatusHandler((status) => {
   // 响应当前状态...
 });

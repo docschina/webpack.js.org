@@ -30,7 +30,7 @@ translators:
 
 `object`
 
-配置模块如何解析。例如，当在 ES2015 中调用 `import 'lodash'`，`resolve` 选项能够对 webpack 查找 `'lodash'` 的方式去做修改（查看[`模块`](#resolve-modules)）。
+配置模块如何解析。例如，当在 ES2015 中调用 `import 'lodash'`，`resolve` 选项能够对 webpack 查找 `'lodash'` 的方式去做修改（查看[`模块`](#resolvemodules)）。
 
 **webpack.config.js**
 
@@ -125,7 +125,7 @@ import Test2 from 'xyz/file.js'; // 非精确匹配，触发普通解析
 
 W> `resolve.alias` 优先级高于其它模块解析方式。
 
-W> [`null-loader`](https://github.com/webpack-contrib/null-loader) 在webpack5中被废弃。使用 `alias: { xyz$: false }` 或绝对路径 `alias: {[path.resolve(__dirname, './path/to/module')]: false }`
+W> [`null-loader`](https://github.com/webpack-contrib/null-loader) 在 webpack5 中被废弃。使用 `alias: { xyz$: false }` 或绝对路径 `alias: {[path.resolve(__dirname, './path/to/module')]: false }`
 
 W> `[string]` 字符串值在 webapck 5 中被支持。
 
@@ -157,7 +157,7 @@ module.exports = {
 };
 ```
 
-### resolve.aliasFields  $#resolvealiasfields$
+### resolve.aliasFields $#resolvealiasfields$
 
 `[string]: ['browser']`
 

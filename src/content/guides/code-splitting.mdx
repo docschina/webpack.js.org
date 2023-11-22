@@ -241,7 +241,7 @@ webpack 5.4.0 compiled successfully in 249 ms
   };
 ```
 
-使用 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimization-splitchunks) 配置选项后构建，将会发现 `index.bundle.js` 和 `another.bundle.js` 已经移除了重复的依赖模块。从插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了 bundle 大小。执行 `npm run build` 查看效果：
+使用 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimizationsplitchunks) 配置选项后构建，将会发现 `index.bundle.js` 和 `another.bundle.js` 已经移除了重复的依赖模块。从插件将 `lodash` 分离到单独的 chunk，并且将其从 main bundle 中移除，减轻了 bundle 大小。执行 `npm run build` 查看效果：
 
 ```bash
 ...
@@ -261,15 +261,15 @@ webpack 5.4.0 compiled successfully in 241 ms
 
 以下是由社区提供，对代码分离很有帮助的 plugin 和 loader：
 
-- [`mini-css-extract-plugin`](plugins/mini-css-extract-plugin)：用于将 CSS 从主应用程序中分离。
+- [`mini-css-extract-plugin`](/plugins/mini-css-extract-plugin)：用于将 CSS 从主应用程序中分离。
 
 ## 动态导入 $#dynamic-imports$
 
-webpack 提供了两个类似的技术实现动态代码分离。第一种，也是推荐选择的方式，是使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods/#import-1) 实现动态导入。第二种则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods/#requireensure)。让我们先尝试使用第一种。
+webpack 提供了两个类似的技术实现动态代码分离。第一种，也是推荐选择的方式，是使用符合 [ECMAScript 提案](https://github.com/tc39/proposal-dynamic-import) 的 [`import()` 语法](/api/module-methods/#import) 实现动态导入。第二种则是 webpack 的遗留功能，使用 webpack 特定的 [`require.ensure`](/api/module-methods/#requireensure)。让我们先尝试使用第一种。
 
 W> 调用 `import()` 会在内部使用 [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。因此如果在旧版本浏览器中（如 IE 11）使用 `import()`，需要使用一个 polyfill 库（例如 [es6-promise](https://github.com/stefanpenner/es6-promise) 或 [promise-polyfill](https://github.com/taylorhakes/promise-polyfill)）shim `Promise`。
 
-在我们开始之前，先从上述示例的配置中移除多余的 [`entry`](/concepts/entry-points/) 和 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimization-splitchunks)，因为接下来的演示中并不需要它们：
+在我们开始之前，先从上述示例的配置中移除多余的 [`entry`](/concepts/entry-points/) 和 [`optimization.splitChunks`](/plugins/split-chunks-plugin/#optimizationsplitchunks)，因为接下来的演示中并不需要它们：
 
 **webpack.config.js**
 

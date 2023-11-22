@@ -436,7 +436,7 @@ module.exports = {
 
 用于设置入口支持的 wasm 加载类型的列表。
 
-```javascript
+````javascript
 module.exports = {
   //...
   output: {
@@ -473,7 +473,7 @@ module.exports = {
     },
   },
 };
-```
+````
 
 ## output.filename $#outputfilename$
 
@@ -601,16 +601,16 @@ module.exports = {
 
 可在文件层面替换的内容：
 
-| 模板       | 描述                                    |
-| ---------- | --------------------------------------- |
-| [file]     | filename 和路径，不含 query 或 fragment |
-| [query]    | 带前缀 `?` 的 query                     |
-| [fragment] | 带前缀 `#` 的 fragment                  |
-| [base]     | 只有 filename（包含扩展名），不含 path  |
-| [filebase] | 同上，但已弃用                          |
-| [path]     | 只有 path，不含 filename                |
-| [name]     | 只有 filename，不含扩展名或 path        |
-| [ext]      | 带前缀 `.` 的扩展名（对 [output.filename](#outputfilename) 不可用）                     |
+| 模板       | 描述                                                                |
+| ---------- | ------------------------------------------------------------------- |
+| [file]     | filename 和路径，不含 query 或 fragment                             |
+| [query]    | 带前缀 `?` 的 query                                                 |
+| [fragment] | 带前缀 `#` 的 fragment                                              |
+| [base]     | 只有 filename（包含扩展名），不含 path                              |
+| [filebase] | 同上，但已弃用                                                      |
+| [path]     | 只有 path，不含 filename                                            |
+| [name]     | 只有 filename，不含扩展名或 path                                    |
+| [ext]      | 带前缀 `.` 的扩展名（对 [output.filename](#outputfilename) 不可用） |
 
 可在 URL 层面替换的内容：
 
@@ -873,7 +873,7 @@ export function hello(name) {
 
    查看 [示例](https://github.com/webpack/webpack/tree/main/examples/multi-part-library) 获取更多内容。
 
-   请注意，如果你打算在每个入口点配置 library 配置项的话，以上配置将不能按照预期执行。这里是如何 [在每个入口点下](/concepts/entry-points/#entrydescription-object) 做的方法：
+   请注意，如果你打算在每个入口点配置 library 配置项的话，以上配置将不能按照预期执行。这里是如何 [在每个入口点下](/concepts/entry-points/#entry-description-object) 做的方法：
 
    ```js
    module.exports = {
@@ -995,7 +995,7 @@ module.exports = {
 };
 ```
 
-与 [`type: 'assign'`](#type-assign) 相似但是更安全，因为如果 `MyLibrary` 已经存在的话，它将被重用：
+与 [`type: 'assign'`](#typeassign) 相似但是更安全，因为如果 `MyLibrary` 已经存在的话，它将被重用：
 
 ```js
 // 仅在当其不存在是创建 MyLibrary
@@ -1621,7 +1621,7 @@ MyLibrary.doSomething();
 
 #### libraryTarget: 'assign' $#libraryTarget-assign$
 
-W> 最好使用 [`output.library.type: 'assign'`](#type-assign)。
+W> 最好使用 [`output.library.type: 'assign'`](#typeassign)。
 
 这将产生一个隐含的全局变量，可能会潜在地重新分配到全局中已存在的值（谨慎使用）：
 
@@ -1635,7 +1635,7 @@ MyLibrary = _entry_return_;
 
 <Badge text="5.16.0+" />
 
-W> 最好使用 [output.library.type: 'assign-properties'`](#type-assign-properties)。
+W> 最好使用 [output.library.type: 'assign-properties'`](#typeassignproperties)。
 
 如果目标对象存在，则将返回值 copy 到目标对象，否则先创建目标对象：
 
@@ -1675,7 +1675,7 @@ W> 注意，不设置 `output.library` 将导致由入口起点返回的所有�
 
 #### libraryTarget: 'this' $#librarytarget-this$
 
-W> 最好使用 [`output.library.type: 'this'`](#type-this)。
+W> 最好使用 [`output.library.type: 'this'`](#typethis)。
 
 **入口起点的返回值**将分配给 this 的一个属性（此名称由 `output.library` 定义）下，`this` 的含义取决于你：
 
@@ -1713,7 +1713,7 @@ global.MyLibrary.doSomething();
 
 #### libraryTarget: 'commonjs' $#librarytarget-commonjs$
 
-W> 最好使用 [`output.library.type: 'commonjs'`](#type-commonjs)。
+W> 最好使用 [`output.library.type: 'commonjs'`](#type-commmonjs)。
 
 **入口起点的返回值**将使用 `output.library` 中定义的值，分配给 exports 对象。这个名称也意味着，模块用于 CommonJS 环境：
 
@@ -1737,7 +1737,7 @@ W> 最好使用 [`output.library.type: 'module'`](#type-module)。
 
 #### libraryTarget: 'commonjs2' $#librarytarget-commonjs2$
 
-W> 最好使用 [`output.library.type: 'commonjs2'`](#type-commonjs2)。
+W> 最好使用 [`output.library.type: 'commonjs2'`](#type-commmonjs2)。
 
 **入口起点的返回值**将分配给 `module.exports` 对象。这个名称也意味着模块用于 CommonJS 环境：
 
@@ -2024,7 +2024,7 @@ T> 这些注释也会被添加至经过 tree shaking 后生成的 bundle 中。
   - `function`
   - `string`
 
-    targets 设置为 `web` 与 `web-worker` 时 `output.publicPath` 默认为 `'auto'`，查看[该指南](/guides/public-path/#automatic-publicpath)获取其用例
+    targets 设置为 `web` 与 `web-worker` 时 `output.publicPath` 默认为 `'auto'`，查看 [该指南](/guides/public-path/#Automatic-publicPath-automaticpublicPath) 获取其用例
 
 对于按需加载(on-demand-load)或加载外部资源(external resources)（如图片、文件等）来说，output.publicPath 是很重要的选项。如果指定了一个错误的值，则在加载这些资源时会收到 404 错误。
 
@@ -2131,7 +2131,7 @@ module.exports = {
 
 仅在 [`devtool`](/configuration/devtool/) 设置为 `'source-map'` 时有效，此选项会向硬盘写入一个输出文件。
 
-可以使用 [#output-filename](#output-filename) 中的 `[name]`, `[id]`, `[hash]` 和 `[chunkhash]` 替换符号。除此之外，还可以使用 [Template strings](/configuration/output/#template-strings) 在 Filename-level 下替换。
+可以使用 [#output-filename](#outputfilename) 中的 `[name]`, `[id]`, `[hash]` 和 `[chunkhash]` 替换符号。除此之外，还可以使用 [Template strings](/configuration/output/#template-strings) 在 Filename-level 下替换。
 
 ## output.sourcePrefix $#outputsourceprefix$
 

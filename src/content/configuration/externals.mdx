@@ -67,7 +67,7 @@ $('.my-element').animate(/* ... */);
 
 ### 字符串 $#string$
 
-根据 [externalsType](#externalstype)，这可能是全局变量的名称（参见 [`'global'`](#externalstypeglobal)、[`'this'`](#externalstypethis)、[`'var '`](#externalstypevar), [`'window'`](#externalstypewindow)) 或模块的名称（参见 `amd`, [`commonjs`](#externalstypecommonjs), [`module`](#externalstypemodule ), `umd`)。
+根据 [externalsType](#externalstype)，这可能是全局变量的名称（参见 [`'global'`](#externalsTypeglobal)、[`'this'`](#externalsTypethis)、[`'var '`](#externalsTypevar), [`'window'`](#externalsTypewindow)) 或模块的名称（参见 `amd`, [`commonjs`](#externalsTypecommonjs), [`module`](#externalsTypemodule), `umd`)。
 
 如果你只定义 1 个 external，您也可以使用快捷语法：
 
@@ -91,7 +91,7 @@ module.exports = {
 
 您可以使用 `${externalsType} ${libraryName}` 语法为外部指定 [外部库类型](#externalstype)。 它将覆盖 [externalsType](#externalstype) 选项中指定的默认外部库类型。
 
-例如，如果外部库是一个 [CommonJS 模块](#externalstypecommonjs)，你可以指定
+例如，如果外部库是一个 [CommonJS 模块](#externalsTypecommonjs)，你可以指定
 
 ```javascript
 module.exports = {
@@ -180,7 +180,7 @@ module.exports = {
 回调函数接收三个入参：
 
 - `err` (`Error`): 被用于表明在外部外引用的时候是否会产生错误。如果有错误，这将会是唯一被用到的参数。
-- `result` (`string` `[string]` `object`): 描述外部化的模块。可以接受其它标准化外部化模块格式，([`string`](#string), [`[string]`](#string-1)，或 [`object`](#object))。
+- `result` (`string` `[string]` `object`): 描述外部化的模块。可以接受其它标准化外部化模块格式，([`string`](#string), [`[string]`](#string)，或 [`object`](#object))。
 - `type` (`string`): 可选的参数，用于指明模块的 [external type](#externalstype)（如果它没在 `result` 参数中被指明）。
 
 作为例子，要外部化所有匹配一个正则表达式的引入，你可以像下面那样处理：
@@ -348,22 +348,22 @@ module.exports = {
 - `'amd'`
 - `'amd-require'`
 - `'assign'` - same as `'var'`
-- [`'commonjs'`](#externalstypecommonjs)
+- [`'commonjs'`](#externalsTypecommonjs)
 - `'commonjs-module'`
-- [`'global'`](#externalstypeglobal)
+- [`'global'`](#externalsTypeglobal)
 - `'import'` - uses `import()` to load a native EcmaScript module (async module)
 - `'jsonp'`
-- [`'module'`](#externalstypemodule)
-- [`'node-commonjs'`](#externalstypenode-commonjs)
-- [`'promise'`](#externalstypepromise) - 与 `'var'` 相同，但是会 await 结果（适用于 async 模块）
-- [`'self'`](#externalstypeself)
+- [`'module'`](#externalsTypemodule)
+- [`'node-commonjs'`](#externalsTypenode-commonjs)
+- [`'promise'`](#externalsTypepromise) - 与 `'var'` 相同，但是会 await 结果（适用于 async 模块）
+- [`'self'`](#externalsTypeself)
 - `'system'`
-- [`'script'`](#externalstypescript)
-- [`'this'`](#externalstypethis)
+- [`'script'`](#externalsTypescript)
+- [`'this'`](#externalsTypethis)
 - `'umd'`
 - `'umd2'`
-- [`'var'`](#externalstypevar)
-- [`'window'`](#externalstypewindow)
+- [`'var'`](#externalsTypevar)
+- [`'window'`](#externalsTypewindow)
 
 **webpack.config.js**
 
@@ -441,7 +441,7 @@ jq('.my-element').animate(/* ... */);
 
 将 externals 类型设置为 `'module'`，webpack 将会在 module 中为外部引用生成形如 `import * as X from '...'` 的代码。
 
-确保首先把 [`experiments.outputModule`](/configuration/experiments/#experimentsoutputmodule) 设置为 `true`, 否则 webpack 将会报错。
+确保首先把 [`experiments.outputModule`](/configuration/experiments/#experimentsoutputModule) 设置为 `true`, 否则 webpack 将会报错。
 
 #### Example
 
@@ -513,7 +513,7 @@ jq('.my-element').animate(/* ... */);
 
 ### externalsType.promise
 
-将外部的默认类型指定为 `'promise'`。Webpack 会将 external 读取为全局变量（类似于 [`'var'`](#externalstypevar)）并为它执行 `await`。
+将外部的默认类型指定为 `'promise'`。Webpack 会将 external 读取为全局变量（类似于 [`'var'`](#externalsTypevar)）并为它执行 `await`。
 
 #### Example
 
@@ -543,7 +543,7 @@ jq('.my-element').animate(/* ... */);
 
 ### externalsType.self
 
-将外部的默认类型指定为  `'self'`。 Webpack 会将 external 作为 `self` 对象上的全局变量读取。
+将外部的默认类型指定为 `'self'`。 Webpack 会将 external 作为 `self` 对象上的全局变量读取。
 
 #### 示例 $#example$
 
@@ -762,7 +762,7 @@ jq('.my-element').animate(/* ... */);
 | `web`              | 将 `http(s)://...` 以及 `std:...` 视为 external 模块，使用时通过 `import` 加载。**（注意，这将改变执行顺序，因为 external 代码会在该块中的其他代码执行前被执行）**。    | boolean  |
 | `webAsync`         | 将 'http(s)://...' 以及 'std:...' 的引用视为 external 模块，使用时通过 `async import()` 加载。**（注意，此 external 类型为 `async` 模块，它对执行会产生各种副作用）**。 | boolean  |
 
-Note that if you're going to output ES Modules with those node.js-related presets, webpack will set the default `externalsType` to [`node-commonjs`](#externalstypenode-commonjs) which would use `createRequire` to construct a require function instead of using `require()`.
+Note that if you're going to output ES Modules with those node.js-related presets, webpack will set the default `externalsType` to [`node-commonjs`](#externalsTypenode-commonjs) which would use `createRequire` to construct a require function instead of using `require()`.
 
 **Example**
 

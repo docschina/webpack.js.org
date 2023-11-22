@@ -291,7 +291,7 @@ Enable or disable evaluating `import.meta`.
 
 #### module.parser.javascript.importMetaContext
 
-启用/禁用 [`import.meta.webpackContext`](/api/module-variables/#importmetawebpackcontext) 分析。
+启用/禁用 [`import.meta.webpackContext`](/api/module-variables/#importmetawebpackContext) 分析。
 
 - 类型：`boolean`
 - 可用版本：5.70.0+
@@ -311,7 +311,7 @@ Enable or disable evaluating `import.meta`.
 
 #### module.parser.javascript.reexportExportsPresence
 
-指出在  `\"export ... from ...\"` 中无效导出名称的行为。当在 TypeScript 重新导出类型，从 `\"export ... from ...\"` 迁移到 `\"export type ... from ...\"` 时禁用该配置项是有用的。
+指出在 `\"export ... from ...\"` 中无效导出名称的行为。当在 TypeScript 重新导出类型，从 `\"export ... from ...\"` 迁移到 `\"export type ... from ...\"` 时禁用该配置项是有用的。
 
 - 类型：`'error' | 'warn' | 'auto' | false`
 - 可用版本：5.62.0+
@@ -430,7 +430,7 @@ module.exports = {
 
 **例如：** 从 `app.js` `导入 './style.css'`，resource 是 `/path/to/style.css`. issuer 是 `/path/to/app.js`。
 
-在规则中，属性 [`test`](#rule-test), [`include`](#rule-include), [`exclude`](#rule-exclude) 和 [`resource`](#rule-resource) 对 resource 匹配，并且属性 [`issuer`](#rule-issuer) 对 issuer 匹配。
+在规则中，属性 [`test`](#ruletest), [`include`](#ruleinclude), [`exclude`](#ruleexclude) 和 [`resource`](#ruleresource) 对 resource 匹配，并且属性 [`issuer`](#ruleissuer) 对 issuer 匹配。
 
 当使用多个条件时，所有条件都匹配。
 
@@ -448,17 +448,17 @@ W> 小心！resource 是文件的 _解析_ 路径，这意味着符号链接的�
 1. 应用的 loader：应用在 resource 上的 loader 数组。
 2. Parser 选项：用于为模块创建解析器的选项对象。
 
-这些属性会影响 loader：[`loader`](#rule-loader), [`options`](#rule-options-rule-query), [`use`](#rule-use)。
+这些属性会影响 loader：[`loader`](#ruleloader), [`options`](#ruleoptions--rulequery), [`use`](#ruleuse)。
 
-也兼容这些属性：[`query`](#rule-options-rule-query), [`loaders`](#rule-loaders)。
+也兼容这些属性：[`query`](#ruleoptions--rulequery), [`loaders`](#ruleloaders)。
 
-[`enforce`](#rule-enforce) 属性会影响 loader 种类。不论是普通的，前置的，后置的 loader。
+[`enforce`](#ruleenforce) 属性会影响 loader 种类。不论是普通的，前置的，后置的 loader。
 
-[`parser`](#rule-parser) 属性会影响 parser 选项。
+[`parser`](#ruleparser) 属性会影响 parser 选项。
 
 ## 嵌套的 Rule $#nested-rules$
 
-可以使用属性 [`rules`](#rule-rules) 和 [`oneOf`](#rule-oneof) 指定嵌套规则。
+可以使用属性 [`rules`](#rulerules) 和 [`oneOf`](#ruleoneof) 指定嵌套规则。
 
 这些规则用于在规则条件(rule condition)匹配时进行取值。每个嵌套规则包含它自己的条件。
 
@@ -505,11 +505,11 @@ import { c } from '!!./file3.js';
 
 ## Rule.exclude $#ruleexclude$
 
-排除所有符合条件的模块。如果你提供了 `Rule.exclude` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#rule-resource) 和 [`Condition.exclude`](#condition)。
+排除所有符合条件的模块。如果你提供了 `Rule.exclude` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#ruleresource) 和 [`Condition.exclude`](#condition)。
 
 ## Rule.include $#ruleinclude$
 
-引入符合以下任何条件的模块。如果你提供了 `Rule.include` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#rule-resource) 和 [`Condition.include`](#condition)。
+引入符合以下任何条件的模块。如果你提供了 `Rule.include` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#ruleresource) 和 [`Condition.include`](#condition)。
 
 ## Rule.issuer $#ruleissuer$
 
@@ -630,7 +630,7 @@ T> 详情请参阅 [`嵌套规则`](#nested-rules)。
 
 ## Rule.options / Rule.query $#ruleoptions--rulequery$
 
-`Rule.options` 和 `Rule.query` 是 `Rule.use: [ { options } ]` 的简写。详细请查看 [`Rule.use`](#rule-use)
+`Rule.options` 和 `Rule.query` 是 `Rule.use: [ { options } ]` 的简写。详细请查看 [`Rule.use`](#ruleuse)
 和 [`UseEntry.options`](#useentry)。
 
 W> 由于需要支持 `Rule.options`，`UseEntry.options` 以及 `Rule.use`，因此 `Rule.query` 已废弃。
@@ -670,12 +670,12 @@ module.exports = {
           node: false, // 禁用 __dirname, __filename, module, require.extensions, require.main, 等。
           commonjsMagicComments: false, // 禁用对 CommonJS 的  magic comments 支持
           node: {}, // 在模块级别(module level)上重新配置 node 层(layer)
-          worker: ["default from web-worker", "..."] // 自定义 WebWorker 对 JavaScript 的处理，其中 "..." 为默认值。
-        }
-      }
-    ]
-  }
-}
+          worker: ['default from web-worker', '...'], // 自定义 WebWorker 对 JavaScript 的处理，其中 "..." 为默认值。
+        },
+      },
+    ],
+  },
+};
 ```
 
 如果 `Rule.type` 的值为 `asset`，那么 `Rules.parser` 选项可能是一个对象或一个函数，其作用可能是将文件内容编码为 Base64，还可能是将其当做单独文件 emit 到输出目录。
@@ -903,7 +903,7 @@ module.exports = {
 
 ## Rule.resource $#ruleresource$
 
-[`条件`](#条件)会匹配 resource。在 [`Rule` 条件](#rule-conditions) 中查阅详情。
+[`条件`](#rule)会匹配 resource。在 [`Rule` 条件](#rule-conditions) 中查阅详情。
 
 ## Rule.resourceQuery $#ruleresourcequery$
 
@@ -990,7 +990,7 @@ module.exports = {
 
 ## Rule.test $#ruletest$
 
-引入所有通过断言测试的模块。如果你提供了一个 `Rule.test` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#rule-resource) 和 [`Condition.test`](#condition)。
+引入所有通过断言测试的模块。如果你提供了一个 `Rule.test` 选项，就不能再提供 `Rule.resource`。详细请查看 [`Rule.resource`](#ruleresource) 和 [`Condition.test`](#condition)。
 
 ## Rule.type $#ruletype$
 
@@ -1366,4 +1366,4 @@ T> 你可以使用 `ContextReplacementPlugin` 来修改这些单个依赖的值�
 - `strictExportPresence` 将缺失的导出提示成错误而不是警告
 - 为部分动态依赖项设置内部正则表达式：`wrappedContextRegExp: /\\.\\*/`
 
-W> 为支持 [`exportsPresence`](#moduleparserjavascriptexportspresence) 配置项，`strictExportPresence` 已被废弃。
+W> 为支持 [`exportsPresence`](#moduleparserjavascript) 配置项，`strictExportPresence` 已被废弃。

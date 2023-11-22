@@ -29,7 +29,7 @@ translators:
 
 - 在 `package.json` 中为 `.mjs` 或 `.js` 设置 `"type": "module"`
   - 不允许使用 CommonJS，例如，你不能使用 `require`，`module.exports` 或 `exports`
-  - 当引入文件时，强制编写扩展名，例如，你应使用 `import './src/App.mjs'`，而非 `import './src/App'`（你可以通过设置 [`Rule.resolve.fullySpecified`](/configuration/module/#resolvefullyspecified) 来禁用此规则)
+  - 当引入文件时，强制编写扩展名，例如，你应使用 `import './src/App.mjs'`，而非 `import './src/App'`（你可以通过设置 [`Rule.resolve.fullySpecified`](/configuration/module/#resolve-fully-specified) 来禁用此规则)
 - 在 `package.json` 中为 `.cjs` 或 `.js` 设置 `"type": "commonjs"`
   - `import` 和 `export` 均不可用
 - 在 `package.json` 中为 `.wasm` 设置 `"type": "module"`
@@ -64,7 +64,7 @@ import {
 
 `默认`导出整个模块或具名导出模块。
 
-``` javascript
+```javascript
 // 具名导出
 export var Count = 5;
 export function Multiply(a, b) {
@@ -99,7 +99,7 @@ W> import() 特性依赖于内置的 [`Promise`](https://developer.mozilla.org/e
 
 不能使用完全动态的 import 语句，例如 `import(foo)`。是因为 `foo` 可能是系统或项目中任何文件的任何路径。
 
-`import()` 必须至少包含一些关于模块的路径信息。打包可以限定于一个特定的目录或文件集，以便于在使用动态表达式时 - 包括可能在 `import()` 调用中请求的每个模块。例如， ``import(`./locale/${language}.json`)`` 会把 `.locale` 目录中的每个 `.json` 文件打包到新的 chunk 中。在运行时，计算完变量 `language` 后，就可以使用像 `english.json` 或 `german.json` 的任何文件。
+`import()` 必须至少包含一些关于模块的路径信息。打包可以限定于一个特定的目录或文件集，以便于在使用动态表达式时 - 包括可能在 `import()` 调用中请求的每个模块。例如， `` import(`./locale/${language}.json`) `` 会把 `.locale` 目录中的每个 `.json` 文件打包到新的 chunk 中。在运行时，计算完变量 `language` 后，就可以使用像 `english.json` 或 `german.json` 的任何文件。
 
 ```javascript
 // 想象我们有一个从 cookies 或其他存储中获取语言的方法
@@ -115,7 +115,7 @@ T> 使用 [`webpackInclude` and `webpackExclude`](/api/module-methods/#magic-com
 
 内联注释使这一特性得以实现。通过在 import 中添加注释，我们可以进行诸如给 chunk 命名或选择不同模式的操作。
 
-``` js
+```js
 // 单个目标
 import(
   /* webpackChunkName: "my-chunk-name" */
@@ -149,7 +149,7 @@ W> 注意：将 `webpackIgnore` 设置为 `true` 则不进行代码分离。
 `webpackMode`：从 webpack 2.6.0 开始，可以指定以不同的模式解析动态导入。支持以下选项：
 
 - `'lazy'` (默认值)：为每个 `import()` 导入的模块生成一个可延迟加载（lazy-loadable）的 chunk。
-- `'lazy-once'`：生成一个可以满足所有 `import()` 调用的单个可延迟加载（lazy-loadable）的 chunk。此 chunk 将在第一次 `import()` 时调用时获取，随后的 `import()` 则使用相同的网络响应。注意，这种模式仅在部分动态语句中有意义，例如 ``import(`./locales/${language}.json`)``，其中可能含有多个被请求的模块路径。
+- `'lazy-once'`：生成一个可以满足所有 `import()` 调用的单个可延迟加载（lazy-loadable）的 chunk。此 chunk 将在第一次 `import()` 时调用时获取，随后的 `import()` 则使用相同的网络响应。注意，这种模式仅在部分动态语句中有意义，例如 `` import(`./locales/${language}.json`) ``，其中可能含有多个被请求的模块路径。
 - `'eager'`：不会生成额外的 chunk。所有的模块都被当前的 chunk 引入，并且没有额外的网络请求。但是仍会返回一个 resolved 状态的 `Promise`。与静态导入相比，在调用 `import()` 完成之前，该模块不会被执行。
 - `'weak'`：尝试加载模块，如果该模块函数已经以其他方式加载，（即另一个 chunk 导入过此模块，或包含模块的脚本被加载）。仍会返回 `Promise`， 但是只有在客户端上已经有该 chunk 时才会成功解析。如果该模块不可用，则返回 rejected 状态的 `Promise`，且网络请求永远都不会执行。当需要的 chunks 始终在（嵌入在页面中的）初始请求中手动提供，而不是在应用程序导航在最初没有提供的模块导入的情况下触发，这对于通用渲染（SSR）是非常有用的。
 
@@ -275,7 +275,7 @@ define([name: String], [dependencies: String[]], factoryMethod: function(...))
 
 W> 注意：webpack 会忽略 `name` 参数。
 
-``` javascript
+```javascript
 define(['jquery', 'my-module'], function ($, myModule) {
   // 使用 $ 和 myModule 做一些操作...
 
@@ -389,7 +389,7 @@ context('localeA').then((locale) => {
 });
 ```
 
-`mode` 的可用模式及说明的完整列表在 [`import()`](#import-1) 文档中进行了描述。
+`mode` 的可用模式及说明的完整列表在 [`import()`](#import) 文档中进行了描述。
 
 ### require.include $#requireinclude$
 
@@ -421,7 +421,7 @@ require.ensure(['a', 'c'], function (require) {
 
 与 `require.resolve` 类似，但是不会把 `module` 引入到 bundle 中。这就是所谓的“弱（weak）”依赖。
 
-``` javascript
+```javascript
 if (__webpack_modules__[require.resolveWeak('module')]) {
   // 当模块可用时，执行一些操作……
 }
@@ -435,7 +435,7 @@ const page = 'Foo';
 __webpack_modules__[require.resolveWeak(`./page/${page}`)];
 ```
 
-T> `require.resolveWeak` 是_通用渲染_（服务器端渲染 SSR + 代码分离 Code Splitting）的基础。例如在 [react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中的用法。它允许代码在服务器端和客户端初始页面的加载上同步渲染。它要求手动或以某种方式提供 chunk。它可以在不需要指示应该被打包的情况下引入模块。它与 `import()` 一起使用，当用户导航触发额外的导入时，它会被接管。
+T> `require.resolveWeak` 是*通用渲染*（服务器端渲染 SSR + 代码分离 Code Splitting）的基础。例如在 [react-universal-component](https://github.com/faceyspacey/react-universal-component) 等包中的用法。它允许代码在服务器端和客户端初始页面的加载上同步渲染。它要求手动或以某种方式提供 chunk。它可以在不需要指示应该被打包的情况下引入模块。它与 `import()` 一起使用，当用户导航触发额外的导入时，它会被接管。
 
 ### warning
 

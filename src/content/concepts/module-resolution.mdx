@@ -66,7 +66,7 @@ import 'module/lib/file';
 
 如果路径指向一个文件夹，则进行如下步骤寻找具有正确扩展名的文件：
 
-- 如果文件夹中包含 `package.json` 文件，则会根据 [`resolve.mainFields`](/configuration/resolve/#resolve-mainfields) 配置中的字段顺序查找，并根据 `package.json` 中的符合配置要求的第一个字段来确定文件路径。
+- 如果文件夹中包含 `package.json` 文件，则会根据 [`resolve.mainFields`](/configuration/resolve/#resolvemainfields) 配置中的字段顺序查找，并根据 `package.json` 中的符合配置要求的第一个字段来确定文件路径。
 - 如果不存在 `package.json` 文件或 [`resolve.mainFields`](/configuration/resolve/#resolvemainfields) 没有返回有效路径，则会根据 [`resolve.mainFiles`](/configuration/resolve/#resolvemainfiles) 配置选项中指定的文件名顺序查找，看是否能在 import/require 的目录下匹配到一个存在的文件名。
 - 然后使用 [`resolve.extensions`](/configuration/resolve/#resolveextensions) 选项，以类似的方式解析文件扩展名。
 

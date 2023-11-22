@@ -145,8 +145,8 @@ module.exports = {
 |                名称                 |         类型         |          默认值           | 描述                                      |
 | :---------------------------------: | :------------------: | :-----------------------: | :---------------------------------------- |
 |        [`execute`](#execute)        |     `{Boolean}`      |        `undefined`        | 在 `CSS-in-JS` 中启动 PostCSS Parser 支持 |
-| [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
-|      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |    `compiler.devtool`     | 开启 / 关闭 source map 的生成             |
+|    [`postcssOptions`](#options)     | `{Object\|Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
+|     [`sourceMap`](#source-map)      |     `{Boolean}`      |    `compiler.devtool`     | 开启 / 关闭 source map 的生成             |
 | [`implementation`](#implementation) | `{Function\|String}` |         `postcss`         | 为 PostCSS 设置对应实现并使用             |
 
 ### `execute`
@@ -196,7 +196,7 @@ module.exports = {
 这是配置文件中特殊的 `配置` 选项。它如何工作、如何配置再接下来的部分将会有详细的描述。
 
 因为可能会导致 source map 中错误的文件路径，我们不推荐使用指定的 `from`、`to` 和 `map` 选项。
-如果你需要 source map，请使用 [`sourcemap`](#sourcemap) 选项。
+如果你需要 source map，请使用 [`sourcemap`](#source-map) 选项。
 
 #### `Object`
 
