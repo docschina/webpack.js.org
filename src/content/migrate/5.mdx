@@ -103,7 +103,7 @@ T> webpack 5 从配置中移除了这些选项，并始终赋值 `false`。
 
 如果你之前在升级 webpack 4 时不能将某些插件或者 loader 升级到最新版本，现在不要忘了升级。
 
-#### 清理配置 $#clean-up-configuration$
+### 清理配置 $#clean-up-configuration$
 
 - 请考虑将 `optimization.moduleIds` 和 `optimization.chunkIds` 从你 webpack 配置中移除。使用默认值会更合适，因为它们会在 [`production 模式`](/configuration/mode/#mode-production) 下支持长效缓存且可以在 [`development` 模式](/configuration/mode/#mode-development)下进行调试。
 - 当 webpack 配置中使用了 `[hash]` 占位符时，请考虑将它改为 `[contenthash]`。效果一致，但事实证明会更为有效。

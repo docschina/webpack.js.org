@@ -8,28 +8,32 @@ translators:
   - QC-L
   - jacob-lcs
 ---
+
 <div align="center">
-  <img 
-    width="180" 
-    height="180" 
+  <img
+    width="180"
+    height="180"
     hspace="10"
     alt="PostCSS Logo"
-    src="https://api.postcss.org/logo.svg"/>
+    src="https://api.postcss.org/logo.svg"
+  />
   <a href="https://github.com/webpack/webpack">
-    <img 
-      width="200" 
-      height="200" 
+    <img
+      width="200"
+      height="200"
       hspace="10"
-      src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg"/>
+      src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg"
+    />
   </a>
   <div align="center">
     <a href="https://evilmartians.com/?utm_source=postcss">
-      <img 
+      <img
         src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-        alt="Sponsored by Evil Martians" 
-        width="236" 
-        height="54" 
-        vspace="10"/>
+        alt="Sponsored by Evil Martians"
+        width="236"
+        height="54"
+        vspace="10"
+      />
     </a>
   </div>
 </div>
@@ -44,8 +48,6 @@ translators:
 Webpack chat: [![chat][chat]][chat-url]
 
 PostCSS chat: [![chat-postcss][chat-postcss]][chat-postcss-url]
-
-
 
 使用 [`PostCSS`](https://github.com/postcss/postcss) 处理 CSS 的 loader。
 
@@ -145,7 +147,7 @@ module.exports = {
 |        [`execute`](#execute)        |     `{Boolean}`      |        `undefined`        | 在 `CSS-in-JS` 中启动 PostCSS Parser 支持 |
 | [`postcssOptions`](#postcssoptions) | `{Object\|Function}` | `Postcss.process的默认值` | 设置 `PostCSS` 选项与插件                 |
 |      [`sourceMap`](#sourcemap)      |     `{Boolean}`      |    `compiler.devtool`     | 开启 / 关闭 source map 的生成             |
-| [`implementation`](#implementation) | `{Function\|String}` |               `postcss`               | 为 PostCSS 设置对应实现并使用          |
+| [`implementation`](#implementation) | `{Function\|String}` |         `postcss`         | 为 PostCSS 设置对应实现并使用             |
 
 ### `execute`
 
@@ -460,7 +462,7 @@ module.exports = {
 你可以在不同的目录中使用不同的 `postcss.config.js` 文件。
 配置文件的寻找从 `path.dirname(file)` 开始根据文件树向上寻找，直至找到一个配置文件。
 
-```
+```js
 |– components
 | |– component
 | | |– index.js
@@ -891,7 +893,7 @@ export default {
 };
 ```
 
-> :warning: 如果你正在使用 Babel且为了程序正常工作，你需要进行下面的步骤：
+> :warning: 如果你正在使用 Babel 且为了程序正常工作，你需要进行下面的步骤：
 
 > 1. 添加 [`babel-plugin-add-module-exports`](https://github.com/59naga/babel-plugin-add-module-exports) 到你的配置中。
 > 2. 你需要在每一个样式模块中有一个**默认**导出。

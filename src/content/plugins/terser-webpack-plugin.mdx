@@ -8,9 +8,14 @@ translators:
   - 92hackers
   - QC-L
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -22,8 +27,6 @@ translators:
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 该插件使用 [terser](https://github.com/terser/terser) 来压缩 JavaScript。
 
 ## 入门 $#getting-started$
@@ -33,7 +36,7 @@ webpack v5 开箱即带有最新版本的 `terser-webpack-plugin`。如果你使
 首先，你需要安装 `terser-webpack-plugin`：
 
 ```console
-$ npm install terser-webpack-plugin --save-dev
+npm install terser-webpack-plugin --save-dev
 ```
 
 然后将插件添加到你的 `webpack` 配置文件中。例如：
@@ -41,7 +44,7 @@ $ npm install terser-webpack-plugin --save-dev
 **webpack.config.js**
 
 ```js
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   optimization: {
@@ -66,15 +69,15 @@ module.exports = {
 
 ## 选项 $#options$
 
-|                   选项名                    |                                      类型                                       |                             默认值                             | 描述                                                                  |
-| :---------------------------------------: | :-----------------------------------------------------------------------------: | :-------------------------------------------------------------: | :--------------------------------------------------------------------------- |
-|            **[`test`](#test)**            |                     `String\|RegExp\|Array<String\|RegExp>`                     |                       `/\.m?js(\?.*)?$/i`                       | 用来匹配需要压缩的文件。                                                 |
-|         **[`include`](#include)**         |                     `String\|RegExp\|Array<String\|RegExp>`                     |                           `undefined`                           | 匹配参与压缩的文件。                                                            |
-|            **[`exclude`](#exclude)**             |                     `String\|RegExp\|Array<String\|RegExp>`                     |                           `undefined`                           | 匹配不需要压缩的文件。                                                            |
-|        **[`parallel`](#parallel)**        |                                `Boolean\|Number`                                |                             `true`                              | 使用多进程并发运行以提高构建速度。               |
-|          **[`minify`](#minify)**          |                                   `Function`                                    |                           `TerserPlugin.terserMinify`                           | 允许你自定义压缩函数。                              |
+|                  选项名                   |                                      类型                                       |                            默认值                            | 描述                                                                       |
+| :---------------------------------------: | :-----------------------------------------------------------------------------: | :----------------------------------------------------------: | :------------------------------------------------------------------------- |
+|            **[`test`](#test)**            |                     `String\|RegExp\|Array<String\|RegExp>`                     |                     `/\.m?js(\?.*)?$/i`                      | 用来匹配需要压缩的文件。                                                   |
+|         **[`include`](#include)**         |                     `String\|RegExp\|Array<String\|RegExp>`                     |                         `undefined`                          | 匹配参与压缩的文件。                                                       |
+|         **[`exclude`](#exclude)**         |                     `String\|RegExp\|Array<String\|RegExp>`                     |                         `undefined`                          | 匹配不需要压缩的文件。                                                     |
+|        **[`parallel`](#parallel)**        |                                `Boolean\|Number`                                |                            `true`                            | 使用多进程并发运行以提高构建速度。                                         |
+|          **[`minify`](#minify)**          |                                   `Function`                                    |                 `TerserPlugin.terserMinify`                  | 允许你自定义压缩函数。                                                     |
 |   **[`terserOptions`](#terseroptions)**   |                                    `Object`                                     | [`default`](https://github.com/terser/terser#minify-options) | Terser 的 [minify 选项](https://github.com/terser/terser#minify-options)。 |
-| **[`extractComments`](#extractcomments)** | `Boolean\|String\|RegExp\|Function<(node, comment) -> Boolean\|Object>\|Object` |                             `true`                              | 注释是否需要提取到一个单独的文件中。                      |
+| **[`extractComments`](#extractcomments)** | `Boolean\|String\|RegExp\|Function<(node, comment) -> Boolean\|Object>\|Object` |                            `true`                            | 注释是否需要提取到一个单独的文件中。                                       |
 
 ### `test` $#test$
 
@@ -212,7 +215,7 @@ const minify = (input, sourceMap, minimizerOptions, extractsComments) => {
   // You can use `minimizerOptions.myCustomOption`
 
   // Custom logic for extract comments
-  const { map, code } = require("uglify-module") // Or require('./path/to/uglify-module')
+  const { map, code } = require('uglify-module') // Or require('./path/to/uglify-module')
     .minify(input, {
       /* Your options for minification */
     });
@@ -229,7 +232,7 @@ minify.getMinimizerVersion = () => {
 
   try {
     // eslint-disable-next-line global-require, import/no-extraneous-dependencies
-    packageJson = require("uglify-module/package.json");
+    packageJson = require('uglify-module/package.json');
   } catch (error) {
     // Ignore
   }
@@ -330,7 +333,7 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: "all",
+        extractComments: 'all',
       }),
     ],
   },
@@ -424,7 +427,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         extractComments: {
-          condition: "some",
+          condition: 'some',
           filename: (fileData) => {
             // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
             return `${fileData.filename}.LICENSE.txt${fileData.query}`;
@@ -449,8 +452,8 @@ module.exports = {
 剥离出来的注释将被存储到的文件的文件名。
 默认是将后缀 `.LICENSE.txt` 附加到原始文件名。
 
-> ⚠️我们强烈建议使用 `txt` 扩展名。
-使用 `js` / `cjs` / `mjs` 扩展名可能会与现有资源文件冲突，从而导致代码运行出错。
+> ⚠️ 我们强烈建议使用 `txt` 扩展名。
+> 使用 `js` / `cjs` / `mjs` 扩展名可能会与现有资源文件冲突，从而导致代码运行出错。
 
 **webpack.config.js**
 
@@ -462,7 +465,7 @@ module.exports = {
       new TerserPlugin({
         extractComments: {
           condition: /^\**!|@preserve|@license|@cc_on/i,
-          filename: "extracted-comments.js",
+          filename: 'extracted-comments.js',
           banner: (licenseFile) => {
             return `License information can be found in ${licenseFile}`;
           },
@@ -657,7 +660,7 @@ module.exports = {
             };
           }
 
-          return require("uglify-js").minify(file, uglifyJsOptions);
+          return require('uglify-js').minify(file, uglifyJsOptions);
         },
       }),
     ],
@@ -687,10 +690,10 @@ module.exports = {
 使用内置压缩函数：
 
 ```ts
-import type { JsMinifyOptions as SwcOptions } from "@swc/core";
-import type { MinifyOptions as UglifyJSOptions } from "uglify-js";
-import type { TransformOptions as EsbuildOptions } from "esbuild";
-import type { MinifyOptions as TerserOptions } from "terser";
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
+import type { MinifyOptions as UglifyJSOptions } from 'uglify-js';
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { MinifyOptions as TerserOptions } from 'terser';
 
 module.exports = {
   optimization: {

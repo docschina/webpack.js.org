@@ -7,9 +7,14 @@ translators:
   - jacob-lcs
   - QC-L
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -20,8 +25,6 @@ translators:
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
-
-
 
 允许对源文件设置 `module.exports`/`export`。
 
@@ -38,7 +41,7 @@ translators:
 首先，你需要安装 `exports-loader`：
 
 ```console
-$ npm install exports-loader --save-dev
+npm install exports-loader --save-dev
 ```
 
 ### 内联 $#inline$
@@ -170,10 +173,10 @@ module.exports = {
 
 ## 配置项 $#options$
 
-|           Name            |                   Type                    |   Default   | Description                 |
-| :-----------------------: | :---------------------------------------: | :---------: | :-------------------------- |
+|           Name            |                   Type                    |   Default   | Description    |
+| :-----------------------: | :---------------------------------------: | :---------: | :------------- |
 |    **[`type`](#type)**    |                `{String}`                 |  `module`   | 生成导出的格式 |
-| **[`exports`](#exports)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | 导出的列表             |
+| **[`exports`](#exports)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | 导出的列表     |
 
 ### `type` $#type$
 

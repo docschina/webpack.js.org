@@ -8,6 +8,7 @@ translators:
   - jacob-lcs
   - QC-L
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
     <img width="200" height="200"
@@ -23,8 +24,6 @@ translators:
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
-
-
 
 把 CSS 插入到 DOM 中。
 
@@ -51,7 +50,7 @@ body {
 **component.js**
 
 ```js
-import "./style.css";
+import './style.css';
 ```
 
 **webpack.config.js**
@@ -62,7 +61,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -71,14 +70,14 @@ module.exports = {
 
 ## Options $#options$
 
-|              名称               |         类型         |  默认值   | 描述                                              |
-| :-----------------------------: | :------------------: | :--------: | :------------------------------------------------------- |
-| [**`injectType`**](#injecttype) |      `{String}`      | `styleTag` | 配置把 styles 插入到 DOM 中的方式 |
-| [**`attributes`**](#attributes) |      `{Object}`      |    `{}`    | 添加自定义属性到插入的标签中              |
-|     [**`insert`**](#insert)     | `{String\|Function}` |   `head`   | 在指定的位置插入标签 |
-|    [**`styleTagTransform`**](#styletagtransform)    |      `{String\|Function}`      | `undefined`| 当将 'style' 标签插入到 DOM 中时，转换标签和 css                                |
-|       [**`base`**](#base)       |      `{Number}`      |   `true`   | 基于 (DLLPlugin) 设置 module ID |
-|   [**`esModule`**](#esmodule)   |     `{Boolean}`      |  `false`   | 使用 ES modules 语法                                       |
+|                     名称                      |         类型         |   默认值    | 描述                                             |
+| :-------------------------------------------: | :------------------: | :---------: | :----------------------------------------------- |
+|        [**`injectType`**](#injecttype)        |      `{String}`      | `styleTag`  | 配置把 styles 插入到 DOM 中的方式                |
+|        [**`attributes`**](#attributes)        |      `{Object}`      |    `{}`     | 添加自定义属性到插入的标签中                     |
+|            [**`insert`**](#insert)            | `{String\|Function}` |   `head`    | 在指定的位置插入标签                             |
+| [**`styleTagTransform`**](#styletagtransform) | `{String\|Function}` | `undefined` | 当将 'style' 标签插入到 DOM 中时，转换标签和 css |
+|              [**`base`**](#base)              |      `{Number}`      |   `true`    | 基于 (DLLPlugin) 设置 module ID                  |
+|          [**`esModule`**](#esmodule)          |     `{Boolean}`      |   `false`   | 使用 ES modules 语法                             |
 
 ### `injectType` $#injecttype$
 
@@ -104,7 +103,7 @@ Default: `styleTag`
 **component.js**
 
 ```js
-import "./styles.css";
+import './styles.css';
 ```
 
 使用 Locals (CSS Modules) 的例子：
@@ -112,10 +111,10 @@ import "./styles.css";
 **component-with-css-modules.js**
 
 ```js
-import styles from "./styles.css";
+import styles from './styles.css';
 
-const divElement = document.createElement("div");
-divElement.className = styles["my-class"];
+const divElement = document.createElement('div');
+divElement.className = styles['my-class'];
 ```
 
 导入的对象保存着所有的 locals (class names)。
@@ -163,19 +162,19 @@ module.exports = {
 **component.js**
 
 ```js
-import "./styles.css";
+import './styles.css';
 ```
 
 **component-with-css-modules.js**
 
 ```js
-import styles from "./styles.css";
+import styles from './styles.css';
 
-const divElement = document.createElement("div");
-divElement.className = styles["my-class"];
+const divElement = document.createElement('div');
+divElement.className = styles['my-class'];
 ```
 
-导入的对象保存着所有的 locals  (class names)。
+导入的对象保存着所有的 locals (class names)。
 
 **webpack.config.js**
 
@@ -187,10 +186,10 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
-            options: { injectType: "singletonStyleTag" },
+            loader: 'style-loader',
+            options: { injectType: 'singletonStyleTag' },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -228,7 +227,7 @@ loader 插入的 styles 如下：
 **component.js**
 
 ```js
-import styles from "./styles.lazy.css";
+import styles from './styles.lazy.css';
 
 styles.use();
 // 要移除 styles 时你可以调用
@@ -238,12 +237,12 @@ styles.use();
 **component-with-css-modules.js**
 
 ```js
-import styles from "./styles.lazy.css";
+import styles from './styles.lazy.css';
 
 styles.use();
 
-const divElement = document.createElement("div");
-divElement.className = styles.locals["my-class"];
+const divElement = document.createElement('div');
+divElement.className = styles.locals['my-class'];
 ```
 
 导入的对象的 `locals` 属性保存着所有的 locals (class names)。
@@ -257,13 +256,13 @@ module.exports = {
       {
         test: /\.css$/i,
         exclude: /\.lazy\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.lazy\.css$/i,
         use: [
-          { loader: "style-loader", options: { injectType: "lazyStyleTag" } },
-          "css-loader",
+          { loader: 'style-loader', options: { injectType: 'lazyStyleTag' } },
+          'css-loader',
         ],
       },
     ],
@@ -272,7 +271,6 @@ module.exports = {
 ```
 
 此 loader 插入的 style 效果如下：
-
 
 ```html
 <style>
@@ -302,7 +300,7 @@ module.exports = {
 **component.js**
 
 ```js
-import styles from "./styles.css";
+import styles from './styles.css';
 
 styles.use();
 // 要移除 styles 时你可以调用
@@ -312,12 +310,12 @@ styles.use();
 **component-with-css-modules.js**
 
 ```js
-import styles from "./styles.lazy.css";
+import styles from './styles.lazy.css';
 
 styles.use();
 
-const divElement = document.createElement("div");
-divElement.className = styles.locals["my-class"];
+const divElement = document.createElement('div');
+divElement.className = styles.locals['my-class'];
 ```
 
 导入的对象的 `locals` 属性保存着所有的 locals (class names)。
@@ -331,16 +329,16 @@ module.exports = {
       {
         test: /\.css$/i,
         exclude: /\.lazy\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.lazy\.css$/i,
         use: [
           {
-            loader: "style-loader",
-            options: { injectType: "lazySingletonStyleTag" },
+            loader: 'style-loader',
+            options: { injectType: 'lazySingletonStyleTag' },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -372,8 +370,8 @@ module.exports = {
 > ℹ️ 此 loader 会在运行时使用 JavaScript 动态地插入 `<link href="path/to/file.css" rel="stylesheet">`。要静态插入 `<link href="path/to/file.css" rel="stylesheet">` 时请使用[MiniCssExtractPlugin](/plugins/mini-css-extract-plugin/)。
 
 ```js
-import "./styles.css";
-import "./other-styles.css";
+import './styles.css';
+import './other-styles.css';
 ```
 
 **webpack.config.js**
@@ -385,8 +383,8 @@ module.exports = {
       {
         test: /\.link\.css$/i,
         use: [
-          { loader: "style-loader", options: { injectType: "linkTag" } },
-          { loader: "file-loader" },
+          { loader: 'style-loader', options: { injectType: 'linkTag' } },
+          { loader: 'file-loader' },
         ],
       },
     ],
@@ -411,7 +409,7 @@ Default: `{}`
 **component.js**
 
 ```js
-import style from "./file.css";
+import style from './file.css';
 ```
 
 **webpack.config.js**
@@ -423,8 +421,8 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          { loader: "style-loader", options: { attributes: { id: "id" } } },
-          { loader: "css-loader" },
+          { loader: 'style-loader', options: { attributes: { id: 'id' } } },
+          { loader: 'css-loader' },
         ],
       },
     ],
@@ -464,12 +462,12 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              insert: "body",
+              insert: 'body',
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -494,12 +492,12 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              insert: require.resolve("modulePath"),
+              insert: require.resolve('modulePath'),
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -527,10 +525,10 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
               insert: function insertAtTop(element) {
-                var parent = document.querySelector("head");
+                var parent = document.querySelector('head');
                 // eslint-disable-next-line no-underscore-dangle
                 var lastInsertedElement =
                   window._lastElementInsertedByStyleLoader;
@@ -548,7 +546,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -556,7 +554,7 @@ module.exports = {
 };
 ```
 
-在 `head` 标签顶部插入styles。
+在 `head` 标签顶部插入 styles。
 
 你可以给 `style.use(options)` 传递任何参数，并且这些值会被传递给 `insert` 与 `styleTagTransform` 函数。
 
@@ -570,9 +568,9 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              injectType: "lazyStyleTag",
+              injectType: 'lazyStyleTag',
               // 不要忘记这些代码会在浏览器中使用，
               // 并且不是所有的浏览器都支持 `let`、`const`、箭头函数表达式等高级 ECMA 特性。
               // 我们建议只使用 ECMA 5 特性，
@@ -584,7 +582,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -607,17 +605,17 @@ div {
 **custom-square.js**
 
 ```js
-import customSquareStyles from "./custom-square.css";
+import customSquareStyles from './custom-square.css';
 
 class CustomSquare extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: 'open' });
 
-    const divElement = document.createElement("div");
+    const divElement = document.createElement('div');
 
-    divElement.textContent = "Text content.";
+    divElement.textContent = 'Text content.';
 
     this.shadowRoot.appendChild(divElement);
 
@@ -625,8 +623,8 @@ class CustomSquare extends HTMLElement {
 
     // 你可以覆盖注入的样式
     const bgPurple = new CSSStyleSheet();
-    const width = this.getAttribute("w");
-    const height = this.getAttribute("h");
+    const width = this.getAttribute('w');
+    const height = this.getAttribute('h');
 
     bgPurple.replace(`div { width: ${width}px; height: ${height}px; }`);
 
@@ -636,7 +634,7 @@ class CustomSquare extends HTMLElement {
   }
 }
 
-customElements.define("custom-square", CustomSquare);
+customElements.define('custom-square', CustomSquare);
 
 export default CustomSquare;
 ```
@@ -662,13 +660,13 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              injectType: "styleTag",
-              styleTagTransform: require.resolve("module-path"),
+              injectType: 'styleTag',
+              styleTagTransform: require.resolve('module-path'),
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -693,9 +691,9 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              injectType: "styleTag",
+              injectType: 'styleTag',
               styleTagTransform: function (css, style) {
                 // Do something ...
                 style.innerHTML = `${css}.modify{}\n`;
@@ -704,7 +702,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -724,7 +722,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -740,8 +738,8 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          { loader: "style-loader", options: { base: 1000 } },
-          "css-loader",
+          { loader: 'style-loader', options: { base: 1000 } },
+          'css-loader',
         ],
       },
     ],
@@ -758,8 +756,8 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          { loader: "style-loader", options: { base: 2000 } },
-          "css-loader",
+          { loader: 'style-loader', options: { base: 2000 } },
+          'css-loader',
         ],
       },
     ],
@@ -784,7 +782,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        loader: "style-loader",
+        loader: 'style-loader',
         options: {
           esModule: false,
         },
@@ -807,8 +805,8 @@ module.exports = {
 **webpack.config.js**
 
 ```js
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const devMode = process.env.NODE_ENV !== "production";
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   module: {
@@ -816,10 +814,10 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
         ],
       },
     ],
@@ -850,7 +848,7 @@ module.exports = {
 **index.js**
 
 ```js
-import { fooBaz, bar } from "./styles.css";
+import { fooBaz, bar } from './styles.css';
 
 console.log(fooBaz, bar);
 ```
@@ -867,10 +865,10 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: {
                 namedExport: true,
@@ -897,8 +895,8 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          "style-loader",
-          { loader: "css-loader", options: { sourceMap: true } },
+          'style-loader',
+          { loader: 'css-loader', options: { sourceMap: true } },
         ],
       },
     ],
@@ -920,7 +918,7 @@ module.exports = {
 **component.js**
 
 ```js
-import "./style.css";
+import './style.css';
 ```
 
 **webpack.config.js**
@@ -933,14 +931,14 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
               attributes: {
-                nonce: "12345678",
+                nonce: '12345678',
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -958,19 +956,19 @@ module.exports = {
 </style>
 ```
 
-#### `__webpack_nonce__` $#__webpack_nonce__$
+#### webpack_nonce $#webpack_nonce$
 
 **create-nonce.js**
 
 ```js
-__webpack_nonce__ = "12345678";
+__webpack_nonce__ = '12345678';
 ```
 
 **component.js**
 
 ```js
-import "./create-nonce.js";
-import "./style.css";
+import './create-nonce.js';
+import './style.css';
 ```
 
 使用 `require` 的示例：
@@ -978,9 +976,9 @@ import "./style.css";
 **component.js**
 
 ```js
-__webpack_nonce__ = "12345678";
+__webpack_nonce__ = '12345678';
 
-require("./style.css");
+require('./style.css');
 ```
 
 **webpack.config.js**
@@ -991,7 +989,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -1022,10 +1020,10 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
               insert: function insertAtTop(element) {
-                var parent = document.querySelector("head");
+                var parent = document.querySelector('head');
                 var lastInsertedElement =
                   window._lastElementInsertedByStyleLoader;
 
@@ -1041,7 +1039,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -1063,11 +1061,11 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
               insert: function insertBeforeAt(element) {
-                const parent = document.querySelector("head");
-                const target = document.querySelector("#id");
+                const parent = document.querySelector('head');
+                const target = document.querySelector('#id');
 
                 const lastInsertedElement =
                   window._lastElementInsertedByStyleLoader;
@@ -1084,7 +1082,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -1106,9 +1104,9 @@ module.exports = {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
             options: {
-              injectType: "lazyStyleTag",
+              injectType: 'lazyStyleTag',
               // 不要忘记这些代码会在浏览器中使用，
               // 并且不是所有的浏览器都支持 `let`、`const`、箭头函数表达式等高级 ECMA 特性。
               // 我们建议只使用 ECMA 5 特性，
@@ -1120,7 +1118,7 @@ module.exports = {
               },
             },
           },
-          "css-loader",
+          'css-loader',
         ],
       },
     ],
@@ -1143,17 +1141,17 @@ div {
 **custom-square.js**
 
 ```js
-import customSquareStyles from "./custom-square.css";
+import customSquareStyles from './custom-square.css';
 
 class CustomSquare extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: 'open' });
 
-    const divElement = document.createElement("div");
+    const divElement = document.createElement('div');
 
-    divElement.textContent = "Text content.";
+    divElement.textContent = 'Text content.';
 
     this.shadowRoot.appendChild(divElement);
 
@@ -1161,8 +1159,8 @@ class CustomSquare extends HTMLElement {
 
     // 你可以覆盖注入的样式
     const bgPurple = new CSSStyleSheet();
-    const width = this.getAttribute("w");
-    const height = this.getAttribute("h");
+    const width = this.getAttribute('w');
+    const height = this.getAttribute('h');
 
     bgPurple.replace(`div { width: ${width}px; height: ${height}px; }`);
 
@@ -1172,7 +1170,7 @@ class CustomSquare extends HTMLElement {
   }
 }
 
-customElements.define("custom-square", CustomSquare);
+customElements.define('custom-square', CustomSquare);
 
 export default CustomSquare;
 ```

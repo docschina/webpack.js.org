@@ -7,9 +7,14 @@ translators:
   - jacob-lcs
   - wangyiman
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -21,8 +26,6 @@ translators:
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 `expose-loader` 允许暴露一个模块（整体或者部分）给全局对象（`self`、`window` 和 `global`）。
 
 想要获取有关兼容性的进一步提示，请查看官方文档中的 [Shimming](/guides/shimming/)。
@@ -32,7 +35,7 @@ translators:
 首先，你需要安装 `expose-loader`：
 
 ```console
-$ npm install expose-loader --save-dev
+npm install expose-loader --save-dev
 ```
 
 （如果你在使用 webpack4，请安装 `expose-loader@1` 并按照 [相应说明](https://v4.webpack.docschina.org/loaders/expose-loader/) 进行配置。）
@@ -47,13 +50,13 @@ $ npm install expose-loader --save-dev
 > ⚠ `%20` 是查询字符串中的空格，因为你不能在 URL 中使用空格
 
 ```js
-import $ from "expose-loader?exposes=$,jQuery!jquery";
+import $ from 'expose-loader?exposes=$,jQuery!jquery';
 //
 // 将 `jquery` 添加到全局对象中，其名称为 `$` 和 `jQuery`
 ```
 
 ```js
-import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
+import { concat } from 'expose-loader?exposes=_.concat!lodash/concat';
 //
 // 将 `lodash/concat` 添加到全局对象中，其名称为 `_.concat`
 ```
@@ -62,7 +65,7 @@ import { concat } from "expose-loader?exposes=_.concat!lodash/concat";
 import {
   map,
   reduce,
-} from "expose-loader?exposes=_.map|map,_.reduce|reduce!underscore";
+} from 'expose-loader?exposes=_.map|map,_.reduce|reduce!underscore';
 //
 // 将 `underscore` 中的 `map` 和 `reduce` 方法分别添加到全局对象中，其名称为 `_.map` 和 `_.reduce`
 ```
@@ -72,7 +75,7 @@ import {
 **src/index.js**
 
 ```js
-import $ from "jquery";
+import $ from 'jquery';
 ```
 
 **webpack.config.js**
@@ -82,25 +85,25 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("jquery"),
-        loader: "expose-loader",
+        test: require.resolve('jquery'),
+        loader: 'expose-loader',
         options: {
-          exposes: ["$", "jQuery"],
+          exposes: ['$', 'jQuery'],
         },
       },
       {
-        test: require.resolve("underscore"),
-        loader: "expose-loader",
+        test: require.resolve('underscore'),
+        loader: 'expose-loader',
         options: {
           exposes: [
-            "_.map|map",
+            '_.map|map',
             {
-              globalName: "_.reduce",
-              moduleLocalName: "reduce",
+              globalName: '_.reduce',
+              moduleLocalName: 'reduce',
             },
             {
-              globalName: ["_", "filter"],
-              moduleLocalName: "filter",
+              globalName: ['_', 'filter'],
+              moduleLocalName: 'filter',
             },
           ],
         },
@@ -148,7 +151,7 @@ List of exposes.
 **src/index.js**
 
 ```js
-import _ from "underscore";
+import _ from 'underscore';
 ```
 
 **webpack.config.js**
@@ -158,11 +161,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("jquery"),
-        loader: "expose-loader",
+        test: require.resolve('jquery'),
+        loader: 'expose-loader',
         options: {
           // 对于 `underscore`，它可以是 `_.map map` 或者 `_.map|map`
-          exposes: "jquery",
+          exposes: 'jquery',
         },
       },
     ],
@@ -184,7 +187,7 @@ module.exports = {
 **src/index.js**
 
 ```js
-import _ from "underscore";
+import _ from 'underscore';
 ```
 
 **webpack.config.js**
@@ -194,13 +197,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("underscore"),
-        loader: "expose-loader",
+        test: require.resolve('underscore'),
+        loader: 'expose-loader',
         options: {
           exposes: {
             // 可以是 `['_', 'filter']`
-            globalName: "_.filter",
-            moduleLocalName: "filter",
+            globalName: '_.filter',
+            moduleLocalName: 'filter',
           },
         },
       },
@@ -220,7 +223,7 @@ module.exports = {
 **src/index.js**
 
 ```js
-import _ from "underscore";
+import _ from 'underscore';
 ```
 
 **webpack.config.js**
@@ -230,12 +233,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("underscore"),
-        loader: "expose-loader",
+        test: require.resolve('underscore'),
+        loader: 'expose-loader',
         options: {
           exposes: {
-            globalName: "_.filter",
-            moduleLocalName: "filter",
+            globalName: '_.filter',
+            moduleLocalName: 'filter',
           },
         },
       },
@@ -258,7 +261,7 @@ module.exports = {
 **src/index.js**
 
 ```js
-import $ from "jquery";
+import $ from 'jquery';
 ```
 
 **webpack.config.js**
@@ -268,11 +271,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("jquery"),
-        loader: "expose-loader",
+        test: require.resolve('jquery'),
+        loader: 'expose-loader',
         options: {
           exposes: {
-            globalName: "$",
+            globalName: '$',
             override: true,
           },
         },
@@ -287,7 +290,7 @@ module.exports = {
 **src/index.js**
 
 ```js
-import _ from "underscore";
+import _ from 'underscore';
 ```
 
 **webpack.config.js**
@@ -297,18 +300,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve("underscore"),
-        loader: "expose-loader",
+        test: require.resolve('underscore'),
+        loader: 'expose-loader',
         options: {
           exposes: [
-            "_.map map",
+            '_.map map',
             {
-              globalName: "_.filter",
-              moduleLocalName: "filter",
+              globalName: '_.filter',
+              moduleLocalName: 'filter',
             },
             {
-              globalName: ["_", "find"],
-              moduleLocalName: "myNameForFind",
+              globalName: ['_', 'find'],
+              moduleLocalName: 'myNameForFind',
             },
           ],
         },

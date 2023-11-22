@@ -440,6 +440,7 @@ const lazyComp = () =>
     // 例如可以在网络错误的情况下重试请求
   });
 ```
+
 如果在 webpack 开始加载该脚本之前脚本加载失败（如果该脚本不在页面上，webpack 只是创建一个 script 标签来加载其代码），则该 catch 处理程序将不会启动，直到 [chunkLoadTimeout](/configuration/output/#outputchunkloadtimeout) 未通过。此行为可能是意料之外的。但这是可以解释的 —— webpack 不能抛出任何错误，因为 webpack 不知道那个脚本失败了。webpack 将在错误发生后立即将 onerror 处理脚本添加到 script 中。
 
 可以通过添加自己的 onerror 处理脚本避免上述问题，这能够帮助在错误发生时移除该脚本

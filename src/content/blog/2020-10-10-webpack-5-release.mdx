@@ -647,14 +647,14 @@ Webpack 过去总是在第一次构建时发出所有的输出文件，但在增
 - 移除了 `cache: Object`：不能再设置内存缓存对象
 - 添加了 `cache.type`：现在可以在 `"memory"` 和 `"filesystem"` 间进行选择
 - 在 `cache.type = "filesystem"` 时，增加了新配置项：
-    - `cache.cacheDirectory`
-    - `cache.name`
-    - `cache.version`
-    - `cache.store`
-    - `cache.hashAlgorithm`
-    - `cache.idleTimeout`
-    - `cache.idleTimeoutForIntialStore`
-    - `cache.buildDependencies`
+  - `cache.cacheDirectory`
+  - `cache.name`
+  - `cache.version`
+  - `cache.store`
+  - `cache.hashAlgorithm`
+  - `cache.idleTimeout`
+  - `cache.idleTimeoutForIntialStore`
+  - `cache.buildDependencies`
 - 添加了 `snapshot.resolveBuildDependencies`
 - 添加了 `snapshot.resolve`
 - 添加了 `snapshot.module`
@@ -668,43 +668,43 @@ Webpack 过去总是在第一次构建时发出所有的输出文件，但在增
 - 添加了 `resolve.fallback`：允许为处理不了的别名请求设置降级
 - 添加了 `resolve.preferRelative`：允许处理模块请求
 - 移除了针对于 Node.js 原生模块的自动 polyfills
-    - 移除了 `node.Buffer`
-    - 移除了 `node.console`
-    - 移除了 `node.process`
-    - 移除了 `node.*`（Node.js 原生模块）
-    - 迁移：`resolve.alias` 和 `ProvidePlugin`。错误会给出提示。（可以参考 [node-libs-browser](https://github.com/webpack/node-libs-browser)，了解 v4 中 polyfill 和 mock 的方式）
+  - 移除了 `node.Buffer`
+  - 移除了 `node.console`
+  - 移除了 `node.process`
+  - 移除了 `node.*`（Node.js 原生模块）
+  - 迁移：`resolve.alias` 和 `ProvidePlugin`。错误会给出提示。（可以参考 [node-libs-browser](https://github.com/webpack/node-libs-browser)，了解 v4 中 polyfill 和 mock 的方式）
 - `output.filename` 可以设置为函数
 - 添加了 `output.assetModuleFilename`
 - `output.jsonpScriptType` 更名为 `output.scriptType`
 - `devtool` 更加严格
-    - 格式化：`false | eval | [inline-|hidden-|eval-][nosources-][cheap-[module-]]source-map`
+  - 格式化：`false | eval | [inline-|hidden-|eval-][nosources-][cheap-[module-]]source-map`
 - 添加了 `optimization.chunkIds: "deterministic"`
 - 添加了 `optimization.moduleIds: "deterministic"`
 - `optimization.moduleIds: "hashed"` 已弃用
 - 移除了 `optimization.moduleIds: "total-size"`
 - 废弃了模块的 flag 并移除了 chunk id
-    - 移除了 `optimization.hashedModuleIds`
-    - 移除了 `optimization.namedChunks` (`NamedChunksPlugin` too)
-    - 移除了 `optimization.namedModules` (`NamedModulesPlugin` too)
-    - 移除了 `optimization.occurrenceOrder`
-    - 迁移：使用 `chunkIds` 和 `moduleIds`
+  - 移除了 `optimization.hashedModuleIds`
+  - 移除了 `optimization.namedChunks` (`NamedChunksPlugin` too)
+  - 移除了 `optimization.namedModules` (`NamedModulesPlugin` too)
+  - 移除了 `optimization.occurrenceOrder`
+  - 迁移：使用 `chunkIds` 和 `moduleIds`
 - `optimization.splitChunks` `test` 不再匹配 chunk 名
-    - 迁移：使用 test 函数
+  - 迁移：使用 test 函数
     `(module, { chunkGraph }) => chunkGraph.getModuleChunks(module).some(chunk => chunk.name === "name")`
 - 添加了 `optimization.splitChunks` `minRemainingSize`
 - `optimization.splitChunks` 的 `filename` 可以设置为函数
 - `optimization.splitChunks` 的大小现在可以设置为每个源类型大小的对象
-    - `minSize`
-    - `minRemainingSize`
-    - `maxSize`
-    - `maxAsyncSize`
-    - `maxInitialSize`
+  - `minSize`
+  - `minRemainingSize`
+  - `maxSize`
+  - `maxAsyncSize`
+  - `maxInitialSize`
 - `optimization.splitChunks` 中的 `maxAsyncSize` 和 `maxInitialSize` 添加了 `maxSize`：允许为初始和异步 chunk 指定不同的 maxSize
 - 移除了 `optimization.splitChunks` 的 `name: true`：不再支持自动命名
-    - 迁移：使用默认值。`chunkIds: "named"` 会为你的文件取一个有用的名字，以便于调试
+  - 迁移：使用默认值。`chunkIds: "named"` 会为你的文件取一个有用的名字，以便于调试
 - 添加了 `optimization.splitChunks.cacheGroups[].idHint`：会给出提示，如果选择命名的 chunk id
 - 移除了 `optimization.splitChunks` 的 `automaticNamePrefix`
-    - 迁移：使用 `idHint` 代替
+  - 迁移：使用 `idHint` 代替
 - `optimization.splitChunks` 的 `filename` 不再局限于初始 chunk
 - 添加了 `optimization.splitChunks` 的 `usedExports`，以便在比较模块时引入使用过的 export
 - 添加了 `optimization.splitChunks.defaultSizeTypes`：当使用数字表示 size 时，可以指定 size 的类型
@@ -714,7 +714,7 @@ Webpack 过去总是在第一次构建时发出所有的输出文件，但在增
 - `optimization.noEmitOnErrors` 更名为 `optimization.emitOnErrors`，逻辑颠倒
 - 添加了 `optimization.realContentHash`
 - 移除了 `output.devtoolLineToLine`
-    - 迁移：没有替代项
+  - 迁移：没有替代项
 - 现已允许 `output.chunkFilename: Function`
 - `output.hotUpdateChunkFilename: Function` 已被禁止：反正也没什么用。
 - `output.hotUpdateMainFilename: Function` 已被禁止：反正也没什么用。
@@ -730,7 +730,7 @@ Webpack 过去总是在第一次构建时发出所有的输出文件，但在增
 - 添加了 `module.rules` `parser.worker`：允许为支持的 worker 添加配置
 - `module.rules` 中的 `query` 和 `loaders` 被移除
 - 向 `module.rules` 中的 `options` 传递字符串的形式被废弃
-    - 迁移：使用传递选项对象的方式代替，当不支持这种方式时，请在对应的 loader 中开启一个 issues
+  - 迁移：使用传递选项对象的方式代替，当不支持这种方式时，请在对应的 loader 中开启一个 issues
 - 添加了 `module.rules` `mimetype`：允许匹配 DataURI 的 mimetype
 - 添加了 `module.rules` `descriptionData`：允许匹配来自 package.json 中的数据
 - `module.defaultRules` `"..."` 可以用于引用默认值
@@ -743,26 +743,26 @@ Webpack 过去总是在第一次构建时发出所有的输出文件，但在增
 - 添加了 `stats.relatedAssets`：用于显示与其他 asset 相关的 asset（如，SourceMaps）
 - `stats.warningsFilter` 已被弃用，请改用 `ignoreWarnings`
 - `BannerPlugin.banner` 签名已变更
-    - 移除了 `data.basename`
-    - 移除了 `data.query`
-    - 迁移：从 `filename` 中获取
+  - 移除了 `data.basename`
+  - 移除了 `data.query`
+  - 迁移：从 `filename` 中获取
 - 移除了 `SourceMapDevToolPlugin` 的 `lineToLine`
-    - 迁移：无可替代项
+  - 迁移：无可替代项
 - `[hash]` 作为完整的编译 hash 值，现已被弃用
-    - 迁移：使用 `[fullhash]` 代替，或最好选用其他 hash 选项
+  - 迁移：使用 `[fullhash]` 代替，或最好选用其他 hash 选项
 - `[modulehash]` 已被弃用
-    - 迁移：使用 `[hash]` 代替
+  - 迁移：使用 `[hash]` 代替
 - `[moduleid]` 已被弃用
-    - 迁移：使用 `[id]` 代替
+  - 迁移：使用 `[id]` 代替
 - 移除了 `[filebase]`
-    - 迁移：使用 `[base]` 代替
+  - 迁移：使用 `[base]` 代替
 - 基于文件模板的新 placeholders（例如 SourceMapDevToolPlugin）
-    - `[name]`
-    - `[base]`
-    - `[path]`
-    - `[ext]`
+  - `[name]`
+  - `[base]`
+  - `[path]`
+  - `[ext]`
 - 当给 `externals` 传递一个函数时，现在有一个不同的签名 `({ context, request }, callback)`
-    - 迁移：改变函数签名
+  - 迁移：改变函数签名
 - 添加了 `externalsPresets`
 - 添加了 `experiments`（见上述实验部分）
 - 添加了 `watchOptions.followSymlinks`
@@ -1190,34 +1190,34 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 ## 微小改动 $#minor-changes$
 
 - `Compiler.name`：当生成带有绝对路径的编译器名称时，请确保名称使用 `|` 或 `!` 分隔。
-    - 使用空格作为分隔符的做法现已不再适用。（路径可以保护空格）
-    - 温馨提示：在 Stats 中输出时 `|` 会被替换为空格。
+  - 使用空格作为分隔符的做法现已不再适用。（路径可以保护空格）
+  - 温馨提示：在 Stats 中输出时 `|` 会被替换为空格。
 - `SystemPlugin` 现已被默认禁用。
-    - 迁移：应避免使用它，因为此规范已被删除。你可以使用 `Rule.parser.system: true` 来重新启用它。
+  - 迁移：应避免使用它，因为此规范已被删除。你可以使用 `Rule.parser.system: true` 来重新启用它。
 - `ModuleConcatenationPlugin`：`DependencyVariables` 已被移除，将不再阻止连接。
-    - 这意味着它现在可以在 `module`，`global`，`process` 或 ProvidePlugin 的情况下进行连接。
+  - 这意味着它现在可以在 `module`，`global`，`process` 或 ProvidePlugin 的情况下进行连接。
 - 移除了 `Stats.presetToOptions`
-    - 迁移：使用 `compilation.createStatsOptions` 代替
+  - 迁移：使用 `compilation.createStatsOptions` 代替
 - 移除了 `SingleEntryPlugin` 和 `SingleEntryDependency`
-    - 迁移：使用 `EntryPlugin` 和 `EntryDependency` 代替
+  - 迁移：使用 `EntryPlugin` 和 `EntryDependency` 代替
 - chunk 现在可以有多个入口
 - 移除了 `ExtendedAPIPlugin`
-    - 迁移：不再需要此插件，在必要时，你可以使用 `__webpack_hash__` 和 `__webpack_chunkname__` 注入运行时代码。
+  - 迁移：不再需要此插件，在必要时，你可以使用 `__webpack_hash__` 和 `__webpack_chunkname__` 注入运行时代码。
 - `ProgressPlugin` 不再为 `reportProgress` 使用 tapable 上下文。
-    - 迁移：使用 `ProgressPlugin.getReporter(compiler)` 代替
+  - 迁移：使用 `ProgressPlugin.getReporter(compiler)` 代替
 - 现已对 `.mjs` 文件重新启用 `ProvidePlugin`
 - `Stats` json 中的 `errors` 和 `warnings` 不再是字符串类型，而是包含必要信息的对象，这些信息会被分割为熟悉。
-    - 迁移：查阅具体属性信息，如 `message` 字段
+  - 迁移：查阅具体属性信息，如 `message` 字段
 - 移除了 `Compilation.hooks.normalModuleLoader`
-    - 迁移：使用 `NormalModule.getCompilationHooks(compilation).loader` 代替
+  - 迁移：使用 `NormalModule.getCompilationHooks(compilation).loader` 代替
 - 将 `NormalModuleFactory` 中的 hook 从 waterfall 改为 bailing，修改并对 waterfall 函数的 hook 进行了重命名操作。
 - 移除了 `compilationParams.compilationDependencies`
-    - 插件可以在编译中使用 `compilation.file/context/missingDependencies` 添加依赖关系
-    - Compat 层将 `compilationDependencies.add` 委托给 `fileDependencies.add`。
+  - 插件可以在编译中使用 `compilation.file/context/missingDependencies` 添加依赖关系
+  - Compat 层将 `compilationDependencies.add` 委托给 `fileDependencies.add`。
 - `stats.assetsByChunkName[x]` 始终为一个数组
 - 增加了 `__webpack_get_script_filename__` 函数用于获取 script 文件的文件名。
 - 在 package.json 中 `"sideEffects"` 将使用 `glob-to-regex` 来代替 `micromatch` 处理。
-    - 这可能会改变边缘案例的语义。
+  - 这可能会改变边缘案例的语义。
 - 从 `IgnorePlugin` 中移除了 `checkContext`
 - 全新的 `__webpack_exports_info__` API 允许导出使用自省。
 - SourceMapDevToolPlugin 现已适用于非 chunk 资源。
@@ -1228,7 +1228,7 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 
 - 移除内置目录，用运行时代替内置目录
 - 移除不适用的特性
-    - BannerPlugin 目前只支持一个参数，这个参数可以是对象，字符串或函数
+  - BannerPlugin 目前只支持一个参数，这个参数可以是对象，字符串或函数
 - 移除 `CachePlugin`
 - `Chunk.entryModule` 已弃用，使用 ChunkGraph 代替
 - `Chunk.hasEntryModule` 已弃用
@@ -1263,7 +1263,7 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - `ChunkGroup.compareTo` 签名已变更
 - `ChunkGroup.getChildrenByOrders` 签名已变更
 - `ChunkGroup` 的 index 和 index 改名为 pre/post order index
-    - 废弃了 old getter
+  - 废弃了 old getter
 - `ChunkTemplate.hooks.modules` 签名已变更
 - `ChunkTemplate.hooks.render` 签名已变更
 - `ChunkTemplate.updateHashForChunk` 签名已变更
@@ -1289,27 +1289,27 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - 添加了 `Compilation.hooks.statsPrinter`
 - `Compilation.fileDependencies`，`Compilation.contextDependencies` 以及 `Compilation.missingDependencies` 现在变为了 LazySets
 - 移除了 `Compilation.entries`
-    - 迁移：使用 `Compilation.entryDependencies` 代替
+  - 迁移：使用 `Compilation.entryDependencies` 代替
 - 移除了 `Compilation._preparedEntrypoints`
 - `dependencyTemplates` 现已改为 `DependencyTemplates` 的 class 类型，而不再是原始的 `Map`
 - 移除了 `Compilation.fileTimestamps` 和 `contextTimestamps`
-    - 迁移：使用 `Compilation.fileSystemInfo` 代替
+  - 迁移：使用 `Compilation.fileSystemInfo` 代替
 - 移除了 `Compilation.waitForBuildingFinished`
-    - 迁移：使用新队列
+  - 迁移：使用新队列
 - 移除了 `Compilation.addModuleDependencies`
 - 移除了 `Compilation.prefetch`
 - `Compilation.hooks.beforeHash` 会在创建模块 hash 值后被调用。
-    - 迁移：使用 `Compiliation.hooks.beforeModuleHash` 代替
+  - 迁移：使用 `Compiliation.hooks.beforeModuleHash` 代替
 - 移除了 `Compilation.applyModuleIds`
 - 移除了 `Compilation.applyChunkIds`
 - 添加了 `Compiler.root`，用于指向根编译器
-    - 可用于缓存 WeakMaps 中的数据，而非静态作用域内的数据
+  - 可用于缓存 WeakMaps 中的数据，而非静态作用域内的数据
 - 添加了 `Compiler.hooks.afterDone`
 - `Source.emitted` 不再由编译器设置
-    - 迁移：使用 `Compilation.emittedAssets` 代替
+  - 迁移：使用 `Compilation.emittedAssets` 代替
 - 添加了 `Compiler/Compilation.compilerPath`：此为编译器在编译器树中唯一名称。（在根编译器范围内唯一）
 - `Module.needRebuild` 已弃用
-    - 迁移：使用 `Module.needBuild` 代替
+  - 迁移：使用 `Module.needBuild` 代替
 - `Dependency.getReference` 签名已变更
 - `Dependency.getExports` 签名已变更
 - `Dependency.getWarnings` 签名已变更
@@ -1348,9 +1348,9 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - 移除了 `Module.prefetched`
 - 移除了 `Module.built`
 - 移除了 `Module.used`
-    - 迁移：使用 `Module.getUsedExports` 代替
+  - 迁移：使用 `Module.getUsedExports` 代替
 - Module.usedExports 已弃用
-    - MIGRATION: 使用 `Module.getUsedExports` 代替
+  - MIGRATION: 使用 `Module.getUsedExports` 代替
 - `Module.optimizationBailout` 已弃用
 - 移除了 `Module.exportsArgument`
 - `Module.optional` 已弃用
@@ -1370,11 +1370,11 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - 移除了 `Module.removeReason`
 - 移除了 `Module.rewriteChunkInReasons`
 - 移除了 `Module.isUsed`
-    - 迁移：使用 `isModuleUsed`，`isExportUsed` 和 `getUsedName` 代替
+  - 迁移：使用 `isModuleUsed`，`isExportUsed` 和 `getUsedName` 代替
 - `Module.updateHash` 签名已变更
 - 移除了 `Module.sortItems`
 - 移除了 `Module.unbuild`
-    - 迁移：使用 `invalidateBuild` 代替
+  - 迁移：使用 `invalidateBuild` 代替
 - 添加了 `Module.getSourceTypes`
 - 添加了 `Module.getRuntimeRequirements`
 - `Module.size` 签名已变更
@@ -1384,7 +1384,7 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - `ModuleTemplate.hooks` 签名已变更
 - `ModuleTemplate.render` 签名已变更
 - 移除了 `Compiler.dependencies`
-    - 迁移：使用 `MultiCompiler.setDependencies` 代替
+  - 迁移：使用 `MultiCompiler.setDependencies` 代替
 - 移除了 `MultiModule`
 - 移除了 `MultiModuleFactory`
 - `NormalModuleFactory.fileDependencies`，`NormalModuleFactory.contextDependencies` 和 `NormalModuleFactory.missingDependencies` 现已使用 LazySets
@@ -1398,22 +1398,22 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - 移除了 `ExternalModule.external`
 - 移除了 `HarmonyInitDependency`
 - `Dependency.getInitFragments` 已弃用
-    - 迁移：使用 `apply` `initFragements` 代替
+  - 迁移：使用 `apply` `initFragements` 代替
 - DependencyReference 现将函数传递给模块，而非模块。
 - 移除了 `HarmonyImportSpecifierDependency.redirectedId`
-    - 迁移：使用 `setId` 代替
+  - 迁移：使用 `setId` 代替
 - acorn 5 -> 8
 - 测试
-    - HotTestCases 现可为多个目标运行，包括 `async-node` `node` `web` `webworker`
-    - TestCases 现在可以用 `store: "instant"` 和 `store: "pack"` 来运行系统缓存。
-    - TestCases 现在也可以为指定的模块 id 运行。
+  - HotTestCases 现可为多个目标运行，包括 `async-node` `node` `web` `webworker`
+  - TestCases 现在可以用 `store: "instant"` 和 `store: "pack"` 来运行系统缓存。
+  - TestCases 现在也可以为指定的模块 id 运行。
 - 工具添加了 import 的排序功能（在 CI 检查）
 - 当 chunk 的名称与 id 等价时，运行时的 chunk 名称映射不再包含入口
 - 将 `resolvedModuleId` `resolvedModuleIdentifier` 和 `resolvedModule` 添加到 Stats 的 reason 中，在完成作用域提升等优化之前，这些 reason 指向模块
 - 在 Stats toString 的输出中展示 `resolvedModule`
 - loader-runner 已升级：https://github.com/webpack/loader-runner/releases/tag/v3.0.0
 - `Compilation` 中的 `file/context/missingDependencies` 因性能问题不再排序
-    - 不要依赖排序
+  - 不要依赖排序
 - webpack-sources 升级至 version 2：https://github.com/webpack/webpack-sources/releases/tag/v2.0.1
 - 删除了对 webpack-command 的支持
 - 使用 schema-utils@2 进行模式校验
@@ -1421,7 +1421,7 @@ Webpack 曾经有一个单一的方法和类型来表示依赖关系的引用（
 - BannerPlugin 省略了尾部的空白字符
 - 从 `LimitChunkCountPlugin` 中移除了 `minChunkSize` 选项
 - 将与 javascript 相关的文件重组到子目录中
-    - `webpack.JavascriptModulesPlugin` -> `webpack.javascript.JavascriptModulesPlugin`
+  - `webpack.JavascriptModulesPlugin` -> `webpack.javascript.JavascriptModulesPlugin`
 - 添加了 `Logger.getChildLogger`
 - 将 DllPlugin 中 entryOnly 选项的默认值变更为 true
 - 移除了特殊请求的简化逻辑，使用单一的相对路径作为可读模块的名称

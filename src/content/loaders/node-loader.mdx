@@ -7,9 +7,14 @@ translators:
   - jacob-lcs
   - QC-L
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -20,8 +25,6 @@ translators:
 [![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
-
-
 
 处理 [Node.js 插件（add-ons）](https://nodejs.org/dist/latest/docs/api/addons.html) 的 loader。
 
@@ -34,7 +37,7 @@ translators:
 首先，你需要安装 `node-loader`：
 
 ```console
-$ npm install node-loader --save-dev
+npm install node-loader --save-dev
 ```
 
 设置 `target` 配置项为 `node`/`async-node`/`electron-main`/`electron-renderer`/`electron-preload`，并且需禁用 `__dirname` 全局变量。
@@ -101,8 +104,8 @@ module.exports = {
 
 ## 选项 $#options$
 
-|         Name          |         Type         |         Default         | Description                                                  |
-| :-------------------: | :------------------: | :---------------------: | :----------------------------------------------------------- |
+|         Name          |         Type         |         Default         | Description                                |
+| :-------------------: | :------------------: | :---------------------: | :----------------------------------------- |
 | **[`flags`](#flags)** |      `{Number}`      |       `undefined`       | 启用/禁用 `url`/`image-set` 函数处理       |
 |  **[`name`](#name)**  | `{String\|Function}` | `'[contenthash].[ext]'` | 指定一个或多个目标文件的自定义文件名模板。 |
 
@@ -112,7 +115,7 @@ module.exports = {
 默认值：`undefined`
 
 `flags` 参数是一个允许指定 dlopen 行为的整数。
-请查阅 [`process.dlopen`][https://nodejs.org/api/process.html#process_process_dlopen_module_filename_flags] 文档了解更多。
+请查阅 [`process.dlopen`](https://nodejs.org/api/process.html#process_process_dlopen_module_filename_flags) 文档了解更多。
 
 **index.js**
 

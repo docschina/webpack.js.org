@@ -5,9 +5,14 @@ source: https://raw.githubusercontent.com/webpack-contrib/html-minimizer-webpack
 edit: https://github.com/webpack-contrib/html-minimizer-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/html-minimizer-webpack-plugin
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -19,8 +24,6 @@ repo: https://github.com/webpack-contrib/html-minimizer-webpack-plugin
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 This plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) to optimize and minify your HTML.
 
 ## Getting Started
@@ -28,7 +31,7 @@ This plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-
 To begin, you'll need to install `html-minimizer-webpack-plugin`:
 
 ```console
-$ npm install html-minimizer-webpack-plugin --save-dev
+npm install html-minimizer-webpack-plugin --save-dev
 ```
 
 Then add the plugin to your `webpack` configuration. For example:
@@ -36,15 +39,15 @@ Then add the plugin to your `webpack` configuration. For example:
 **webpack.config.js**
 
 ```js
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   module: {
     loaders: [
       {
         test: /\.html$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
     ],
   },
@@ -52,8 +55,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          context: path.resolve(__dirname, "dist"),
-          from: "./src/*.html",
+          context: path.resolve(__dirname, 'dist'),
+          from: './src/*.html',
         },
       ],
     }),
@@ -221,7 +224,7 @@ module.exports = {
           collapseWhitespace: true,
         },
         minify: (data, minimizerOptions) => {
-          const htmlMinifier = require("html-minifier-terser");
+          const htmlMinifier = require('html-minifier-terser');
           const [[filename, input]] = Object.entries(data);
 
           return {

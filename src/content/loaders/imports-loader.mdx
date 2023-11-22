@@ -43,7 +43,7 @@ imports loader 可以添加必要的 `require('whatever')` 调用，因此这些
 首先，你需要安装 `imports-loader`：
 
 ```console
-$ npm install imports-loader --save-dev
+npm install imports-loader --save-dev
 ```
 
 如果你有这个文件：
@@ -687,9 +687,9 @@ import $ from 'jquery';
 
 在模块代码之前添加自定义代码作为前导。
 
-##### Examples $#examples$
+#### Examples $#examples$
 
-###### 定义自定义变量 $#define-custom-variable$
+##### 定义自定义变量 $#define-custom-variable$
 
 **webpack.config.js**
 
@@ -729,7 +729,7 @@ var myVariable = false;
 // ...
 ```
 
-###### Disable AMD Import Syntax $#disable-amd-import-syntax$
+##### Disable AMD Import Syntax $#disable-amd-import-syntax$
 
 **webpack.config.js**
 

@@ -6,9 +6,14 @@ repo: https://github.com/webpack-contrib/stylus-loader
 translators:
   - Usualminds
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -20,8 +25,6 @@ translators:
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 一个 webpack 的 Stylus loader。将 Stylus 文件编译为 CSS。
 
 ## 快速开始 $#getting-started$
@@ -29,7 +32,7 @@ translators:
 首先，你需要安装 `stylus` 和 `stylus-loader`：
 
 ```console
-$ npm install stylus stylus-loader --save-dev
+npm install stylus stylus-loader --save-dev
 ```
 
 然后将该 loader 添加到 `webpack` 配置中。例如：
@@ -42,7 +45,7 @@ module.exports = {
     rules: [
       {
         test: /\.styl$/,
-        loader: "stylus-loader", // 将 Stylus 文件编译为 CSS
+        loader: 'stylus-loader', // 将 Stylus 文件编译为 CSS
       },
     ],
   },
@@ -53,13 +56,13 @@ module.exports = {
 
 ## 可选项 $#options$
 
-|                   Name                    |         Type         |      Default       | Description                                              |
-| :---------------------------------------: | :------------------: | :----------------: | :------------------------------------------------------- |
-|   **[`stylusOptions`](#stylusoptions)**   | `{Object\|Function}` |        `{}`        | Stylus 的可选项。                                      |
-|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      | `compiler.devtool` | 启用/禁用生成 SourceMap。              |
-| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |       `true`       | 启用/禁用默认的 webpack importer。           |
+|                   Name                    |         Type         |      Default       | Description                              |
+| :---------------------------------------: | :------------------: | :----------------: | :--------------------------------------- |
+|   **[`stylusOptions`](#stylusoptions)**   | `{Object\|Function}` |        `{}`        | Stylus 的可选项。                        |
+|       **[`sourceMap`](#sourcemap)**       |     `{Boolean}`      | `compiler.devtool` | 启用/禁用生成 SourceMap。                |
+| **[`webpackImporter`](#webpackimporter)** |     `{Boolean}`      |       `true`       | 启用/禁用默认的 webpack importer。       |
 |  **[`additionalData`](#additionaldata)**  | `{String\|Function}` |    `undefined`     | 在入口文件起始或末尾添加 `Stylus` 代码。 |
-|  **[`implementation`](#implementation)**  | `{String\|Function}` |      `stylus`      | 配置 Stylus 使用的实现库。                      |
+|  **[`implementation`](#implementation)**  | `{String\|Function}` |      `stylus`      | 配置 Stylus 使用的实现库。               |
 
 ### `stylusOptions` $#stylusoptions$
 
@@ -84,13 +87,13 @@ module.exports = {
         test: /\.styl$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
           },
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               stylusOptions: {
                 /**
@@ -100,7 +103,7 @@ module.exports = {
                  * @type {(string|Function)[]}
                  * @default []
                  */
-                use: ["nib"],
+                use: ['nib'],
 
                 /**
                  * 指定 path 的查找路径。
@@ -108,7 +111,7 @@ module.exports = {
                  * @type {string[]}
                  * @default []
                  */
-                include: [path.join(__dirname, "src/styl/config")],
+                include: [path.join(__dirname, 'src/styl/config')],
 
                 /**
                  * 导入指定的 Stylus 文件或者路径
@@ -116,7 +119,7 @@ module.exports = {
                  * @type {string[]}
                  * @default []
                  */
-                import: ["nib", path.join(__dirname, "src/styl/mixins")],
+                import: ['nib', path.join(__dirname, 'src/styl/mixins')],
 
                 /**
                  * 定义 Stylus 变量或者函数。
@@ -126,8 +129,8 @@ module.exports = {
                  */
                 // 定义数组语法的推荐格式：[key, value, raw]
                 define: [
-                  ["$development", process.env.NODE_ENV === "development"],
-                  ["rawVar", 42, true],
+                  ['$development', process.env.NODE_ENV === 'development'],
+                  ['rawVar', 42, true],
                 ],
                 // Object 语法已经弃用（不可指定 "raw' 选项）
                 // define: {
@@ -196,7 +199,7 @@ module.exports = {
 
 #### `Function` $#function$
 
-允许根据 loader 的 context 来设置 options，再传递给  Stylus。
+允许根据 loader 的 context 来设置 options，再传递给 Stylus。
 
 ```js
 module.exports = {
@@ -205,24 +208,24 @@ module.exports = {
       {
         test: /\.styl/,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               stylusOptions: (loaderContext) => {
                 // 更多可用的属性参见 https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === "styles/foo.styl") {
+                if (relativePath === 'styles/foo.styl') {
                   return {
-                    paths: ["absolute/path/c", "absolute/path/d"],
+                    paths: ['absolute/path/c', 'absolute/path/d'],
                   };
                 }
 
                 return {
-                  paths: ["absolute/path/a", "absolute/path/b"],
+                  paths: ['absolute/path/a', 'absolute/path/b'],
                 };
               },
             },
@@ -247,15 +250,15 @@ module.exports = {
       {
         test: /\.styl$/i,
         use: [
-          "style-loader",
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               sourceMap: true,
             },
@@ -286,10 +289,10 @@ module.exports = {
       {
         test: /\.styl/i,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               webpackImporter: false,
             },
@@ -322,10 +325,10 @@ module.exports = {
       {
         test: /\.styl/,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               additionalData: `@env: ${process.env.NODE_ENV};`,
             },
@@ -348,21 +351,21 @@ module.exports = {
       {
         test: /\.styl/,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               additionalData: (content, loaderContext) => {
                 // 更多可用的属性参见 https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === "styles/foo.styl") {
-                  return "value = 100px" + content;
+                if (relativePath === 'styles/foo.styl') {
+                  return 'value = 100px' + content;
                 }
 
-                return "value 200px" + content;
+                return 'value 200px' + content;
               },
             },
           },
@@ -382,21 +385,21 @@ module.exports = {
       {
         test: /\.styl/,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               additionalData: async (content, loaderContext) => {
                 // 更多可用的属性参见 https://webpack.js.org/api/loaders/
                 const { resourcePath, rootContext } = loaderContext;
                 const relativePath = path.relative(rootContext, resourcePath);
 
-                if (relativePath === "styles/foo.styl") {
-                  return "value = 100px" + content;
+                if (relativePath === 'styles/foo.styl') {
+                  return 'value = 100px' + content;
                 }
 
-                return "value 200px" + content;
+                return 'value 200px' + content;
               },
             },
           },
@@ -424,12 +427,12 @@ module.exports = {
       {
         test: /\.styl/i,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
-              implementation: require("stylus"),
+              implementation: require('stylus'),
             },
           },
         ],
@@ -450,12 +453,12 @@ module.exports = {
       {
         test: /\.styl/i,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
-              implementation: require.resolve("stylus"),
+              implementation: require.resolve('stylus'),
             },
           },
         ],
@@ -481,13 +484,13 @@ module.exports = {
         test: /\.styl$/,
         use: [
           {
-            loader: "style-loader", // 从 JS 中创建样式节点
+            loader: 'style-loader', // 从 JS 中创建样式节点
           },
           {
-            loader: "css-loader", // 将 CSS 转为 CommonJS
+            loader: 'css-loader', // 将 CSS 转为 CommonJS
           },
           {
-            loader: "stylus-loader", // 将 Stylus 编译为 CSS
+            loader: 'stylus-loader', // 将 Stylus 编译为 CSS
           },
         ],
       },
@@ -504,21 +507,21 @@ module.exports = {
 
 ```javascript
 module.exports = {
-  devtool: "source-map", // 任何类似于 "source-map" 的 devtool 值都可以
+  devtool: 'source-map', // 任何类似于 "source-map" 的 devtool 值都可以
   module: {
     rules: [
       {
         test: /\.styl$/,
         use: [
-          "style-loader",
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               sourceMap: true,
             },
@@ -542,17 +545,17 @@ module.exports = {
         test: /\.styl$/,
         use: [
           {
-            loader: "style-loader", // 从 JS 中创建样式节点
+            loader: 'style-loader', // 从 JS 中创建样式节点
           },
           {
-            loader: "css-loader", // 将 CSS 转为 CommonJS
+            loader: 'css-loader', // 将 CSS 转为 CommonJS
           },
           {
-            loader: "stylus-loader", // 将 Stylus 编译为 CSS
+            loader: 'stylus-loader', // 将 Stylus 编译为 CSS
             options: {
               stylusOptions: {
-                use: [require("nib")()],
-                import: ["nib"],
+                use: [require('nib')()],
+                import: ['nib'],
               },
             },
           },
@@ -590,14 +593,14 @@ module.exports = {
       {
         test: /\.styl$/,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               stylusOptions: {
                 // 指定文件查找路径。
-                paths: ["node_modules/vars"],
+                paths: ['node_modules/vars'],
               },
             },
           },
@@ -649,16 +652,16 @@ module.exports = {
         test: /\.styl/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
           },
           {
-            loader: "stylus-loader",
+            loader: 'stylus-loader',
             options: {
               stylusOptions: {
-                paths: [path.resolve(__dirname, "node_modules")],
+                paths: [path.resolve(__dirname, 'node_modules')],
               },
             },
           },

@@ -7,9 +7,14 @@ repo: https://github.com/webpack-contrib/css-minimizer-webpack-plugin
 translators:
   - fine-bot
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -21,8 +26,6 @@ translators:
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 这个插件使用 [cssnano](https://cssnano.co/) 优化和压缩 CSS。
 
 就像 [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin) 一样，但在 source maps 和 assets 中使用查询字符串会更加准确，支持缓存和并发模式下运行。
@@ -32,7 +35,7 @@ translators:
 首先，你需要安装 `css-minimizer-webpack-plugin`：
 
 ```console
-$ npm install css-minimizer-webpack-plugin --save-dev
+npm install css-minimizer-webpack-plugin --save-dev
 ```
 
 接着在 `webpack` 配置中加入该插件。示例：
@@ -40,15 +43,15 @@ $ npm install css-minimizer-webpack-plugin --save-dev
 **webpack.config.js**
 
 ```js
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   module: {
     rules: [
       {
         test: /.s?css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
     ],
   },
@@ -96,15 +99,15 @@ module.exports = {
 
 ## 选项 $#options$
 
-|                    选项名                     |                      类型                      |               默认值                | 描述                                                                                           |
-| :-----------------------------------------: | :--------------------------------------------: | :----------------------------------: | :---------------------------------------------------------------------------------------------------- |
-|             **[`test`](#test)**             |    `String\|RegExp\|Array<String\|RegExp>`     |          `/\.css(\?.*)?$/i`          | 匹配要处理的文件                                                                          |
-|          **[`include`](#include)**          |    `String\|RegExp\|Array<String\|RegExp>`     |             `undefined`              | 要引入的文件                                                                                     |
-|          **[`exclude`](#exclude)**          |    `String\|RegExp\|Array<String\|RegExp>`     |             `undefined`              | 要排除的文件                                                                                     |
-|         **[`parallel`](#parallel)**         |               `Boolean\|Number`                |                `true`                | 启用/禁用多进程并行处理。                                                        |
-|           **[`minify`](#minify)**           |          `Function\|Array<Function>`           |  `CssMinimizerPlugin.cssnanoMinify`  | 允许覆盖默认的 minify 函数。                                                           |
-| **[`minimizerOptions`](#minimizeroptions)** |            `Object\|Array<Object>`             |       `{ preset: 'default' }`        | Cssnano 优化 [配置项](https://cssnano.co/docs/optimisations)。                              |
-|   **[`warningsFilter`](#warningsfilter)**   | `Function<(warning, file, source) -> Boolean>` |             `() => true`             | 允许过滤掉 css-minimizer 的警告。                                                               |
+|                   选项名                    |                      类型                      |               默认值               | 描述                                                           |
+| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------: | :------------------------------------------------------------- |
+|             **[`test`](#test)**             |    `String\|RegExp\|Array<String\|RegExp>`     |         `/\.css(\?.*)?$/i`         | 匹配要处理的文件                                               |
+|          **[`include`](#include)**          |    `String\|RegExp\|Array<String\|RegExp>`     |            `undefined`             | 要引入的文件                                                   |
+|          **[`exclude`](#exclude)**          |    `String\|RegExp\|Array<String\|RegExp>`     |            `undefined`             | 要排除的文件                                                   |
+|         **[`parallel`](#parallel)**         |               `Boolean\|Number`                |               `true`               | 启用/禁用多进程并行处理。                                      |
+|           **[`minify`](#minify)**           |          `Function\|Array<Function>`           | `CssMinimizerPlugin.cssnanoMinify` | 允许覆盖默认的 minify 函数。                                   |
+| **[`minimizerOptions`](#minimizeroptions)** |            `Object\|Array<Object>`             |      `{ preset: 'default' }`       | Cssnano 优化 [配置项](https://cssnano.co/docs/optimisations)。 |
+|   **[`warningsFilter`](#warningsfilter)**   | `Function<(warning, file, source) -> Boolean>` |            `() => true`            | 允许过滤掉 css-minimizer 的警告。                              |
 
 ### `test` $#test$
 
@@ -250,7 +253,7 @@ module.exports = {
         minimizerOptions: {
           level: {
             1: {
-              roundingPrecision: "all=3,px=5",
+              roundingPrecision: 'all=3,px=5',
             },
           },
         },
@@ -315,7 +318,7 @@ module.exports = {
       new CssMinimizerPlugin({
         minimizerOptions: {
           preset: [
-            "default",
+            'default',
             {
               discardComments: { removeAll: true },
             },
@@ -341,7 +344,7 @@ module.exports = {
     minimizer: [
       new CssMinimizerPlugin({
         minimizerOptions: {
-          preset: require.resolve("cssnano-preset-simple"),
+          preset: require.resolve('cssnano-preset-simple'),
         },
       }),
     ],
@@ -360,7 +363,7 @@ module.exports = {
 > ⚠️ **如果传入一个函数，则必须禁用`parallel` 配置项。**.
 
 ```js
-import sugarss from "sugarss";
+import sugarss from 'sugarss';
 
 module.exports = {
   optimization: {
@@ -387,7 +390,7 @@ module.exports = {
       new CssMinimizerPlugin({
         minimizerOptions: {
           processorOptions: {
-            parser: "sugarss",
+            parser: 'sugarss',
           },
         },
       }),
@@ -442,18 +445,18 @@ module.exports = {
 不要忘记为所有 loader 启用 `sourceMap` 选项。
 
 ```js
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     loaders: [
       {
         test: /.s?css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: "css-loader", options: { sourceMap: true } },
-          { loader: "sass-loader", options: { sourceMap: true } },
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
         ],
       },
     ],
@@ -476,7 +479,7 @@ module.exports = {
       new CssMinimizerPlugin({
         minimizerOptions: {
           preset: [
-            "default",
+            'default',
             {
               discardComments: { removeAll: true },
             },
@@ -494,7 +497,7 @@ module.exports = {
 
 ```js
 module.exports = {
-  devtool: "source-map",
+  devtool: 'source-map',
   optimization: {
     minimize: true,
     minimizer: [
@@ -514,7 +517,7 @@ module.exports = {
 
 ```js
 module.exports = {
-  devtool: "source-map",
+  devtool: 'source-map',
   optimization: {
     minimize: true,
     minimizer: [
@@ -534,7 +537,7 @@ module.exports = {
 
 ```js
 module.exports = {
-  devtool: "source-map",
+  devtool: 'source-map',
   optimization: {
     minimize: true,
     minimizer: [

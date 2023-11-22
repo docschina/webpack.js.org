@@ -5,9 +5,14 @@ source: https://raw.githubusercontent.com/webpack-contrib/json-minimizer-webpack
 edit: https://github.com/webpack-contrib/json-minimizer-webpack-plugin/edit/master/README.md
 repo: https://github.com/webpack-contrib/json-minimizer-webpack-plugin
 ---
+
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg"/>
+    <img
+      width="200"
+      height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg"
+    />
   </a>
 </div>
 
@@ -19,8 +24,6 @@ repo: https://github.com/webpack-contrib/json-minimizer-webpack-plugin
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-
-
 This plugin uses [JSON.stringify()](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) to minify your JSON.
 
 ## Getting Started
@@ -28,7 +31,7 @@ This plugin uses [JSON.stringify()](https://developer.mozilla.org/ru/docs/Web/Ja
 To begin, you'll need to install `json-minimizer-webpack-plugin`:
 
 ```console
-$ npm install json-minimizer-webpack-plugin --save-dev
+npm install json-minimizer-webpack-plugin --save-dev
 ```
 
 Then add the plugin to your `webpack` configuration. For example:
@@ -36,15 +39,15 @@ Then add the plugin to your `webpack` configuration. For example:
 **webpack.config.js**
 
 ```js
-const JsonMinimizerPlugin = require("json-minimizer-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const JsonMinimizerPlugin = require('json-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   module: {
     rules: [
       {
         test: /\.json$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
     ],
   },
@@ -52,8 +55,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          context: path.resolve(__dirname, "dist"),
-          from: "./src/*.json",
+          context: path.resolve(__dirname, 'dist'),
+          from: './src/*.json',
         },
       ],
     }),
@@ -157,7 +160,7 @@ module.exports = {
     minimizer: [
       new JsonMinimizerPlugin({
         minimizerOptions: {
-          space: "\t",
+          space: '\t',
         },
       }),
     ],
