@@ -98,7 +98,7 @@ W> 输出可能会因当前的 webpack 版本而稍有差异。与旧版本相�
 
 ## 提取引导模板 $#extracting-boilerplate$
 
-正如在 [代码分离](/guides/code-splitting) 中所学到的，[`SplitChunksPlugin`](/plugins/split-chunks-plugin/) 插件可以用于将模块分离到单独的 bundle 中。webpack 还提供了一个优化功能，可以使用 [`optimization.runtimeChunk`](/configuration/optimization/#optimizationruntimechunk) 选项将 runtime 代码拆分为一个单独的 chunk。将其设置为 `single` 以为所有 chunk 创建一个 runtime bundle：
+正如在 [代码分离](/guides/code-splitting) 中所学到的，[`SplitChunksPlugin`](/plugins/split-chunks-plugin/) 插件可以用于将模块分离到单独的 bundle 中。webpack 还提供了一个优化功能，可以使用 [`optimization.runtimeChunk`](/configuration/optimization/#optimizationruntimechunk) 选项将 runtime 代码拆分为一个单独的 chunk。将其设置为 `single` 以便为所有 chunk 创建一个 runtime bundle：
 
 **webpack.config.js**
 
