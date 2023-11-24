@@ -161,7 +161,7 @@ T> 在大多数情况下，最佳选择是 `eval-cheap-module-source-map`。
 
 webpack 只会在文件系统中输出已经更新的 chunk。对于某些配置选项（HMR, `output.chunkFilename` 中的 `[name]`/`[chunkhash]/[contenthash]`，`[fullhash]`）而言，除了已更新的 chunk 之外，入口 chunk 也会失效。
 
-尽量在生成入口 chunk 减小其体积以提高性能。下面的配置为运行时代码创建了一个额外的 chunk，所以它的生成代价较低：
+尽量在生成入口 chunk 时减小其体积以提高性能。下面的配置为运行时代码创建了一个额外的 chunk，所以它的生成代价较低：
 
 ```js
 module.exports = {
