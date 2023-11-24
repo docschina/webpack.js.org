@@ -257,4 +257,4 @@ source map 相当消耗资源，请确保真的需要它们。
 
 ### sass $#sass$
 
-- `node-sass` 中存在 bug，会减少 Node.js 线程池中的线程。当使用 `thread-loader` 时，需要设置 `workerParallelJobs: 2`。
+- `node-sass` 中存在 bug，会阻塞 Node.js 线程池中的线程。当使用 `thread-loader` 时，需要设置 `workerParallelJobs: 2`。
