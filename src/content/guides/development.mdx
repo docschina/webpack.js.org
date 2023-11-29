@@ -280,13 +280,13 @@ W> `webpack-dev-server` 在编译之后不会写入任何输出文件，而是�
 
 `webpack-dev-server` 具有许多可配置的选项。参阅 [配置文档](/configuration/dev-server) 以了解更多配置选项。
 
-T> 现在 server 正在运行，也许你想试试 [热模块替换](/guides/hot-module-replacement)！
+T> 现在 server 正在运行，也许你想试试 [模块热替换](/guides/hot-module-replacement)！
 
 ### 使用 webpack-dev-middleware $#using-webpack-dev-middleware$
 
 `webpack-dev-middleware` 是一个包装器，它可以把 webpack 处理过的文件发送到 server。这是 `webpack-dev-server` 内部的原理，但是它也可以作为一个单独的包使用，以便根据需求进行更多自定义设置。下面是一个 `webpack-dev-middleware` 配合 `express` server 的示例。
 
-首先，安装 `express` 和 `webpack-dev-middleware`：
+首先，安装 `express` 和  `webpack-dev-middleware`：
 
 ```bash
 npm install --save-dev express webpack-dev-middleware
@@ -424,7 +424,7 @@ Example app listening on port 3000!
 
 打开浏览器，访问 `http://localhost:3000`，应该看到 webpack 应用程序已经运行！
 
-T> 参阅 [热模块替换](/guides/hot-module-replacement/) 指南了解更多关于热模块替换的运行机制。
+T> 参阅 [模块热替换](/guides/hot-module-replacement/) 指南了解更多关于模块热替换的运行机制。
 
 ## 调整文本编辑器 $#adjusting-your-text-editor$
 

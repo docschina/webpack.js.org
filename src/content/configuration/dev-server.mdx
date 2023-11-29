@@ -228,7 +228,7 @@ module.exports = {
 
 `'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'`
 
-允许在浏览器中设置日志级别，例如在重载之前，在一个错误之前或者 [热模块替换](/concepts/hot-module-replacement/) 启用时。
+允许在浏览器中设置日志级别，例如在重载之前，在一个错误之前或者 [模块热替换](/concepts/hot-module-replacement/) 启用时。
 
 **webpack.config.js**
 
@@ -889,7 +889,7 @@ npx webpack serve --host local-ipv6
 
 `'only'` `boolean = true`
 
-启用 webpack 的 [热模块替换](/concepts/hot-module-replacement/) 特性：
+启用 webpack 的 [模块热替换](/concepts/hot-module-replacement/) 特性：
 
 **webpack.config.js**
 
@@ -914,7 +914,7 @@ npx webpack serve --hot
 npx webpack serve --no-hot
 ```
 
-启用热模块替换功能，在构建失败时不刷新页面作为回退，使用 `hot: 'only'`：
+启用模块热替换功能，在构建失败时不刷新页面作为回退，使用 `hot: 'only'`：
 
 **webpack.config.js**
 
