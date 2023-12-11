@@ -111,7 +111,7 @@
     "lodash": "^4.17.21",
     "markdownlint": "^0.26.2",
     "markdownlint-cli": "^0.37.0",
-    "mdast-util-to-string": "^3.1.0",
+    "mdast-util-to-string": "^4.0.0",
     "mini-css-extract-plugin": "^2.7.6",
     "mkdirp": "^3.0.1",
     "modularscale-sass": "^3.0.3",
