@@ -29,11 +29,11 @@ related:
     url: https://github.com/webpack/webpack/issues/6074
 ---
 
-**tree shaking** 是一个术语，通常用于描述移除 JavaScript 上下文中的死代码。它依赖于 ES2015 模块语法的 [静态结构](http://exploringjs.com/es6/ch_modules.html#static-module-structure) 特性，例如 [`import`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import) 和 [`export`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export)。这个术语和概念实际上是由 ES2015 模块打包工具 [rollup](https://github.com/rollup/rollup) 普及起来的。
+**tree shaking** 是一个术语，通常用于描述移除 JavaScript 上下文中的死代码。它依赖于 ES2015 模块语法的 [静态结构](http://exploringjs.com/es6/ch_modules.html#static-module-structure) 特性，例如 [`import`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import) 和 [`export`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export)。这个术语和概念实际上是由 ES2015 模块捆绑器 [rollup](https://github.com/rollup/rollup) 普及起来的。
 
 T> 译注：死代码（dead code）是指程序中一段已经不会被执行的代码，通常是因为重构、优化或者逻辑错误导致的。这些代码可能是之前版本的遗留物，或者某些条件下永远不会被执行的代码。
 
-webpack 2 正式版本内置支持 ES2015 模块（也叫做 **harmony modules**）与对未使用模块的检测能力。新的 webpack 4 正式版本扩展了此检测能力：通过 `package.json` 的 `"sideEffects"` 属性作为标记，向编译器提供提示，表明项目中的哪些文件是纯正的 ES2015 模块，由此可以安全地删除文件中未使用的部分。
+webpack 2 正式版本内置支持 ES2015 模块（也叫做 **harmony module**）与对未使用模块的检测能力。webpack 4 正式版本扩展了此检测能力：通过 `package.json` 的 `"sideEffects"` 属性作为标记，向编译器提供提示，表明项目中的哪些文件是纯正的 ES2015 模块，由此可以安全地删除文件中未使用的部分。
 
 T> 本指南继承自 [起步](/guides/getting-started) 指南。如果你尚未阅读该指南，请先行阅读。
 
@@ -116,7 +116,7 @@ module.exports = {
 
 注意，我们 **没有从 `src/math.js` 模块中 `import` 另外一个 `square` 方法**。这个没有引用的函数就是所谓的 **死代码**，即应当删除掉未被引用的 `export`。现在运行 npm script `npm run build`，并查看输出的 bundle：
 
-**dist/bundle.js (around lines 90 - 100)**
+**dist/bundle.js（大约在 90 到 100 行）**
 
 ```js
 /* 1 */
@@ -133,6 +133,8 @@ module.exports = {
   }
 });
 ```
+
+T> 译注，如果使用的是更新的 webpack 版本，输出的 bundle 可能与示例不一致。可以检索相关关键字查看。
 
 注意看上方的 `unused harmony export square` 注释。仔细观察下面的代码会发现尽管没有引用 `square`，但它仍然被包含在 bundle 中。我们将在后面的章节解决这个问题。
 
@@ -153,7 +155,7 @@ module.exports = {
 
 T> 副作用（effect 或者 side effect）指在导入时会执行特殊行为的代码，而不是仅仅暴露一个或多个导出内容。polyfill 就是一个例子，尽管其通常不提供导出，但是会影响全局作用域，因此 polyfill 将被视为一个副作用。
 
-如果代码确实存在一些副作用，可以将 `sideEffects` 指定为一个数组：
+如果某些代码确实存在一些副作用，可以将 `sideEffects` 指定为一个数组：
 
 ```json
 {
@@ -164,7 +166,7 @@ T> 副作用（effect 或者 side effect）指在导入时会执行特殊行为�
 
 此数组支持简单的 glob 模式匹配相关文件。其内部使用的是 [glob-to-regexp](https://github.com/fitzgen/glob-to-regexp)（支持：`*`，`**`，`{a,b}`，`[a-z]`）。如果匹配模式为 `*.css`，且不包含 `/`，将被视为 `**/*.css`。
 
-T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着，如果在项目中使用类似 `css-loader` 并导入了一个 CSS 文件，则需要将其添加到副作用列表中，以免在生产模式中无意中将它删除：
+T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着，如果在项目中使用类似 `css-loader` 的东西并导入了一个 CSS 文件，则需要将其添加到副作用列表中表示其存在副作用，以免在生产模式中无意中将它删除：
 
 ```json
 {
@@ -177,11 +179,11 @@ T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着
 
 ## 解释 tree shaking 和 `sideEffects` $#clarifying-tree-shaking-and-sideeffects$
 
-[`sideEffects`](/configuration/optimization/#optimizationsideeffects) 和 [`usedExports`](/configuration/optimization/#optimizationusedexports)（更多被认为是 tree shaking）是两种不同的优化方式。
+[`sideEffects`](/configuration/optimization/#optimizationsideeffects) 和 [`usedExports`](/configuration/optimization/#optimizationusedexports)（更多地被称为 tree shaking）是两种不同的优化方式。
 
 **`sideEffects` 更为有效** 是因为它允许跳过整个模块/文件和整个文件子树。
 
-`usedExports` 依赖于 [terser](https://github.com/terser-js/terser) 检测语句中的副作用。它是一个 JavaScript 任务而且不像 `sideEffects` 一样简单直接。并且由于规范认为副作用需要被评估，因此它不能跳过子树/依赖项。尽管导出函数能运作如常，但 React 的高阶函数在这种情况下会出问题。
+`usedExports` 依赖于 [terser](https://github.com/terser-js/terser) 检测语句中的副作用。它是一个 JavaScript 任务而且不像 `sideEffects` 一样简单直接。并且由于规范认为副作用需要被评估，因此它不能跳过子树/依赖项。尽管导出函数能正常运行，但 React 的高阶函数在这种情况下会出问题。
 
 让我们来看一个例子：
 
@@ -242,11 +244,11 @@ export {
 };
 ```
 
-当 `Button` 没有被使用时可以有效地删除 `export { Button$1 };`，这样就只留下了所有其余的代码。所以问题是：“这段代码是否有任何副作用，或者可以安全地删除吗？”很难说，特别是因为这行代码 `withAppProvider()(Button)`。`withAppProvider` 被调用，并且返回值也被调用。在调用 `merge` 或 `hoistStatics` 时是否有任何副作用吗？在向 `WithProvider.contextTypes`（Setter）赋值或读取 `WrappedComponent.contextTypes`（Getter）会有任何副作用吗？
+当 `Button` 没有被使用时可以有效地删除 `export { Button$1 };`，这样就只留下了所有其余的代码。所以问题是：“这段代码是否有任何副作用，或者可以安全地删除吗？”很难说，特别是因为这行代码 `withAppProvider()(Button)`。`withAppProvider` 被调用，并且返回值也被调用。在调用 `merge` 或 `hoistStatics` 时有任何副作用吗？在向 `WithProvider.contextTypes`（Setter）赋值或读取 `WrappedComponent.contextTypes`（Getter）会有任何副作用吗？
 
-实际上，terser 尝试去解决这些问题，但在许多情况下它仍然不确定。但这并不意味着 terser 会由于无法解决这些问题而运作得不好。根本原因是在 JavaScript 这种动态语言中可靠地确定这一点十分困难。
+实际上，terser 尝试去解决这些问题，但在许多情况下它仍然不确定。但这并不意味着 terser 会由于无法解决这些问题而运作得不好。根本原因在于像 JavaScript 这种动态语言中很难可靠确定这一点。
 
-但我们可以通过 `/*#__PURE__*/` 注释来帮忙 terser。这个注释的作用是标记此语句没有副作用。这样一个简单的改变就能够 tree-shake 下面的代码了：
+但我们可以通过 `/*#__PURE__*/` 注释来帮助 terser。这个注释的作用是标记此语句没有副作用。这样一个简单的改变就能够 tree-shake 下面的代码了：
 
 ```javascript
 var Button$1 = /*#__PURE__*/ withAppProvider()(Button);
@@ -258,7 +260,7 @@ var Button$1 = /*#__PURE__*/ withAppProvider()(Button);
 
 它类似于 `/*#__PURE__*/` 但是作用于模块的层面，而不是代码语句的层面。`"sideEffects"` 属性的意思是：“如果被标记为无副作用的模块没有被直接导出使用，打包工具会跳过进行模块的副作用分析评估”。
 
-在一个 `Shopify Polaris` 的例子，原有的模块如下：
+考虑 `Shopify Polaris` 的例子，原有的模块如下：
 
 **index.js**
 
@@ -314,7 +316,7 @@ export { default as ButtonGroup } from './ButtonGroup';
 - `components/Button.js`
 - `components/Button.css`
 
-在这次的优化后，其它的优化项目都可以应用。例如：从 `Button.js` 导出的 `buttonFrom` 和 `buttonsFrom` 也没有被使用。`usedExports` 优化会捡起这些代码而且 terser 会能够从 bundle 中把这些语句摘除出来。
+在这次的优化后，其它的优化项目都可以应用。例如：从 `Button.js` 导出的 `buttonFrom` 和 `buttonsFrom` 也没有被使用。`usedExports` 优化会捡起这些代码而且 terser 能够从 bundle 中将这些语句摘除。
 
 由于模块合并也会生效，所以这 4 个模块与入口模块（也可能有更多的依赖）会被合并。**`index.js` 最终没有生成代码**。
 
