@@ -31,7 +31,7 @@ related:
 
 **tree shaking** 是一个术语，通常用于描述移除 JavaScript 上下文中的死代码。它依赖于 ES2015 模块语法的 [静态结构](http://exploringjs.com/es6/ch_modules.html#static-module-structure) 特性，例如 [`import`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import) 和 [`export`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export)。这个术语和概念实际上是由 ES2015 模块打包工具 [rollup](https://github.com/rollup/rollup) 普及起来的。
 
-T> 死代码（dead code）是指程序中一段已经不会被执行的代码，通常是因为重构、优化或者逻辑错误导致的。这些代码可能是之前版本的遗留物，或者某些条件下永远不会被执行的代码。
+T> 译注：死代码（dead code）是指程序中一段已经不会被执行的代码，通常是因为重构、优化或者逻辑错误导致的。这些代码可能是之前版本的遗留物，或者某些条件下永远不会被执行的代码。
 
 webpack 2 正式版本内置支持 ES2015 模块（也叫做 **harmony modules**）与对未使用模块的检测能力。新的 webpack 4 正式版本扩展了此检测能力：通过 `package.json` 的 `"sideEffects"` 属性作为标记，向编译器提供提示，表明项目中的哪些文件是纯正的 ES2015 模块，由此可以安全地删除文件中未使用的部分。
 
