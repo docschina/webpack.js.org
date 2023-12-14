@@ -183,7 +183,7 @@ T> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着
 
 **`sideEffects` 更为有效** 是因为它允许跳过整个模块/文件和整个文件子树。
 
-`usedExports` 依赖于 [terser](https://github.com/terser-js/terser) 检测语句中的副作用。它是一个 JavaScript 任务而且不像 `sideEffects` 一样简单直接。并且由于规范认为副作用需要被评估，因此它不能跳过子树/依赖项。尽管导出函数能正常运行，但 React 的高阶函数在这种情况下会出问题。
+`usedExports` 依赖于 [terser](https://github.com/terser-js/terser) 检测语句中的副作用。它是一个 JavaScript 任务而且不像 `sideEffects` 一样简单直接。并且由于规范认为副作用需要被评估，因此它不能跳过子树/依赖项。尽管导出函数能正常运行，但 React 的高阶组件在这种情况下会出问题。
 
 让我们来看一个例子：
 
