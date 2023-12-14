@@ -5,42 +5,44 @@ contributors:
   - skipjack
   - TheLarkInn
   - byzyk
+translators:
+  - Yucohny
 ---
 
-In the past, one of webpack’s trade-offs when bundling was that each module in your bundle would be wrapped in individual function closures. These wrapper functions made it slower for your JavaScript to execute in the browser. In comparison, tools like Closure Compiler and RollupJS ‘hoist’ or concatenate the scope of all your modules into one closure and allow for your code to have a faster execution time in the browser.
+在过去，webpack 打包时的一个权衡是，打包中的每个模块都会被包裹在单独的函数闭包中。这些包裹的函数使得 JavaScript 在浏览器中执行速度变慢。相比之下，像 Closure Compiler 和 RollupJS 这样的工具会将所有模块的作用域“提升”或合并到一个闭包中，从而使得代码在浏览器中执行速度更快。
 
-This plugin will enable the same concatenation behavior in webpack. By default this plugin is already enabled in [production `mode`](/configuration/mode/#mode-production) and disabled otherwise. If you need to override the production `mode` optimization, set the [`optimization.concatenateModules` option](/configuration/optimization/#optimizationconcatenatemodules) to `false`. To enable concatenation behavior in other modes, you can add `ModuleConcatenationPlugin` manually or use the `optimization.concatenateModules` option:
+此插件将在 webpack 中启用相同的合并行为。默认情况下，此插件在 [生产模式](/configuration/mode/#mode-production) 下已启用，在其他情况下则禁用。将 [`optimization.concatenateModules` 选项](/configuration/optimization/#optimizationconcatenatemodules) 设置为 `false` 即可覆盖在生产模式下的默认优化。手动添加 `ModuleConcatenationPlugin` 或使用 `optimization.concatenateModules` 选项可以在其他模式下启用合并行为：
 
 ```js
 new webpack.optimize.ModuleConcatenationPlugin();
 ```
 
-> This concatenation behavior is called “scope hoisting.”
+> 这种合并行为被称为“作用域提升”。
 >
-> Scope hoisting is specifically a feature made possible by ECMAScript Module syntax. Because of this webpack may fallback to normal bundling based on what kind of modules you are using, and [other conditions](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5).
+> 作用域提升是 ECMAScript 模块语法特别支持的一个功能。因此，webpack 可能会根据使用的模块类型和 [其他条件](https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5) 回退到普通的打包方式。
 
-W> Keep in mind that this plugin will only be applied to [ES6 modules](/api/module-methods/#es6-recommended) processed directly by webpack. When using a transpiler, you'll need to disable module processing (e.g. the [`modules`](https://babeljs.io/docs/en/babel-preset-env#modules) option in Babel).
+W> 请牢记，此插件仅适用于 webpack 直接处理的 [ES6 模块](/api/module-methods/#es6-recommended)。当使用转译器时需要禁用模块处理（例如在 babel 中使用 [`modules`](https://babeljs.io/docs/en/babel-preset-env#modules) 选项）。
 
-## Optimization Bailouts $#optimization-bailouts$
+## 优化 bailout $#optimization-bailouts$
 
-As the article explains, webpack attempts to achieve partial scope hoisting. It will merge modules into a single scope but cannot do so in every case. If webpack cannot merge a module, the two alternatives are Prevent and Root. Prevent means the module must be in its own scope. Root means a new module group will be created. The following conditions determine the outcome:
+正如文章所解释的，webpack 尝试实现部分作用域提升。它会将模块合并到一个单一的作用域中，但并非在所有情况下都能做到。如果 webpack 无法合并一个模块，则有两种替代方案：阻止与创建新组。阻止意味着该模块必须在自己的作用域中；根意味着会创建一个新的模块组。以下条件决定了不同的输出：
 
-| Condition                                     | Outcome |
+| 条件                                           | 输出 |
 | --------------------------------------------- | ------- |
-| Non ES6 Module                                | Prevent |
-| Imported By Non Import                        | Root    |
-| Imported From Other Chunk                     | Root    |
-| Imported By Multiple Other Module Groups      | Root    |
-| Imported With `import()`                      | Root    |
-| Affected By `ProvidePlugin` Or Using `module` | Prevent |
-| HMR Accepted                                  | Root    |
-| Using `eval()`                                | Prevent |
-| In Multiple Chunks                            | Prevent |
-| `export * from "cjs-module"`                  | Prevent |
+| 没有 ES6 模块                                | 阻止 |
+| 从非导入导入                        | 创建新组    |
+| 从其他 chunk 导入                     | 创建新组    |
+| 被其他多个模块分组导入      | 创建新组    |
+| 从 `import()` 语法导入                     | 创建新组    |
+| 受 `ProvidePlugin` 影响或使用 `module` | 阻止 |
+| 接受 HMR                                  | 创建新组    |
+| 使用 `eval()`                                | 阻止 |
+| 在多个 chunk 中                            | 阻止 |
+| `export * from "cjs-module"`                  | 阻止 |
 
-### Module Grouping Algorithm $#module-grouping-algorithm$
+### 模块分组算法 $#module-grouping-algorithm$
 
-The following pseudo JavaScript explains the algorithm:
+下面的伪 JavaScript 代码解释了该算法：
 
 ```js
 modules.forEach((module) => {
@@ -82,15 +84,15 @@ function tryToAdd(group, module) {
 }
 ```
 
-### Debugging Optimization Bailouts $#debugging-optimization-bailouts$
+### 调试优化 bailout $#debugging-optimization-bailouts$
 
-When using the webpack CLI, the `--stats-optimization-bailout` flag will display bailout reasons. When using the webpack config, add the following to the `stats` object:
+如果使用的是 webpack CLI，使用 `--stats-optimization-bailout` 标志将显示出现 bailout 的原因；如果使用的是 webpack 配置，则需要向 `stats` 对象添加以下内容：
 
 ```js
 module.exports = {
-  //...
+  //……
   stats: {
-    // Display bailout reasons
+    // 此配置将显示出现 bailout 的原因
     optimizationBailout: true,
   },
 };
