@@ -244,9 +244,9 @@ export {
 };
 ```
 
-当 `Button` 没有被使用时可以有效地删除 `export { Button$1 };`，这样就只留下了所有其余的代码。所以问题是：“这段代码是否有任何副作用，或者可以安全地删除吗？”很难说，特别是因为这行代码 `withAppProvider()(Button)`。`withAppProvider` 被调用，并且返回值也被调用。在调用 `merge` 或 `hoistStatics` 时有任何副作用吗？在向 `WithProvider.contextTypes`（Setter）赋值或读取 `WrappedComponent.contextTypes`（Getter）会有任何副作用吗？
+当 `Button` 没有被使用时，删除 `export { Button$1 };` 并保留其余所有代码会让代码变得更加高效。所以问题是：“这段代码是否有任何副作用，是否可以安全删除？”这很难说，尤其是因为这行代码 `withAppProvider()(Button)`。在这行代码中，`withAppProvider` 被调用了，并且其返回值（译注：请注意，`withAppProvider` 的返回值是一个函数）也被调用了。那么当执行 `withAppProvider` 及其返回值时，调用 `merge` 与 `hoistStatics` 会有任何副作用吗？读取 `WrappedComponent.contextTypes`（Getter）或向 `WithProvider.contextTypes`（Setter）赋值时会有任何副作用吗？
 
-实际上，terser 尝试去解决这些问题，但在许多情况下它仍然不确定。但这并不意味着 terser 会由于无法解决这些问题而运作得不好。根本原因在于像 JavaScript 这种动态语言中很难可靠确定这一点。
+实际上，`usedExports` 依赖的 terser 就尝试去解决这些问题，但在许多情况下它仍然不确定函数的调用是否有副作用。但这并不意味着 terser 会由于无法解决这些问题而运作得不好。根本原因在于像 JavaScript 这类动态语言中很难可靠确定这一点。
 
 但我们可以通过 `/*#__PURE__*/` 注释来帮助 terser。这个注释的作用是标记此语句没有副作用。这样一个简单的改变就能够 tree-shake 下面的代码了：
 
@@ -254,11 +254,11 @@ export {
 var Button$1 = /*#__PURE__*/ withAppProvider()(Button);
 ```
 
-这会使得这段代码被过滤，但仍然会有一些引入的问题，需要对其进行评估，因为它们产生了副作用。
+这将允许删除这段代码。但是除此之外，引入的内容可能仍然存在副作用的问题，因此需要对其进入评估。
 
 为了解决这个问题，我们需要在 `package.json` 中添加 [`"sideEffects"`](/guides/tree-shaking/#mark-the-file-as-side-effect-free) 属性。
 
-它类似于 `/*#__PURE__*/` 但是作用于模块的层面，而不是代码语句的层面。`"sideEffects"` 属性的意思是：“如果被标记为无副作用的模块没有被直接导出使用，打包工具会跳过进行模块的副作用分析评估”。
+它与 `/*#__PURE__*/` 类似，但是作用于模块层面，而非代码语句的层面。`"sideEffects"` 属性的意思是：“如果被标记为无副作用的模块没有被直接导出使用，那么捆绑器会跳过对此模块的副作用评估”。
 
 考虑 `Shopify Polaris` 的例子，原有的模块如下：
 
