@@ -258,7 +258,7 @@ var Button$1 = /*#__PURE__*/ withAppProvider()(Button);
 
 为了解决这个问题，我们需要在 `package.json` 中添加 [`"sideEffects"`](/guides/tree-shaking/#mark-the-file-as-side-effect-free) 属性。
 
-它与 `/*#__PURE__*/` 类似，但是作用于模块层面，而非代码语句的层面。`"sideEffects"` 属性的意思是：“如果被标记为无副作用的模块没有被直接导出使用，那么捆绑器会跳过对此模块的副作用评估”。
+它与 `/*#__PURE__*/` 类似，但是作用于模块层面，而非代码语句的层面。`"sideEffects"` 属性的意思是：“如果没有使用被标记为无副作用的模块的直接导出，那么捆绑器会跳过对此模块的副作用评估”。
 
 考虑 `Shopify Polaris` 的例子，原有的模块如下：
 
