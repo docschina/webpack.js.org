@@ -7,21 +7,13 @@ repo: https://github.com/webpack-contrib/terser-webpack-plugin
 translators:
   - 92hackers
   - QC-L
+  - Yucohny
 ---
 
-<div align="center">
-  <a href="https://github.com/webpack/webpack">
-    <img
-      width="200"
-      height="200"
-      src="https://webpack.js.org/assets/icon-square-big.svg"
-    />
-  </a>
-</div>
+免责声明：TerserWebpackPlugin 是由社区成员维护的第三方包，它可能没有与 webpack 相同的支持、安全策略或许可证，并且它不是由 webpack 维护的。
 
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
-[![deps][deps]][deps-url]
 [![tests][tests]][tests-url]
 [![cover][cover]][cover-url]
 [![chat][chat]][chat-url]
@@ -33,13 +25,13 @@ translators:
 
 webpack v5 开箱即带有最新版本的 `terser-webpack-plugin`。如果你使用的是 webpack v5 或更高版本，同时希望自定义配置，那么仍需要安装 `terser-webpack-plugin`。如果使用 webpack v4，则必须安装 `terser-webpack-plugin` v4 的版本。
 
-首先，你需要安装 `terser-webpack-plugin`：
+首先需要安装 `terser-webpack-plugin`：
 
 ```console
 npm install terser-webpack-plugin --save-dev
 ```
 
-然后将插件添加到你的 `webpack` 配置文件中。例如：
+然后将插件添加到 `webpack` 配置文件中，例如：
 
 **webpack.config.js**
 
@@ -56,28 +48,26 @@ module.exports = {
 
 接下来，按照你习惯的方式运行 `webpack`。
 
-## 关于 source maps 说明 $#note-about-source-maps$
+## 关于 source map 的说明 $#note-about-source-maps$
 
 **只对 [`devtool`](/configuration/devtool/) 选项的 `source-map`，`inline-source-map`，`hidden-source-map` 和 `nosources-source-map` 有效**。
 
 为何如此？
 
-- `eval` 会包裹 modules，通过 `eval("string")`，而 minimizer 不会处理字符串。
-- `cheap` 不存在列信息，minimizer 只产生单行，只会留下一个映射。
+- `eval` 通过 `eval("string")` 包裹模块而压缩工具不会处理字符串。
+- `cheap` 不存在列信息而压缩工具输出的文件为单行文件，只会留下一个映射。
 
 使用支持的 `devtool` 值可以生成 source map。
 
 ## 选项 $#options$
 
-|                  选项名                   |                                      类型                                       |                            默认值                            | 描述                                                                       |
-| :---------------------------------------: | :-----------------------------------------------------------------------------: | :----------------------------------------------------------: | :------------------------------------------------------------------------- |
-|            **[`test`](#test)**            |                     `String\|RegExp\|Array<String\|RegExp>`                     |                     `/\.m?js(\?.*)?$/i`                      | 用来匹配需要压缩的文件。                                                   |
-|         **[`include`](#include)**         |                     `String\|RegExp\|Array<String\|RegExp>`                     |                         `undefined`                          | 匹配参与压缩的文件。                                                       |
-|         **[`exclude`](#exclude)**         |                     `String\|RegExp\|Array<String\|RegExp>`                     |                         `undefined`                          | 匹配不需要压缩的文件。                                                     |
-|        **[`parallel`](#parallel)**        |                                `Boolean\|Number`                                |                            `true`                            | 使用多进程并发运行以提高构建速度。                                         |
-|          **[`minify`](#minify)**          |                                   `Function`                                    |                 `TerserPlugin.terserMinify`                  | 允许你自定义压缩函数。                                                     |
-|   **[`terserOptions`](#terseroptions)**   |                                    `Object`                                     | [`default`](https://github.com/terser/terser#minify-options) | Terser 的 [minify 选项](https://github.com/terser/terser#minify-options)。 |
-| **[`extractComments`](#extractcomments)** | `Boolean\|String\|RegExp\|Function<(node, comment) -> Boolean\|Object>\|Object` |                            `true`                            | 注释是否需要提取到一个单独的文件中。                                       |
+- **[`test`](#test)**
+- **[`include`](#include)**
+- **[`exclude`](#exclude)**
+- **[`parallel`](#parallel)**
+- **[`minify`](#minify)**
+- **[`terserOptions`](#terseroptions)**
+- **[`extractComments`](#extractcomments)**
 
 ### `test` $#test$
 
