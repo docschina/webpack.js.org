@@ -160,7 +160,7 @@
     "react-router-dom": "^6.20.0",
     "react-spring": "^9.7.3",
     "react-tiny-popover": "8",
-    "react-use": "^17.4.0",
+    "react-use": "^17.4.2",
     "react-visibility-sensor": "^5.0.2",
     "webpack-pwa-manifest": "^4.3.0",
     "webpack.vote": "https://github.com/webpack/voting-app.git",
