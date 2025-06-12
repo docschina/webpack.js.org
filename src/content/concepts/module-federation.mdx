@@ -115,7 +115,7 @@ packageName 选项允许通过设置包名来查找所需的版本。默认情�
 
 ```javascript
 (async () => {
-  // 初始化共享作用域（shared scope）用提供的已知此构建和所有远程的模块填充它
+  // 初始化共享作用域（shared scope），使用此构建和所有远程模块中提供的已知模块来填充它
   await __webpack_init_sharing__('default');
   const container = window.someContainer; // 或从其他地方获取容器
   // 初始化容器 它可能提供共享模块
