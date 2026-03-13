@@ -3,29 +3,32 @@ title: Package exports
 sort: 25
 contributors:
   - sokra
+  - Erchiusx
 related:
   - title: Package entry points in Node.js
     url: https://nodejs.org/api/packages.html#packages_package_entry_points
 ---
 
-The `exports` field in the `package.json` of a package allows to declare
-which module should be used when using module requests like `import "package"` or `import "package/sub/path"`.
-It replaces the default implementation that returns `main` field resp. `index.js` files for `"package"` and
-the file system lookup for `"package/sub/path"`.
+一个包的`package.json`文件中的`exports`键声明了
+在通过类似于`import "package"`或`import "package/sub/path"`的方式请求导入模块时，它应使用哪些内容。
+它将取代如下几项默认的行为：
+1. 对于请求`"package"`，尝试返回包的`main`字段；如果不存在，则查询文件夹下的`index.js`；
+2. 对于请求`"package/sub/path"`，对其进行进一步的文件系统查询。
 
-When the `exports` field is specified, only these module requests are available.
-Any other requests will lead to a ModuleNotFound Error.
+当`exports`字段存在时，只能请求这些被声明的模块。
+任何其它模块查询请求均会导致`ModuleNotFound`错误。
 
-## General syntax
+## 语法概述
 
-In general the `exports` field should contain an object
-where each properties specifies a sub path of the module request.
-For the examples above the following properties could be used:
-`"."` for `import "package"` and `"./sub/path"` for `import "package/sub/path"`.
-Properties ending with a `/` will forward a request with this prefix to the old file system lookup algorithm.
-For properties ending with `*`, `*` may take any value and any `*` in the property value is replaced with the taken value.
+一般而言，`exports`属性应当包含一个对象，
+其每一个字段声明了一个对应于模块请求的子路径。
+对于以上的例子，应当使用这些键：
+1. 用`"."`键声明`import "package"`的结果；
+2. 用`"./sub/path"`键声明`import "package/sub/path"`的结果。
+以`/`结尾的属性值将会使请求被转发为一个以此路径为前缀的，使用旧有的文件系统查询算法的请求。
+对于以`*`结尾的键，`*`能取任何值，且对应的属性值中的`*`会被相应地替换。
 
-An example:
+示例如下：
 
 ```json
 {
@@ -39,7 +42,7 @@ An example:
 }
 ```
 
-| Module request                      | Result                                           |
+| 请求                                | 结果                                             |
 | ----------------------------------- | ------------------------------------------------ |
 | `package`                           | `.../package/main.js`                            |
 | `package/sub/path`                  | `.../package/secondary.js`                       |
@@ -48,14 +51,14 @@ An example:
 | `package/other-prefix/deep/file.js` | `.../package/yet-another/deep/file/deep/file.js` |
 | `package/main.js`                   | Error                                            |
 
-## Alternatives
+## 可选语法
 
-Instead of providing a single result, the package author may provide a list of results.
-In such a scenario this list is tried in order and the first valid result will be used.
+除了提供单一的结果，包作者也可以提供一列结果。
+在这种情况下，会依次尝试导入它们，并使用第一个有效的结果。
 
-Note: Only the first valid result will be used, not all valid results.
+注：仅会使用第一个有效的结果，而非所有的。
 
-Example:
+示例如下：
 
 ```json
 {
@@ -65,21 +68,21 @@ Example:
 }
 ```
 
-Here `package/things/apple` might be found in `.../package/good-things/apple` or in `.../package/bad-things/apple`.
+此时，`package/things/apple`的可能会被解析为`.../package/good-things/apple`或`.../package/bad-things/apple`.
 
-## Conditional syntax
+## 有限定条件的语法
 
-Instead of providing results directly in the `exports` field,
-the package author may let the module system choose one based on conditions about the environment.
+除了直接以`exports`键给出结果，
+包作者还可以让模块系统基于环境的信息选择一个结果。
 
-In this case an object mapping conditions to results should be used.
-Conditions are tried in object order.
-Conditions that contain invalid results are skipped.
-Conditions might be nested to create a logical AND.
-The last condition in the object might be the special `"default"` condition,
-which is always matched.
+在这种情况下，应当使用一个对象，将条件映射为结果。
+这些条件将会被按照其在映射对象中出现的顺序被依次尝试；
+包含无效结果的条件会被略过；
+要创建一个“和”的逻辑，应当嵌套这些条件。
+特别地，最后一个条件可以是特殊的`"default"`条件，
+它永远都会被匹配。
 
-Example:
+示例如下：
 
 ```json
 {
@@ -97,7 +100,7 @@ Example:
 }
 ```
 
-This translates to something like:
+这可以近似地被翻译为：
 
 ```ts
 if (red && valid('./stop.js')) return './stop.js';
@@ -110,11 +113,11 @@ if (valid('./drive-carefully.js')) return './drive-carefully.js';
 throw new ModuleNotFoundError();
 ```
 
-The available conditions vary depending on the module system and tool used.
+可使用的条件高度依模块系统和工具而变化。
 
-## Abbreviation
+## 简略写法
 
-When only a single entry (`"."`) into the package should be supported the `{ ".": ... }` object nesting can be omitted:
+当该包仅支持一个`"."`键时，`{".": ... }`的对象嵌套可以被省略：
 
 ```json
 {
@@ -131,19 +134,19 @@ When only a single entry (`"."`) into the package should be supported the `{ "."
 }
 ```
 
-## Notes about ordering
+## 关于顺序的附注
 
-In an object where each key is a condition, order of properties is significant. Conditions are handled in the order they are specified.
+在每一个键都是条件的对象中，属性的顺序非常重要。条件按它们的出现顺序被处理。
 
-Example: `{ "red": "./stop.js", "green": "./drive.js" }` != `{ "green": "./drive.js", "red": "./stop.js" }` (when both `red` and `green` conditions are set, first property will be used)
+例如: `{ "red": "./stop.js", "green": "./drive.js" }` != `{ "green": "./drive.js", "red": "./stop.js" }` (当 `red` and `green` 均成立时, 会使用第一个出现的键)
 
-In an object where each key is a subpath, order of properties (subpaths) is not significant. More specific paths are preferred over less specific ones.
+在每一个键都是子路径时，属性（这些子路径）的出现顺序不重要。更详细的路径会比更简短的路径更优先地匹配。
 
-Example: `{ "./a/": "./x/", "./a/b/": "./y/", "./a/b/c": "./z" }` == `{ "./a/b/c": "./z", "./a/b/": "./y/", "./a/": "./x/" }` (order will always be: `./a/b/c` > `./a/b/` > `./a/`)
+例如: `{ "./a/": "./x/", "./a/b/": "./y/", "./a/b/c": "./z" }` == `{ "./a/b/c": "./z", "./a/b/": "./y/", "./a/": "./x/" }` (永远按照 `./a/b/c` > `./a/b/` > `./a/` 的顺序)
 
-`exports` field is preferred over other package entry fields like `main`, `module`, `browser` or custom ones.
+`exports` 键永远比 `main`, `module`, `browser` 和其它自定义的键更优先.
 
-## Support
+## 支持情况
 
 | Feature                                | Supported by                                                                       |
 | -------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -162,62 +165,62 @@ Example: `{ "./a/": "./x/", "./a/b/": "./y/", "./a/b/c": "./z" }` == `{ "./a/b/c
 | Error when not mapped                  | Node.js, webpack, rollup, esinstall, wmr<sup>(7)</sup>                             |
 | Error when mixing conditions and paths | Node.js, webpack, rollup                                                           |
 
-(1) deprecated in Node.js, `*` should be preferred.
+(1) 已在 Node.js 中废弃, 优先考虑 `*`.
 
-(2) `"./"` is intentionally ignored as key.
+(2) `"./"` 这一键被有意地忽略了.
 
-(3) The property value is ignored and property key is used as target. Effectively only allowing mappings with key and value are identical.
+(3) 属性值被忽略了，而键被用作目标。 高效，但当且仅当键和值都互不相同时。
 
-(4) The syntax is supported, but always the first entry is used, which makes it unusable for any practical use case.
+(4) 这一语法受到了支持，但永远仅使用第一个结果，因而不具有任何实际使用空间。
 
-(5) Fallback to alternative sibling parent conditions is handling incorrectly.
+(5) 向同级和父级其它选项的回退的处理不正确。
 
-(6) For the `require` condition object order is handled incorrectly. This is intentionally as wmr doesn't differ between referencing syntax.
+(6) 在使用`require`时，对象的顺序没有被正确处理。这是一个有意的设计，因为在wmr中，不同的引用语法不被区分。
 
-(7) When using `"exports": "./file.js"` abbreviation, any request e. g. `package/not-existing` will resolve to that. When not using the abbreviation, direct file access e. g. `package/file.js` will not lead to an error.
+(7) 在使用 `"exports": "./file.js"` 变种时，任何请求（以 `package/not-existing`为例）都会被解析为那一结果（"./file.js"）。当不使用这一变种时，直接请求特定文件（例如 `package/file.js`）不会导致错误.
 
-## Conditions
+## 条件限定
 
-### Reference syntax
+### 引用语法
 
-One of these conditions is set depending on the syntax used to reference the module:
+取决于引用模块的语法，这些条件之一成立：
 
-| Condition | Description                                                       | Supported by                                                         |
+| 条件      | 描述                                                               | 支持                                                                 |
 | --------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `import`  | Request is issued from ESM syntax or similar.                     | Node.js, webpack, rollup, esinstall<sup>(1)</sup>, wmr<sup>(1)</sup> |
-| `require` | Request is issued from CommonJs/AMD syntax or similar.            | Node.js, webpack, rollup, esinstall<sup>(1)</sup>, wmr<sup>(1)</sup> |
-| `style`   | Request is issued from a stylesheet reference.                    |
-| `sass`    | Request is issued from a sass stylesheet reference.               |
-| `asset`   | Request is issued from a asset reference.                         |
-| `script`  | Request is issued from a normal script tag without module system. |
+| `import`  | 以ESM或相似形式请求                                                | Node.js, webpack, rollup, esinstall<sup>(1)</sup>, wmr<sup>(1)</sup> |
+| `require` | 以CommonJs/AMD或相似形式请求                                       | Node.js, webpack, rollup, esinstall<sup>(1)</sup>, wmr<sup>(1)</sup> |
+| `style`   | 以样式表形式请求                                                   |
+| `sass`    | 以sass样式表形式请求                                               |
+| `asset`   | 以资源模块形式请求                                                 |
+| `script`  | 以不涉及模块系统的脚本加载方式请求                                  |
 
-These conditions might also be set additionally:
+另外，这些条件之一也可能成立:
 
-| Condition   | Description                                                                                                         | Supported by         |
+| 条件        | 描述                                                                                                                | 支持                  |
 | ----------- | ------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| `module`    | All module syntax that allows to reference javascript supports ESM.<br />(only combined with `import` or `require`) | webpack, rollup, wmr |
-| `esmodules` | Always set by supported tools.                                                                                      | wmr                  |
-| `types`     | Request is issued from typescript that is interested in type declarations.                                          |
+| `module`    | 当所有对JavaScript的请求都支持ESM时成立<br />(只有结合使用 `import` 和 `require` 时)                                  | webpack, rollup, wmr |
+| `esmodules` | 对支持ESM的工具永远成立                                                                                              | wmr                  |
+| `types`     | 由typescript发起的，在乎类型的请求                                                                                   |
 
-(1) `import` and `require` are both set independent of referencing syntax. `require` has always lower priority.
+(1) `import` 和 `require` 依引用的语法而成立；`require`优先级总是较低。
 
-#### import
+#### import条件
 
-The following syntax will set the `import` condition:
+如下语法使 `import` 条件成立:
 
-- ESM `import` declarations in ESM
-- JS `import()` expression
-- HTML `<script type="module">` in HTML
-- HTML `<link rel="preload/prefetch">` in HTML
-- JS `new Worker(..., { type: "module" })`
-- WASM `import` section
-- ESM HMR (webpack) `import.hot.accept/decline([...])`
-- JS `Worklet.addModule`
-- Using javascript as entrypoint
+- ESM 中的 ESM import 声明
+- JS 中的 import() 表达式
+- HTML 中的 <script type="module">
+- HTML 中的 <link rel="preload/prefetch">
+- JS 中的 new Worker(..., { type: "module" })
+- WASM 中的 import 部分
+- ESM HMR（webpack）中的 import.hot.accept/decline([...])
+- JS 中的 Worklet.addModule
+- 使用 JavaScript 作为入口点
 
-#### require
+#### require条件
 
-The following syntax will set the `require` condition:
+如下语法使 `require` 条件成立:
 
 - CommonJs `require(...)`
 - AMD `define()`
@@ -228,85 +231,84 @@ The following syntax will set the `require` condition:
 - CommonJs HMR (webpack) `module.hot.accept/decline([...])`
 - HTML `<script src="...">`
 
-#### style
+#### style条件
 
-The following syntax will set the `style` condition:
+如下语法使 `style` 条件成立:
 
 - CSS `@import`
 - HTML `<link rel="stylesheet">`
 
-#### asset
+#### asset条件按
 
-The following syntax will set the `asset` condition:
+如下语法使 `asset` 条件成立:
 
 - CSS `url()`
 - ESM `new URL(..., import.meta.url)`
 - HTML `<img src="...">`
 
-#### script
+#### script条件
 
-The following syntax will set the `script` condition:
+如下语法使 `script` 条件成立:
 
 - HTML `<script src="...">`
 
-`script` should only be set when no module system is supported.
-When the script is preprocessed by a system supporting CommonJs
-it should set `require` instead.
+`script` 应当仅在没有模块系统存在时成立。
+当脚本被支持CommonJs的系统处理时，
+应该为设置 `require` 成立.
 
-This condition should be used when looking for a javascript file that can be injected
-as script tag in a HTML page without additional preprocessing.
+这一条件仅应在寻找能作为标签直接嵌入HTML页面而不需要额外处理时设为成立。
 
-### Optimizations
+### 优化类条件
 
-The following conditions are set for various optimizations:
+如下条件为了各类优化而设置:
 
-| Condition     | Description                                                         | Supported by |
+| 条件          | 描述                                                                | 支持          |
 | ------------- | ------------------------------------------------------------------- | ------------ |
-| `production`  | In a production environment.<br />No devtooling should be included. | webpack      |
-| `development` | In a development environment.<br />Devtooling should be included.   | webpack      |
+| `production`  | 生产环境。<br />不应包含任何devtool                                  | webpack      |
+| `development` | 开发环境。<br />应包含devtool                                        | webpack      |
 
-Note: Since `production` and `development` is not supported by everyone, no assumption should be made when none of these is set.
+注: 由于并非所有人都支持 `production` 和 `development` ，没有任何一个成立时不应做出任何相关假设。
 
-### Target environment
+### 目标环境类条件
 
-The following conditions are set depending on the target environment:
+如下条件依目标环境而设置:
 
-| Condition      | Description                                   | Supported by                        |
+| 条件           | 描述                                          | 支持                                 |
 | -------------- | --------------------------------------------- | ----------------------------------- |
-| `browser`      | Code will run in a browser.                   | webpack, esinstall, wmr             |
-| `electron`     | Code will run in electron.<sup>(1)</sup>      | webpack                             |
-| `worker`       | Code will run in a (Web)Worker.<sup>(1)</sup> | webpack                             |
-| `worklet`      | Code will run in a Worklet.<sup>(1)</sup>     |                                     |
-| `node`         | Code will run in Node.js.                     | Node.js, webpack, wmr<sup>(2)</sup> |
-| `deno`         | Code will run in Deno.                        |                                     |
-| `react-native` | Code will run in react-native.                |                                     |
+| `browser`      | 代码会在浏览器环境中执行                       | webpack, esinstall, wmr             |
+| `electron`     | 代码会在electron中执行<sup>(1)</sup>           | webpack                             |
+| `worker`       | 代码会在(Web)Worker中执行<sup>(1)</sup>        | webpack                             |
+| `worklet`      | 代码会在Worklet中执行<sup>(1)</sup>            |                                     |
+| `node`         | 代码会证node环境中执行                         | Node.js, webpack, wmr<sup>(2)</sup> |
+| `deno`         | 代码会在deno环境中执行                         |                                     |
+| `react-native` | 代码会在react-native中执行                     |                                     |
 
-(1) `electron`, `worker` and `worklet` comes combined with either `node` or `browser`, depending on the context.
+(1) `electron`, `worker` 和 `worklet` 应与 `node` 或 `browser`一同出现，具体取决于上下文。
 
-(2) This is set for browser target environment.
+(2) 此处为浏览器支持而设置。
 
-Since there are multiple versions of each environment the following guidelines apply:
+由于每个环境具有若干版本，应按如下规则设置条件：
 
-- `node`: See `engines` field for compatibility.
-- `browser`: Compatible with current Spec and stage 4 proposals at time of publishing the package. Polyfilling resp. transpiling must be handled on consumer side.
-  - Features that are not possible to polyfill or transpile should be used carefully as it limits the possible usage.
+- `node`: 查阅 `engines` 键以了解其支持。
+- `browser`: 与包发布时间的 Spec 和 stage 4 提案一致。Polyfill或转译必须在用户端处理。
+  - 无法转译或polyfill的规则应当慎用，因为它限制了可能的使用环境。
 - `deno`: TBD
 - `react-native`: TBD
 
-### Conditions: Preprocessor and runtimes
+### 预处理和运行时条件
 
-The following conditions are set depending on which tool preprocesses the source code.
+依预处理工具，如下条件被设置：
 
-| Condition | Description           | Supported by |
+| 条件      | 描述                   |  支持        |
 | --------- | --------------------- | ------------ |
 | `webpack` | Processed by webpack. | webpack      |
 
 Sadly there is no `node-js` condition for Node.js as runtime.
 This would simplify creating exceptions for Node.js.
 
-### Conditions: Custom
+### 自定义条件
 
-The following tools support custom conditions:
+以下工具支持自定义条件:
 
 | Tool      | Supported | Notes                                                                                                    |
 | --------- | --------- | -------------------------------------------------------------------------------------------------------- |
@@ -316,41 +318,41 @@ The following tools support custom conditions:
 | esinstall | no        |
 | wmr       | no        |
 
-For custom conditions the following naming schema is recommended:
+对于自定义条件，推荐如下命名规则:
 
 `<company-name>:<condition-name>`
 
-Examples: `example-corp:beta`, `google:internal`.
+示例: `example-corp:beta`, `google:internal`.
 
-## Common patterns
+## 使用这些模式
 
-All patterns are explained with a single `"."` entry into the package, but they can be extended from multiple entries too, by repeating the pattern for each entry.
+以下所有的模式都被解释为包的同一个`"."`入口，但也可以用对每个入口点重复模式的手段拓展为多个入口。
 
-These pattern should be used as guide not as strict ruleset.
-They can be adapted to the individual packages.
+这些模式应该被用于指引而不是作为严格的规则集，适合独立的包。
 
-These pattern are based on the following list of goals/assumptions:
+这些模式基于以下目的或假设：
 
-- Packages are rotting.
-  - We assume at some point packages are no longer being maintained, but they are continued to be used.
-  - `exports` should be written to use fallbacks for unknown future cases. `default` condition can be used for that.
-  - As the future is unknown we assume an environment similar to browsers and module system similar to ESM.
-- Not all conditions are supported by every tool.
-  - Fallbacks should be used to handled these cases.
-  - We assume the following fallback make sense in general:
-    - ESM > CommonJs
-    - Production > Development
-    - Browser > node.js
+- 这些包烂掉了：
+  - 它们不再被维护，但持续地被使用；
+  - 为了未知的未来情形，应使用`exports`来声明后备方案。`default`条件也可以实现它；
+  - 由于未来不可预测，我们假设它将服务于一个类似浏览器的环境，或类似于ESM的模块系统；
+- 并非所有条件都在每一个工具内得到支持：
+  - 应使用后备方案来处理这些情况；
+  - 总体而言，我们假设以下回退方式提供的后备方案是合理的：
+    - 从ESM回退到CommonJS
+    - 从生产环境回退到开发环境
+    - 从浏览器回退到Node.JS
 
-Depending on the package intention maybe something else makes sense and in this case the patterns should be adopted to that. Example: For a command line tool a browser-like future and fallback doesn't make a lot of sense, and in this case node.js-like environments and fallbacks should be used instead.
+也许由于包的目的，其它一些方案也是合理的，而这种情况下，应将模式应用于那种目的。例如：对于一个命令行工具而言，一个类似于浏览器的环境和向浏览器的回退并不太具有意义。相反，这种情况下应当假设运行于类似node.js的环境中，并提供相应回退。
 
-For complex use cases multiple patterns need to be combined by nesting these conditions.
+为了更复杂的情形，需要通过嵌套条件来组合使用这些模式。
 
-### Target environment independent packages
+### 不受目标环境影响的包
 
 These patterns make sense for packages that do not use environment specific APIs.
+这些使用模式是对于不使用仅在特定环境中存在的API的包很有意义。
 
-#### Providing only an ESM version
+#### 仅提供ESM版本
 
 ```json
 {
@@ -359,11 +361,10 @@ These patterns make sense for packages that do not use environment specific APIs
 }
 ```
 
-Note: Providing only a ESM comes with restrictions for node.js.
-Such a package would only work in Node.js >= 14 and only when using `import`.
-It won't work with `require()`.
+注： 仅提供ESM会导致限制其在node.js中的使用。这样的包仅能在 `Node.js >= 14` 版本中使用，且只能通过`import`使用；它不能通过`require()`来使用。
+译者注：在`Node.js >= 22`中，具有对于使用`require()`来导入ESM的实验性支持。
 
-#### Providing CommonJs and ESM version (stateless)
+#### 为无状态的包提供 CommonJs 和 ESM 版本
 
 ```json
 {
@@ -378,21 +379,21 @@ It won't work with `require()`.
 }
 ```
 
-Most tools get the ESM version.
-Node.js is an exception here.
-It gets a CommonJs version when using `require()`.
-This will lead to two instances of these package when referencing it with `require()` and `import`, but that doesn't hurt as the package doesn't have state.
+在这种模式下，绝大部分工具会获取ESM版本，
+而Node.js是一个例外。
+当使用`require()`时，它会获得CommonJs的版本。
+这会导致使用`require()`和`import`来导入它时产生两个版本呢，但如果包本身没有状态，则无伤大雅。
 
-The `module` condition is used as optimization when preprocessing node-targeted code with a tool that supports ESM for `require()` (like a bundler, when bundling for Node.js).
-For such a tool the exception is skipped.
-This is technically optional, but bundlers would include the package source code twice otherwise.
+在一个支持对ESM进行`require()`的工具预处理生成以node为目标平台的代码时（例如一个打包器在为Node.js环境打包时），会使用`module`条件作为优化手段。
+对于这样的工具而言，它会跳过这一例外。
+在技术上，这是可选的；但如果不这样，打包器会包含这个包的两份源码。
 
-You can also use the stateless pattern if you are able to isolate your package state in JSON files.
-JSON is consumable from CommonJs and ESM without polluting the graph with the other module system.
+如果你能将包的状态用JSON文件来分离，那么你也可以使用无状态模式。
+CommonJs和ESM都可以使用JSON，且不会污染对方的依赖图。
 
-Note that here stateless also means class instances are not tested with `instanceof` as there can be two different classes because of the double module instantiation.
+请注意，无状态也意味着不能通过`instanceof`来测试类型实例是否属于该包，因为模块的两个实例会给出两个不同的类。
 
-#### Providing CommonJs and ESM version (stateful)
+#### 为有状态的包提供 CommonJs 和 ESM 版本
 
 ```json
 {
@@ -416,12 +417,12 @@ export const A = cjs.A;
 export const B = cjs.B;
 ```
 
-In a stateful package we must ensure that the package is never instantiated twice.
+对于有状态的包，我们必须确保它没有被实例化两次。
 
-This isn't a problem for most tools, but Node.js is again an exception here.
-For Node.js we always use the CommonJs version and expose named exports in the ESM with a ESM wrapper.
+对于大部分工具这也不是一个问题，但又一次地，Node.js成为了一个例外。
+对于Node.js，我们永远会使用CommonJs版本，并通过ESM包装器为ESM版本暴露这些具名导出。
 
-We use the `module` condition as optimization again.
+再一次地，我们使用`module`条件作为优化提示。
 
 #### Providing only a CommonJs version
 
@@ -432,9 +433,9 @@ We use the `module` condition as optimization again.
 }
 ```
 
-Providing `"type": "commonjs"` helps to statically detect CommonJs files.
+提供 `"type": "commonjs"` 能为静态检查CommonJs文件提供帮助。
 
-#### Providing a bundled script version for direct browser consumption
+#### 为直接在浏览器中使用提供一个打包后的脚本的版本
 
 ```json
 {
@@ -446,15 +447,15 @@ Providing `"type": "commonjs"` helps to statically detect CommonJs files.
 }
 ```
 
-Note that despite using `"type": "module"` and `.js` for `dist-bundle.js` this file is not in ESM format.
-It should use globals to allow direct consumption as script tag.
+注意：虽然使用了`"type": "module"`，并为`dist-bundle.js`使用了`.js`后缀，这个文件并不是ESM的格式。
+相反，应该使用`globals`以允许在脚本标签中的直接使用它。
 
-### Providing devtools or production optimizations
+### 提供开发工具或生产环境优化
 
-These patterns make sense when a package contains two versions, one for development and one for production.
-E. g. the development version could include additional code for better error message or additional warnings.
+以下模式在一个包同时包含开发环境和生产环境版本时很有效。
+例如，开发环境包含额外的代码，以提供更好的错误信息，并给出更多警告。
 
-#### Without Node.js runtime detection
+#### 在没有Node.js运行时检测时
 
 ```json
 {
@@ -466,10 +467,10 @@ E. g. the development version could include additional code for better error mes
 }
 ```
 
-When the `development` condition is supported we use the version enhanced for development.
-Otherwise, in production or when mode is unknown, we use the optimized version.
+在`development`条件被支持时，我们将这一包含devtool的版本用于开发；
+否则，在生产环境或未知情形下，我们使用优化后的版本。
 
-#### With Node.js runtime detection
+#### 在具有Node.js运行时检测时
 
 ```json
 {
@@ -492,18 +493,19 @@ if (process.env.NODE_ENV !== 'development') {
 }
 ```
 
-We prefer static detection of production/development mode via the `production` or `development` condition.
+我们更偏爱通过`production`和`development`条件的对于生产和开发环境的静态检测。
 
-Node.js allows to detection production/development mode at runtime via `process.env.NODE_ENV`, so we use that as fallback in Node.js. Sync conditional importing ESM is not possible and we don't want to load the package twice, so we have to use CommonJs for the runtime detection.
+Node.js允许通过读取`process.env.NODE_ENV`来检测生产环境和开发环境，所以我们将它作为后备方案。
+ESM无法被同步地条件导入，我们也不希望加载它两次，所以我们需要使用CommonJs来进行运行时检测。
 
-When it's not possible to detect mode we fallback to the production version.
+当无法检测运行时环境时，我们回退到生产模式。
 
-### Providing different versions depending on target environment
+### 基于目标环境，提供不同版本
 
-A fallback environment should be chosen that makes sense for the package to support future environments.
-In general a browser-like environment should be assumed.
+为了支持将来的环境，选择一个默认回退的环境对一个包而言是很有意义的。
+总体而言，应该假设它将运行在一个类似浏览器的环境中。
 
-#### Providing Node.js, WebWorker and browser versions
+#### 分别提供Node.js，WebWorker和浏览器的版本
 
 ```json
 {
@@ -516,7 +518,7 @@ In general a browser-like environment should be assumed.
 }
 ```
 
-#### Providing Node.js, browser and electron versions
+#### 分别提供Node.js，浏览器和electron的版本
 
 ```json
 {
@@ -532,11 +534,11 @@ In general a browser-like environment should be assumed.
 }
 ```
 
-### Combining patterns
+### 模式的组合
 
-#### Example 1
+#### 例一
 
-This is an example for a package that has optimizations for production and development usage with runtime detection for `process.env` and also ships a CommonJs and ESM version
+这是一个例子，包含生产环境优化和开发工具，使用`process.env`检测运行时，并且分发CommonJs和ESM的版本。
 
 ```json
 {
@@ -562,9 +564,9 @@ This is an example for a package that has optimizations for production and devel
 }
 ```
 
-#### Example 2
+#### 例二
 
-This is an example for a package that supports Node.js, browser and electron, has optimizations for production and development usage with runtime detection for `process.env` and also ships a CommonJs and ESM version.
+这是一个例子，包含一个同时支持Node.js，浏览器和electron的包，并且具有生产环境优化和开发工具，并使用`process.env`检测运行时，同样分发CommonJs和ESM版本。
 
 ```json
 {
@@ -608,17 +610,176 @@ This is an example for a package that supports Node.js, browser and electron, ha
 }
 ```
 
-Looks complex, yes. We were already able to reduce some complexity due to a assumption we can make: Only `node` need a CommonJs version and can detect production/development with `process.env`.
+确实看上去比较复杂，但我们已经能够通过一些假设来降低复杂度了：只有`node`需要CommonJs版本，并且可以通过`process.env`检测生产环境和开发环境。
 
-## Guidelines
+## 指导准则
 
-- Avoid the `default` export. It's handled differently between tooling. Only use named exports.
-- Never provide different APIs or semantics for different conditions.
-- Write your source code as ESM and transpile to CJS via babel, typescript or similar tools.
+- 避免使用`default`导出，因为在不同工具中它的处理不同。应该仅使用具名导出。
+- 永远不要为不同情景提供不同的API和语义。
+- 使用ESM撰写代码，并将它通过babel，typescript或类似的工具转译为CJS。
 - Either use `.cjs` or `type: "commonjs"` in package.json to clearly mark source code as CommonJs. This makes it statically detectable for tools if CommonJs or ESM is used. This is important for tools that only support ESM and no CommonJs.
-- ESM used in packages support the following types of requests:
-  - module requests are supported, pointing to other packages with a package.json.
-  - relative requests are supported, pointing to other files within the package.
-    - They must not point to files outside of the package.
-  - `data:` url requests are supported.
-  - other absolute or server-relative requests are not supported by default, but they might be supported by some tools or environments.
+- 使用`.cjs`或`type: "commonjs"`来清晰地将源码标记为CommonJs。这让它同时支持CommonJs和ESM的工具而言可以静态地检查，并且对于仅支持ESM而不支持CommonJs的工具非常重要。
+- 包中使用的ESM支持以下几种请求：
+  - 模块请求，指向其它具有`package.json`文件的包。
+  - 相对路径请求，指向包内的其它文件。
+    - 这种方法不能指向包所在文件夹外部的文件！
+  - `data:` url请求
+  - 其它的绝对或相对于服务器的请求，在默认情况下并不受支持；但它们可能被其它工具或环境所支持。
+持时，我们将这一包含devtool的版本用于开发；
+否则，在生产环境或未知情形下，我们使用优化后的版本。
+
+#### 在具有Node.js运行时检测时
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "development": "./index-with-devtools.js",
+    "production": "./index-optimized.js",
+    "node": "./wrapper-process-env.cjs",
+    "default": "./index-optimized.js"
+  }
+}
+```
+
+```js
+// wrapper-process-env.cjs
+if (process.env.NODE_ENV !== 'development') {
+  module.exports = require('./index-optimized.cjs');
+} else {
+  module.exports = require('./index-with-devtools.cjs');
+}
+```
+
+我们更偏爱通过`production`和`development`条件的对于生产和开发环境的静态检测。
+
+Node.js允许通过读取`process.env.NODE_ENV`来检测生产环境和开发环境，所以我们将它作为后备方案。
+ESM无法被同步地条件导入，我们也不希望加载它两次，所以我们需要使用CommonJs来进行运行时检测。
+
+当无法检测运行时环境时，我们回退到生产模式。
+
+### 基于目标环境，提供不同版本
+
+为了支持将来的环境，选择一个默认回退的环境对一个包而言是很有意义的。
+总体而言，应该假设它将运行在一个类似浏览器的环境中。
+
+#### 分别提供Node.js，WebWorker和浏览器的版本
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "node": "./index-node.js",
+    "worker": "./index-worker.js",
+    "default": "./index.js"
+  }
+}
+```
+
+#### 分别提供Node.js，浏览器和electron的版本
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "electron": {
+      "node": "./index-electron-node.js",
+      "default": "./index-electron.js"
+    },
+    "node": "./index-node.js",
+    "default": "./index.js"
+  }
+}
+```
+
+### 模式的组合
+
+#### 例一
+
+这是一个例子，包含生产环境优化和开发工具，使用`process.env`检测运行时，并且分发CommonJs和ESM的版本。
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "node": {
+      "development": {
+        "module": "./index-with-devtools.js",
+        "import": "./wrapper-with-devtools.js",
+        "require": "./index-with-devtools.cjs"
+      },
+      "production": {
+        "module": "./index-optimized.js",
+        "import": "./wrapper-optimized.js",
+        "require": "./index-optimized.cjs"
+      },
+      "default": "./wrapper-process-env.cjs"
+    },
+    "development": "./index-with-devtools.js",
+    "production": "./index-optimized.js",
+    "default": "./index-optimized.js"
+  }
+}
+```
+
+#### 例二
+
+这是一个例子，包含一个同时支持Node.js，浏览器和electron的包，并且具有生产环境优化和开发工具，并使用`process.env`检测运行时，同样分发CommonJs和ESM版本。
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "electron": {
+      "node": {
+        "development": {
+          "module": "./index-electron-node-with-devtools.js",
+          "import": "./wrapper-electron-node-with-devtools.js",
+          "require": "./index-electron-node-with-devtools.cjs"
+        },
+        "production": {
+          "module": "./index-electron-node-optimized.js",
+          "import": "./wrapper-electron-node-optimized.js",
+          "require": "./index-electron-node-optimized.cjs"
+        },
+        "default": "./wrapper-electron-node-process-env.cjs"
+      },
+      "development": "./index-electron-with-devtools.js",
+      "production": "./index-electron-optimized.js",
+      "default": "./index-electron-optimized.js"
+    },
+    "node": {
+      "development": {
+        "module": "./index-node-with-devtools.js",
+        "import": "./wrapper-node-with-devtools.js",
+        "require": "./index-node-with-devtools.cjs"
+      },
+      "production": {
+        "module": "./index-node-optimized.js",
+        "import": "./wrapper-node-optimized.js",
+        "require": "./index-node-optimized.cjs"
+      },
+      "default": "./wrapper-node-process-env.cjs"
+    },
+    "development": "./index-with-devtools.js",
+    "production": "./index-optimized.js",
+    "default": "./index-optimized.js"
+  }
+}
+```
+
+确实看上去比较复杂，但我们已经能够通过一些假设来降低复杂度了：只有`node`需要CommonJs版本，并且可以通过`process.env`检测生产环境和开发环境。
+
+## 指导准则
+
+- 避免使用`default`导出，因为在不同工具中它的处理不同。应该仅使用具名导出。
+- 永远不要为不同情景提供不同的API和语义。
+- 使用ESM撰写代码，并将它通过babel，typescript或类似的工具转译为CJS。
+- Either use `.cjs` or `type: "commonjs"` in package.json to clearly mark source code as CommonJs. This makes it statically detectable for tools if CommonJs or ESM is used. This is important for tools that only support ESM and no CommonJs.
+- 使用`.cjs`或`type: "commonjs"`来清晰地将源码标记为CommonJs。这让它同时支持CommonJs和ESM的工具而言可以静态地检查，并且对于仅支持ESM而不支持CommonJs的工具非常重要。
+- 包中使用的ESM支持以下几种请求：
+  - 模块请求，指向其它具有`package.json`文件的包。
+  - 相对路径请求，指向包内的其它文件。
+    - 这种方法不能指向包所在文件夹外部的文件！
+  - `data:` url请求
+  - 其它的绝对或相对于服务器的请求，在默认情况下并不受支持；但它们可能被其它工具或环境所支持。
